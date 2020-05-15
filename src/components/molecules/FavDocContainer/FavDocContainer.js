@@ -1,27 +1,20 @@
 import React, {useEffect} from 'react';
 import {View, StyleSheet} from 'react-native';
 import BasicCard from '../../atoms/BasicCard/BasicCard';
-import AvailDoctorContent from '../AvailDoctorContent/AvailDoctorContent';
+import FavDocContent from '../FavDocContent/FavDocContent';
 import ProfilePic from '../../atoms/ProfilePic/ProfilePic';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import NavigationActions from 'react-navigation/src/NavigationActions';
 
-function AvailDoctorContainer({onPress, name, schedule, navigation, id, data}) {
-  console.log('Navigaton: ', id);
-  useEffect(() => {
-    console.log('2222222222222222222222222222222222222222222222222');
-    console.log(schedule);
-    console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-  }, []);
+function FavDocContainer({onPress, name, schedule, navigation, id, data}) {
   return (
     <View
-      style={Styles.AvailableDoctorsCardContainer}
-      onPress={() => navigation.navigate('docPatientStrem', {data: data})}>
+      style={Styles.FavDocCardContainer}
+      //   onPress={() => navigation.navigate('docPatientStrem', {data: data})}
+    >
       <BasicCard
         style={{
-          CardContainer: Styles.AvailableDoctorsBasicCard,
+          CardContainer: Styles.FavDocBasicCard,
         }}>
-        <AvailDoctorContent
+        <FavDocContent
           DoctorName={`Dr.${name}`}
           rating={4}
           onPress={onPress}
@@ -51,10 +44,10 @@ function AvailDoctorContainer({onPress, name, schedule, navigation, id, data}) {
 }
 
 const Styles = StyleSheet.create({
-  AvailableDoctorsCardContainer: {
+  FavDocCardContainer: {
     marginTop: 15,
   },
-  AvailableDoctorsBasicCard: {
+  FavDocBasicCard: {
     marginLeft: 20,
     marginRight: 20,
     marginBottom: 15,
@@ -64,4 +57,4 @@ const Styles = StyleSheet.create({
     paddingBottom: 25,
   },
 });
-export default AvailDoctorContainer;
+export default FavDocContainer;
