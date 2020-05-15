@@ -1,18 +1,34 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, FlatList, ActivityIndicator} from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  ActivityIndicator,
+  LayoutAnimation,
+  UIManager,
+  Platform,
+} from 'react-native';
 import NotFound from '../../../components/organisms/NotFound/NotFound';
 import BottomNavigationComponent from '../../../components/old/BottomNavigation/BottomNavigation.component';
 import GradientTopNavBar from '../../../components/molecules/TopNavBar/GradientTopNavBar';
 import {useSelector, useDispatch} from 'react-redux';
 import {GetPatientInfo} from '../../../redux/action/patientAccountAction';
+import TimelineContainer from '../../../components/molecules/TimelineContainer/TimelineContainer';
 
+if (Platform.OS === 'android') {
+  if (UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
+}
 const Appointments = ({navigation}) => {
   const {patient, isPatientAccountReducerLoading} = useSelector(
     state => state.PatientAccountReducer,
   );
   const dispatch = useDispatch();
+  const [timeline, setTimeline] = useState(-1);
 
   useEffect(() => {
+    console.log('patient ' + patient);
     dispatch(GetPatientInfo(patient.id));
   }, []);
 
@@ -30,22 +46,25 @@ const Appointments = ({navigation}) => {
         <NotFound />
       ) : (
         <FlatList
+          style={{backgroundColor: '#fff'}}
           onEndReached={() => console.log('rech end.......')}
-          data={patient.appointments}
+          // data={patient.appointments}
+          data={[1, 2, 3, 4, 5, 6, 7, 8, 9]}
           renderItem={({item}) => (
-            // <AvailDoctorContainer
-            //   data={item}
-            //   navigation={navigation}
-            //   onPress={() => onPress(item._id)}
-            //   id={item._id}
-            //   name={(item.basic.first_name + ' ' + item.basic.last_name)
-            //     .slice(0, 15)
-            //     .concat('...')}
-            //   schedule={item.output.filter(
-            //     o => o.bookedFor.slice(0, 10) === '2020-05-07',
-            //   )}
-            // />
-            <Text>{item._id}</Text>
+            <TimelineContainer
+              PatientName={'Test'}
+              Timing={'9:00 AM'}
+              onPress={() => {
+                LayoutAnimation.configureNext(
+                  LayoutAnimation.Presets.easeInEaseOut,
+                );
+                setTimeline(item);
+              }}
+              Age={'21'}
+              Disease={'Headache'}
+              Profile
+              active={item === timeline}
+            />
           )}
         />
       )}

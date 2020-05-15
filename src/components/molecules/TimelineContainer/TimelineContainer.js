@@ -15,12 +15,12 @@ function TimelineContainer({
   active,
 }) {
   return (
-    <View style={TimelineContainerStyles.TimelineContainer}>
+    <View style={Styles.TimelineContainer}>
       <TouchableWithoutFeedback onPress={onPress}>
         <BasicCard
           style={{
             CardContainer: [
-              TimelineContainerStyles.CardContainer,
+              Styles.CardContainer,
               active
                 ? {backgroundColor: '#F4C130'}
                 : {backgroundColor: '#fff', elevation: 0},
@@ -37,14 +37,14 @@ function TimelineContainer({
           />
         </BasicCard>
       </TouchableWithoutFeedback>
-      <View style={TimelineContainerStyles.RingCircleContainer}>
+      <View style={Styles.RingCircleContainer}>
         {active ? <RingCircle height={20} /> : <Ring height={20} />}
       </View>
     </View>
   );
 }
 
-const TimelineContainerStyles = StyleSheet.create({
+const Styles = StyleSheet.create({
   TimelineContainer: {
     marginLeft: 30,
     paddingLeft: 20,
