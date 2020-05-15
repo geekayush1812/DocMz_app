@@ -1,0 +1,4 @@
+#Mon Apr 27 01:37:53 IST 2020
+base.0=C\:\\Users\\kmlesh\\OneDrive\\Documents\\Project\\Apps\\docMz_kb\\android\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\0
+path.0=classes.dex
+renamed.0=classes.dex
