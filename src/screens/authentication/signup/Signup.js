@@ -9,6 +9,7 @@ import {
   TextInput,
   AsyncStorage,
   Button,
+  PermissionsAndroid,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icons from 'react-native-vector-icons/Ionicons';
@@ -18,6 +19,7 @@ import {Host} from '../../../utils/connection';
 import {PRIMARY, BACKGROUND, BLACK, WHITE} from '../../../styles/colors';
 // import Button from '../../../../xsrc/components/primitive/Button/Button';
 import Switch from '../../../components/atoms/SwitchButton/Switch';
+import ImagePicker from 'react-native-image-picker';
 
 const SignUp = props => {
   const [data, setData] = useState({
@@ -30,10 +32,64 @@ const SignUp = props => {
     city: '',
     state: '',
     country: '',
+    description: '',
+    fee: '',
+    imagePath: '',
   });
   const [loading, setLoading] = useState(true);
   const [isDoctor, setDoctor] = useState(false);
 
+  const onChoosePicture = async () => {
+    const options = {
+      title: 'Select Avatar',
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    const granted = await PermissionsAndroid.check(
+      PermissionsAndroid.PERMISSIONS.CAMERA,
+    );
+    console.log(granted);
+    if (granted) {
+      ImagePicker.showImagePicker(options, response => {
+        // console.log('Response = ', response);
+        if (response.didCancel) {
+          console.log('User cancelled image picker');
+        } else if (response.error) {
+          console.log('ImagePicker Error: ', response.error);
+        } else {
+          // const source = {uri: response.uri};
+          // console.log(source);
+          const path = response.fileName;
+          setData({...data, imagePath: path});
+        }
+      });
+    } else {
+      askPermission();
+    }
+  };
+  const askPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+        {
+          title: 'Camera Permission',
+          message: 'DocMz needs access to your camera ',
+          buttonNeutral: 'Ask Me Later',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK',
+        },
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        // ImagePicker();
+      } else {
+        console.log('Camera permission denied');
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
   const handelSignupMode = () => {
     console.log('click~');
     setDoctor(!isDoctor);
@@ -78,7 +134,12 @@ const SignUp = props => {
   const handelCountryChange = e => {
     setData({...data, country: e});
   };
-  const handleDescriptionChange = e => {};
+  const handleDescriptionChange = e => {
+    setData({...data, description: e});
+  };
+  const handleFeeChange = e => {
+    setData({...data, fee: e});
+  };
 
   const _save = async userData => {
     await AsyncStorage.setItem('userData', JSON.stringify(userData), () => {
@@ -229,12 +290,35 @@ const SignUp = props => {
               onChange={handelCountryChange}
             />
             <InputBox
+              label={'Fees'}
+              secureText={false}
+              onChange={handleFeeChange}
+            />
+            <InputBox
               label={'Description'}
               secureText={false}
               onChange={handleDescriptionChange}
               multiline
-              numberOfLines={3}
+              numberOfLines={5}
             />
+            <View
+              style={{
+                backgroundColor: '#ddd',
+                padding: 10,
+                borderRadius: 10,
+                marginLeft: 20,
+                marginRight: 20,
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}>
+              <TouchableOpacity onPress={onChoosePicture}>
+                <Text>
+                  {!data.imagePath ? 'Upload picture' : 'Picture path'}
+                </Text>
+              </TouchableOpacity>
+              <Text>{data.imagePath}</Text>
+            </View>
           </React.Fragment>
         )}
         <View
@@ -316,7 +400,10 @@ const InputBox = props => {
         <TextInput
           onChangeText={e => props.onChange(e)}
           name={''}
-          style={InputBoxStyle.input}
+          style={[
+            InputBoxStyle.input,
+            multiline && {textAlignVertical: 'top', borderRadius: 15},
+          ]}
           secureTextEntry={props.secureText}
           placeholder={`Enter your ${props.label}`}
           placeholderTextColor={'#616061'}
