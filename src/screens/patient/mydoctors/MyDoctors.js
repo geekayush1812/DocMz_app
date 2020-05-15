@@ -14,7 +14,7 @@ const MyDoctors = ({navigation}) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log('mmmmmmmmmmmmmmmmmmmmmmmmmk')
+    // console.log('mmmmmmmmmmmmmmmmmmmmmmmmmk')
     // console.log(patient)
     !isPatientAccountReducerLoading && dispatch(GetPatientInfo(patient.id));
   }, []);
