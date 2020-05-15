@@ -179,6 +179,55 @@ export const LoginDoctor = (data, success, faild) => {
 }
 
 
+
+// export const signupDoctor = (data) => {
+
+//     const config = {
+//         'Content-Type': 'application/json',
+//     };
+
+//     const _data = {
+//         name: data.name,
+//         email: data.email,
+//         password: data.password,
+//         phone: data.phone,
+//         registration_number: data.registration_id,
+//         specialty: data.specialty,
+//         city: data.city,
+//         state: data.state,
+//         country: data.country,
+//         basic: JSON.stringify({}),
+//     };
+
+//     console.log(_data);
+//     axios
+//         .post(`${Host}/doctors/register`, _data, config)
+//         .then(result => {
+//             console.log(result);
+//             if (result.data.status) {
+//                 const __data = {
+//                     mode: 'doctor',
+//                     email: result.data.data.email,
+//                     name: result.data.data.name,
+//                     phone: result.data.data.phone,
+//                     id: result.data.data._id,
+//                 };
+//                 _save(__data);
+
+//                 // dispatch(addUserToRedux(data))
+//             }
+//             console.log(result.data.status);
+//         })
+//         .catch(err => {
+//             console.log(err);
+//         });
+// }
+
+// export const singnupPatient = () => {
+
+// }
+
+
 export const GetAppointmentData = (id) => {
     return dispatch => {
         dispatch(startLoading())

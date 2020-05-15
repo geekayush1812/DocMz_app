@@ -1,12 +1,40 @@
-import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import React, {useRef, useState} from 'react';
+import {
+  Animated,
+  Text,
+  StyleSheet,
+  Easing,
+  Platform,
+  UIManager,
+  LayoutAnimation,
+} from 'react-native';
 import ToggleDot from '../../atoms/ToggleDot/ToggleDot';
-function ToggleButton({text, style}) {
+import {TouchableOpacity} from 'react-native-gesture-handler';
+
+if (Platform.OS === 'android') {
+  if (UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
+}
+function ToggleButton({text0, text1, style, onToggle, toggle}) {
+  const onTouch = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    onToggle();
+  };
   return (
-    <View style={[ToggleButtonStyles.Container, style ? style : null]}>
-      <Text style={ToggleButtonStyles.Text}>{text}</Text>
+    <Animated.View
+      style={[
+        ToggleButtonStyles.Container,
+        {
+          flexDirection: !toggle ? 'row' : 'row-reverse',
+        },
+        style ? style : null,
+      ]}>
+      <TouchableOpacity onPress={onTouch}>
+        <Text style={ToggleButtonStyles.Text}>{toggle ? text0 : text1}</Text>
+      </TouchableOpacity>
       <ToggleDot />
-    </View>
+    </Animated.View>
   );
 }
 
@@ -14,8 +42,10 @@ const ToggleButtonStyles = StyleSheet.create({
   Container: {
     flexDirection: 'row',
     backgroundColor: '#fff',
-    padding: 2,
-    width: 70,
+    padding: 4,
+    paddingLeft: 8,
+    paddingRight: 8,
+    // width: 70,
     borderRadius: 20,
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -25,6 +55,7 @@ const ToggleButtonStyles = StyleSheet.create({
     fontSize: 10,
     fontWeight: 'bold',
     marginLeft: 5,
+    marginRight: 5,
   },
 });
 export default ToggleButton;

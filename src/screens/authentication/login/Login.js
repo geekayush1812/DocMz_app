@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -6,26 +6,29 @@ import {
   TouchableOpacity,
   ScrollView,
   TextInput,
+  ActivityIndicator,
 } from 'react-native';
 import Icons from 'react-native-vector-icons/Ionicons';
 import NavigationActions from 'react-navigation/src/NavigationActions';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import {LoginDoctor, LoginPatient} from '../../../redux/action/auth';
-import {_LoginPatient} from '../../../redux/action/authAction';
+import { LoginDoctor, LoginPatient } from '../../../redux/action/auth';
+import { _LoginPatient } from '../../../redux/action/authAction';
 
-import {PRIMARY, SECONDARY, BLACK} from '../../../styles/colors';
+import { PRIMARY, SECONDARY, BLACK } from '../../../styles/colors';
 // import Button from '../../../components/primitive/Button/Button';
 import Switch from '../../../components/atoms/SwitchButton/SwitchButton';
 import SwitchButton from '../../../components/atoms/SwitchButton/SwitchButton';
-import {GetPatientInfo} from '../../../redux/action/patientAccountAction';
+import { GetPatientInfo } from '../../../redux/action/patientAccountAction';
 
 const Login = props => {
-  const [data, setData] = useState({email: '', password: ''});
+  const [data, setData] = useState({ email: '', password: '' });
   const [loading, setLoading] = useState(true);
   const [isDoctor, setDoctor] = useState(false);
   const dispatch = useDispatch();
   const authData = useSelector(state => state.AuthReducer);
+
+  const { loginAs = 'patient' } = props.navigation.state.params
 
   useEffect(() => {
     setLoading(false);
@@ -33,11 +36,11 @@ const Login = props => {
 
   const handelEmailInput = e => {
     console.log(e);
-    setData({...data, email: e});
+    setData({ ...data, email: e });
   };
 
   const handelPasswordInput = e => {
-    setData({...data, password: e});
+    setData({ ...data, password: e });
   };
 
   const handelLoginMode = () => {
@@ -51,10 +54,10 @@ const Login = props => {
     // dispatch(GetPatientInfo())
     isDoctor
       ? props.navigation.navigate(
-          'pageNavigation',
-          {},
-          NavigationActions.navigate({routeName: 'doctorHomePage'}),
-        )
+        'pageNavigation',
+        {},
+        NavigationActions.navigate({ routeName: 'doctorHomePage' }),
+      )
       : props.navigation.goBack(null);
     // props.navigation.navigate('pageNavigation', {}, NavigationActions.navigate({routeName: 'patientHomePage'}));
   };
@@ -74,64 +77,68 @@ const Login = props => {
   };
 
   return loading ? (
-    <Text>Loading..</Text>
+    <ActivityIndicator />
   ) : (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      style={{backgroundColor: '#fff'}}>
-      <View>
-        <Icons
-          name="ios-arrow-round-back"
-          color={BLACK}
-          size={35}
-          // onPress={() => props.navigation.navigate('Setting')}
-          onPress={() => props.navigation.goBack(null)}
-          style={{position: 'absolute', margin: 20}}
-        />
-        <HeadText
-          headmsg={'Welcome,'}
-          subMsg={'Login as a '}
-          onTougle={handelLoginMode}
-        />
-        <InputBox
-          label={'Email Id'}
-          secureText={false}
-          onChange={handelEmailInput}
-        />
-        <InputBox
-          label={'Password'}
-          secureText={true}
-          onChange={handelPasswordInput}
-        />
-        <SubText text={'Forgot Password?'} />
-        <View
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            flex: 1,
-            flexWrap: 'wrap',
-            justifyContent: 'space-around',
-            marginVertical: 50,
-          }}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => props.navigation.navigate('signupScreen')}>
-            <Text>Signup</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.button, styles.fill]}
-            onPress={() => _handelPatientLogin()}>
-            <Text style={{color: '#fff'}}>Login as Patient</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.button, styles.fill]}
-            onPress={() => _handelDoctorLogin()}>
-            <Text style={{color: '#fff'}}>Login as Doctor</Text>
-          </TouchableOpacity>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{ backgroundColor: '#fff' }}>
+        <View>
+          <Icons
+            name="ios-arrow-round-back"
+            color={BLACK}
+            size={35}
+            // onPress={() => props.navigation.navigate('Setting')}
+            onPress={() => props.navigation.goBack(null)}
+            style={{ position: 'absolute', margin: 20 }}
+          />
+          <HeadText
+            headmsg={'Welcome,'}
+            subMsg={'Login as a ' + loginAs}
+            onTougle={handelLoginMode}
+          />
+          <InputBox
+            label={'Email Id'}
+            secureText={false}
+            onChange={handelEmailInput}
+          />
+          <InputBox
+            label={'Password'}
+            secureText={true}
+            onChange={handelPasswordInput}
+          />
+          <SubText text={'Forgot Password?'} />
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              flex: 1,
+              flexWrap: 'wrap',
+              justifyContent: 'space-around',
+              marginVertical: 50,
+            }}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => props.navigation.navigate('signupScreen', {signupAs: loginAs})}>
+              <Text style={{ color: PRIMARY}}>Signup</Text>
+            </TouchableOpacity>
+
+            {
+              loginAs === 'doctor' ?
+                <TouchableOpacity
+                  style={[styles.button, styles.fill]}
+                  onPress={() => _handelDoctorLogin()}>
+                  <Text style={{ color: '#fff' }}>Login</Text>
+                </TouchableOpacity> : <TouchableOpacity
+                  style={[styles.button, styles.fill]}
+                  onPress={() => _handelPatientLogin()}>
+                  <Text style={{ color: '#fff' }}>Login </Text>
+                </TouchableOpacity>
+            }
+
+          </View>
         </View>
-      </View>
-    </ScrollView>
-  );
+      </ScrollView>
+    );
 };
 
 const styles = StyleSheet.create({
@@ -152,7 +159,7 @@ const HeadText = props => {
     <View style={HeadTextStyle.container}>
       <Text style={HeadTextStyle.mainmsg}>{props.headmsg}</Text>
       <View
-        style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+        style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
         <Text style={HeadTextStyle.subMsg}>{props.subMsg}</Text>
         <Switch option1="Patient" option2="Doctor" onClick={props.onTougle} />
       </View>

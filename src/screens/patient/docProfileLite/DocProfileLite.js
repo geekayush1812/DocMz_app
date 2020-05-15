@@ -33,7 +33,7 @@ function DocProfileLite({navigation}) {
     console.log('bug bug ', authData.isLogedin);
     if (!authData.isLogedin) {
       console.log('>> authentication.');
-      navigation.navigate('authentication');
+      navigation.navigate('authentication', {loginAs: 'patient'});
     } else {
       navigation.navigate('ConfirmAppointment', {data: data});
     }

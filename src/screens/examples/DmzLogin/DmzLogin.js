@@ -1,17 +1,46 @@
 //#EB4B2B
-import React, {useState, useRef} from 'react';
-import {View, Animated, useWindowDimensions, Easing} from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+  TextInput,
+  ActivityIndicator,
+  Animated, useWindowDimensions, Easing
+} from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import DmzText from '../../../components/atoms/DmzText/DmzText';
 import AnimInput from '../../../components/molecules/AnimInput/AnimInput';
 import GoogleIcon from '../../../assets/svg/google.svg';
 import FacebookIcon from '../../../assets/svg/facebook.svg';
 import ExpandableButton from '../../../components/organisms/ExpandableButton/ExpandableButton';
-function DmzLogin() {
+function DmzLogin(props) {
+
+  const { loginAs = 'patient' } = props.navigation.state.params
+  const [data, setData] = useState({ email: '', password: '' });
+  const [loading, setLoading] = useState(true);
+  const [isDoctor, setDoctor] = useState(false);
+  const dispatch = useDispatch();
+  const authData = useSelector(state => state.AuthReducer);
+
   const Dimen = useWindowDimensions();
   const screenWidth = Dimen.width;
   const screenHeight = Dimen.height;
   const [heightOffset, setHeightOffset] = useState(0);
   const opacity = useRef(new Animated.Value(0)).current;
+
+
+  const handelEmailInput = e => {
+    console.log(e);
+    setData({ ...data, email: e });
+  };
+
+  const handelPasswordInput = e => {
+    setData({ ...data, password: e });
+  };
+
   const onLayout = props => {
     if (heightOffset !== props.nativeEvent.layout.y)
       setHeightOffset(props.nativeEvent.layout.y);
@@ -28,7 +57,7 @@ function DmzLogin() {
     });
   };
   return (
-    <View style={{flex: 1, backgroundColor: '#fff'}}>
+    <View style={{ flex: 1, backgroundColor: '#fff' }}>
       <Animated.View
         style={{
           flex: 3,
@@ -39,14 +68,14 @@ function DmzLogin() {
             outputRange: [1, 0],
           }),
         }}>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{ flexDirection: 'row' }}>
           <DmzText
-            text="Data Inovation"
+            text={"Login as "}
             type={3}
             lite
-            style={{color: '#EB4B2B'}}
+            style={{ color: '#EB4B2B' }}
           />
-          <DmzText text="Platform" type={3} lite style={{marginLeft: 5}} />
+          <DmzText text={loginAs} type={3} lite style={{ marginLeft: 5 }} />
         </View>
       </Animated.View>
       <View
@@ -61,7 +90,7 @@ function DmzLogin() {
           type={4}
           lite
           gap_small
-          style={{marginLeft: 'auto', marginRight: 'auto'}}
+          style={{ marginLeft: 'auto', marginRight: 'auto' }}
         />
         <Animated.View
           style={{
@@ -78,7 +107,8 @@ function DmzLogin() {
           <AnimInput
             withAnim={false}
             placeholder="Email"
-            style={{Container: {borderBottomWidth: 0}}}
+            style={{ Container: { borderBottomWidth: 0 } }}
+            inputHandler={txt => setData({...state, email: txt})}
           />
         </Animated.View>
 
@@ -98,7 +128,8 @@ function DmzLogin() {
           <AnimInput
             withAnim={false}
             placeholder="Password"
-            style={{Container: {borderBottomWidth: 0}}}
+            style={{ Container: { borderBottomWidth: 0 }, input: { backgroundColor: 'pink'} }}
+            inputHandler={txt => setData({...state, password: txt})}
           />
         </Animated.View>
         <ExpandableButton
@@ -126,7 +157,7 @@ function DmzLogin() {
           text="Forgot Password?"
           lite
           gap_small
-          style={{marginLeft: 'auto', marginRight: 'auto', color: '#EB4B2B'}}
+          style={{ marginLeft: 'auto', marginRight: 'auto', color: '#EB4B2B' }}
         />
       </View>
       <Animated.View
@@ -152,7 +183,7 @@ function DmzLogin() {
               flex: 1,
             }}>
             <FacebookIcon height={18} width={18} />
-            <DmzText text="Sign in" style={{marginLeft: 20}} lite />
+            <DmzText text="Sign in" style={{ marginLeft: 20 }} lite />
           </View>
           <View
             style={{
@@ -162,12 +193,14 @@ function DmzLogin() {
               justifyContent: 'flex-end',
             }}>
             <GoogleIcon height={18} width={18} />
-            <DmzText text="Sign in" style={{marginLeft: 20}} lite />
+            <DmzText text="Sign in" style={{ marginLeft: 20 }} lite />
           </View>
         </View>
-        <View style={{flexDirection: 'row', marginTop: 40}}>
+        <View style={{ flexDirection: 'row', marginTop: 40 }}>
           <DmzText text="Don't have an account? " lite type={3} />
-          <DmzText text=" Sign Up" lite type={3} style={{color: '#EB4B2B'}} />
+          <TouchableOpacity onPress={() => props.navigation.navigate('signupScreen', { signupAs: loginAs })}>
+            <DmzText text=" Sign Up" lite type={3} style={{ color: '#EB4B2B' }} />
+          </TouchableOpacity>
         </View>
       </Animated.View>
     </View>
