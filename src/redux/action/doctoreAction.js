@@ -153,6 +153,7 @@ export const fetchMoreDoctorLite = (_page, mode) => {
       });
   };
 };
+
 export const GettingDoctorProfiles = id => {
   return dispatch => {
     dispatch(startDoctorLoading());
@@ -172,10 +173,9 @@ export const GettingDoctorProfiles = id => {
 export const searchDoctors = (search, page) => {
   return async dispatch => {
     const params = {
-      match: JSON.stringify({
-        'basic.name': search,
-      }),
+      match: JSON.stringify({}),
       pageNo: page.toString(),
+      name: search,
       size: '5',
     };
     dispatch(searchingDoctors());
