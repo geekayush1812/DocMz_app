@@ -69,6 +69,7 @@ function DmzLogin() {
             borderRadius: 15,
             marginTop: 40,
             marginLeft: 25,
+            marginRight: 25,
             opacity: opacity.interpolate({
               inputRange: [0, 0.8, 1],
               outputRange: [1, 0, 0],
@@ -87,6 +88,7 @@ function DmzLogin() {
             borderRadius: 15,
             marginTop: 20,
             marginLeft: 25,
+            marginRight: 25,
             marginBottom: 20,
             opacity: opacity.interpolate({
               inputRange: [0, 0.8, 1],
