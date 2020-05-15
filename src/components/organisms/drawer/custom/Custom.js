@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import {
   View,
   Text,
@@ -10,9 +10,9 @@ import {
 import Avater from '../../../atoms/Avater/Avater';
 import DmzText from '../../../atoms/DmzText/DmzText';
 import Option from '../../../molecules/Option/Option';
-import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
-import {useSelector, useDispatch} from 'react-redux';
-import {resetStore} from '../../../../redux/action/auth';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import { useSelector, useDispatch } from 'react-redux';
+import { resetStore } from '../../../../redux/action/auth';
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import ExpandableOption from '../../../molecules/ExpandableOption/ExpandableOption';
@@ -112,7 +112,7 @@ const Custom = ({
   phone_num = '8001981993',
   activeItemKey,
 }) => {
-  const {isLogedin, isDoctor, data} = useSelector(state => state.AuthReducer);
+  const { isLogedin, isDoctor, data } = useSelector(state => state.AuthReducer);
   const dispatch = useDispatch();
   console.log(navigation);
   const _logout = () => {
@@ -128,7 +128,7 @@ const Custom = ({
       <View style={styles.container}>
         <View style={[styles.section, styles.sectionTop]}>
           <LinearGradient
-            style={{width: '100%'}}
+            style={{ width: '100%' }}
             colors={['rgba(15, 12, 9,0.7)', 'rgba(15, 12, 9,1)']}
             useAngle={true}
             angle={-90}>
@@ -151,14 +151,14 @@ const Custom = ({
                   type={4}
                   bold
                   gap_medium
-                  style={{color: '#f1f1f1', lineHeight: 18}}
+                  style={{ color: '#f1f1f1', lineHeight: 18 }}
                 />
                 <DmzText
                   text={!data ? '0000000000' : data.phone}
                   center
                   gap_big
                   lite
-                  style={{color: '#f1f1f1', lineHeight: 18}}
+                  style={{ color: '#f1f1f1', lineHeight: 18 }}
                 />
               </View>
             </View>
@@ -176,7 +176,7 @@ const Custom = ({
                     text="61"
                     type={4}
                     lite
-                    style={{textTransform: 'uppercase', color: '#555'}}
+                    style={{ textTransform: 'uppercase', color: '#555' }}
                   />
                 </View>
                 <TouchableOpacity style={styles.touchableButton}>
@@ -195,7 +195,7 @@ const Custom = ({
                     text="21.38"
                     type={4}
                     lite
-                    style={{textTransform: 'uppercase', color: '#555'}}
+                    style={{ textTransform: 'uppercase', color: '#555' }}
                   />
                 </View>
                 <TouchableOpacity style={styles.touchableButton}>
@@ -247,15 +247,18 @@ const Custom = ({
           activeItemKey={activeItemKey}
           navigateTo={'logout'}
         />
-        <Option
-          key={'Are you doctor ?'}
-          active={!isLogedin}
-          name={'Are you doctor ?'}
-          icon={'doctor'}
-          goto={() => navigation.navigate('loginScreen', {loginAs : 'doctor'})}
-          activeItemKey={activeItemKey}
-          navigateTo={'loginScreen'}
-        />
+        {
+          !isLogedin && <Option
+            key={'Are you doctor ?'}
+            active={!isLogedin}
+            name={'Are you doctor ?'}
+            icon={'doctor'}
+            goto={() => navigation.navigate('loginScreen', { loginAs: 'doctor' })}
+            activeItemKey={activeItemKey}
+            navigateTo={'loginScreen'}
+          />
+        }
+
       </View>
     </ScrollView>
   );
@@ -270,7 +273,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fafafa',
     marginBottom: 8,
   },
-  sectionTop: {marginBottom: 50, position: 'relative'},
+  sectionTop: { marginBottom: 50, position: 'relative' },
   profile: {
     display: 'flex',
     flexDirection: 'row',

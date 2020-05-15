@@ -1,7 +1,8 @@
 const initialState = {
       isPatientAccountReducerLoading : true,
       patient: null,
-      errorInPatientAccountReducer: []
+      errorInPatientAccountReducer: [],
+      patientFavDoc: []
 }
 
 const PatientAccountReducer = (state = initialState, action) => {
@@ -12,6 +13,12 @@ const PatientAccountReducer = (state = initialState, action) => {
                         patient: action.payload,
                         isPatientAccountReducerLoading: false,
                         errorInPatientAccountReducer: []
+                  }
+            }
+            case 'SAVE_PATIENT_FEV_DOC': {
+                  return {
+                        ...state,
+                        patientFavDoc: [...patientFavDoc, action.payload]
                   }
             }
             case 'START_PATIENT_ACCOUNT_LOADING': {

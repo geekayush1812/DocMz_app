@@ -43,7 +43,7 @@ const ConfirmAppointment = ({navigation}) => {
   const PopupTranslateY = useRef(new Animated.Value(0)).current;
 
   console.log('************************************');
-  console.log(data.output);
+  console.log(data.output || data.appointments);
 
   const [state, setState] = useState({
     name: '',
@@ -197,7 +197,7 @@ const ConfirmAppointment = ({navigation}) => {
         </View>
       </ScrollView>
       <ScheduleAppointment
-        doctors={data.output}
+        doctors={data.output || data.appointments}
         activeId={0}
         PopupTranslateY={PopupTranslateY}
         onPress={onPress}

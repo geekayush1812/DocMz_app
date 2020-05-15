@@ -5,12 +5,20 @@ const SAVE = 'SAVE_PATIENT_INFO'
 const ERRORS = 'HAVEING_ERROR_IN_PATIENT_ACCOUNT_REDUCER'
 const LOADING = 'START_PATIENT_ACCOUNT_LOADING'
 const RESET = 'RESET_PATIENT_ACCOUNT_REDUCER'
+const SAVE_FEV_DOC = 'SAVE_PATIENT_FEV_DOC';
 
 const saveUserAccount = (data) => {
       return {
             type: SAVE,
             payload: data
       }
+}
+
+const saveFevDoc = (data) => {
+    return {
+        type: SAVE_FEV_DOC,
+        payload: data
+    }
 }
 
 const startLoading = () => {
@@ -53,6 +61,26 @@ export const GetPatientInfo = (id) => {
       }
 }
 
+export const GetFevDoc = (docId) => {
+    return async dispatch => {
+
+        const preAdd = {
+            specialty: 788,
+            city: 'New York',
+            _id: docId
+        }
+
+        await axios.post('http://localhost:3005/doctors/search', preAdd)
+        .then(res => {
+            console.log('************** patientAccotioon **********')
+            console.log(res)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+
+    }
+}
 
 export const AddFevDoc = (docId, patientId) => {
       return async dispatch => {
