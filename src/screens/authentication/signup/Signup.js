@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -15,11 +15,12 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icons from 'react-native-vector-icons/Ionicons';
 import NavigationActions from 'react-navigation/src/NavigationActions';
 import axios from 'axios';
-import {Host} from '../../../utils/connection';
-import {PRIMARY, BACKGROUND, BLACK, WHITE} from '../../../styles/colors';
+import { Host } from '../../../utils/connection';
+import { PRIMARY, BACKGROUND, BLACK, WHITE } from '../../../styles/colors';
 // import Button from '../../../../xsrc/components/primitive/Button/Button';
 import Switch from '../../../components/atoms/SwitchButton/Switch';
 import ImagePicker from 'react-native-image-picker';
+import SMbutton from '../../../components/atoms/SMbutton/SMbutton';
 
 const SignUp = props => {
   const [data, setData] = useState({
@@ -62,7 +63,7 @@ const SignUp = props => {
           // const source = {uri: response.uri};
           // console.log(source);
           const path = response.fileName;
-          setData({...data, imagePath: path});
+          setData({ ...data, imagePath: path });
         }
       });
     } else {
@@ -101,44 +102,44 @@ const SignUp = props => {
 
   const handelEmailChange = e => {
     console.log(e.target);
-    setData({...data, email: e});
+    setData({ ...data, email: e });
   };
 
   const handelPasswordChange = e => {
-    setData({...data, password: e});
+    setData({ ...data, password: e });
   };
 
   const handelNameChange = e => {
-    setData({...data, name: e});
+    setData({ ...data, name: e });
   };
 
   const handelPhoneChange = e => {
-    setData({...data, phone: e});
+    setData({ ...data, phone: e });
   };
 
   const handelRegistrationChange = e => {
-    setData({...data, registration_id: e});
+    setData({ ...data, registration_id: e });
   };
 
   const handelSpecialty = e => {
-    setData({...data, specialty: e});
+    setData({ ...data, specialty: e });
   };
 
   const handelCityChange = e => {
-    setData({...data, city: e});
+    setData({ ...data, city: e });
   };
   const handelStateChange = e => {
-    setData({...data, state: e});
+    setData({ ...data, state: e });
   };
 
   const handelCountryChange = e => {
-    setData({...data, country: e});
+    setData({ ...data, country: e });
   };
   const handleDescriptionChange = e => {
-    setData({...data, description: e});
+    setData({ ...data, description: e });
   };
   const handleFeeChange = e => {
-    setData({...data, fee: e});
+    setData({ ...data, fee: e });
   };
 
   const _save = async userData => {
@@ -181,179 +182,131 @@ const SignUp = props => {
 
   const handelDoctorSubmit = () => {
     console.log('DOctor submit.');
-
-    const config = {
-      'Content-Type': 'application/json',
-    };
-
-    const _data = {
-      name: data.name,
-      email: data.email,
-      password: data.password,
-      phone: data.phone,
-      registration_number: data.registration_id,
-      specialty: data.specialty,
-      city: data.city,
-      state: data.state,
-      country: data.country,
-      basic: JSON.stringify({}),
-    };
-
-    console.log(_data);
-    axios
-      .post(`${Host}/doctors/register`, _data, config)
-      .then(result => {
-        console.log(result);
-        if (result.data.status) {
-          const __data = {
-            mode: 'doctor',
-            email: result.data.data.email,
-            name: result.data.data.name,
-            phone: result.data.data.phone,
-            id: result.data.data._id,
-          };
-          _save(__data);
-
-          // dispatch(addUserToRedux(data))
-        }
-        console.log(result.data.status);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    
   };
 
   return loading ? (
     <Text>Loading..</Text>
   ) : (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      style={{backgroundColor: BACKGROUND}}>
-      <View>
-        <Icons
-          name="ios-arrow-round-back"
-          color={PRIMARY}
-          size={35}
-          onPress={() => props.navigation.goBack(null)}
-          style={{position: 'absolute', margin: 20}}
-        />
-        <HeadText
-          headmsg={'Create Account,'}
-          subMsg={'Sign up as!'}
-          onTougle={handelSignupMode}
-        />
-        <InputBox
-          label={'Full Name'}
-          secureText={false}
-          onChange={handelNameChange}
-        />
-        <InputBox
-          label={'Email Id'}
-          secureText={false}
-          onChange={handelEmailChange}
-        />
-        <InputBox
-          label={'Phone No'}
-          secureText={false}
-          onChange={handelPhoneChange}
-        />
-        <InputBox
-          label={'Password'}
-          secureText={true}
-          onChange={handelPasswordChange}
-        />
-        {isDoctor && (
-          <React.Fragment>
-            <InputBox
-              label={'Registration Number'}
-              secureText={false}
-              onChange={handelRegistrationChange}
-            />
-            <InputBox
-              label={'Specialty'}
-              secureText={false}
-              onChange={handelSpecialty}
-            />
-            <InputBox
-              label={'City'}
-              secureText={false}
-              onChange={handelCityChange}
-            />
-            <InputBox
-              label={'State'}
-              secureText={false}
-              onChange={handelStateChange}
-            />
-            <InputBox
-              label={'Country'}
-              secureText={false}
-              onChange={handelCountryChange}
-            />
-            <InputBox
-              label={'Fees'}
-              secureText={false}
-              onChange={handleFeeChange}
-            />
-            <InputBox
-              label={'Description'}
-              secureText={false}
-              onChange={handleDescriptionChange}
-              multiline
-              numberOfLines={5}
-            />
-            <View
-              style={{
-                backgroundColor: '#ddd',
-                padding: 10,
-                borderRadius: 10,
-                marginLeft: 20,
-                marginRight: 20,
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}>
-              <TouchableOpacity onPress={onChoosePicture}>
-                <Text>
-                  {!data.imagePath ? 'Upload picture' : 'Picture path'}
-                </Text>
-              </TouchableOpacity>
-              <Text>{data.imagePath}</Text>
-            </View>
-          </React.Fragment>
-        )}
-        <View
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            flex: 1,
-            flexWrap: 'wrap',
-            justifyContent: 'space-around',
-            marginVertical: 50,
-          }}>
-          <Button
-            deafult={true}
-            title={'LOGIN'}
-            t_text={true}
-            onlyBorder
-            onClick={() =>
-              props.navigation.navigate(
-                'Auth',
-                {},
-                NavigationActions.navigate({routeName: 'Login'}),
-              )
-            }
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{ backgroundColor: BACKGROUND }}>
+        <View>
+          <Icons
+            name="ios-arrow-round-back"
+            color={PRIMARY}
+            size={35}
+            onPress={() => props.navigation.goBack(null)}
+            style={{ position: 'absolute', margin: 20 }}
           />
-          <Button
-            deafult={true}
-            title={'SIGNUP'}
-            normal
-            shadow
-            onClick={isDoctor ? handelDoctorSubmit : handelPatientSubmit}
+          <HeadText
+            headmsg={'Create Account,'}
+            subMsg={'Sign up as!'}
+            onTougle={handelSignupMode}
           />
+          <InputBox
+            label={'Full Name'}
+            secureText={false}
+            onChange={handelNameChange}
+          />
+          <InputBox
+            label={'Email Id'}
+            secureText={false}
+            onChange={handelEmailChange}
+          />
+          <InputBox
+            label={'Phone No'}
+            secureText={false}
+            onChange={handelPhoneChange}
+          />
+          <InputBox
+            label={'Password'}
+            secureText={true}
+            onChange={handelPasswordChange}
+          />
+          {isDoctor && (
+            <React.Fragment>
+              <InputBox
+                label={'Registration Number'}
+                secureText={false}
+                onChange={handelRegistrationChange}
+              />
+              <InputBox
+                label={'Specialty'}
+                secureText={false}
+                onChange={handelSpecialty}
+              />
+              <InputBox
+                label={'City'}
+                secureText={false}
+                onChange={handelCityChange}
+              />
+              <InputBox
+                label={'State'}
+                secureText={false}
+                onChange={handelStateChange}
+              />
+              <InputBox
+                label={'Country'}
+                secureText={false}
+                onChange={handelCountryChange}
+              />
+              <InputBox
+                label={'Fees'}
+                secureText={false}
+                onChange={handleFeeChange}
+              />
+              <InputBox
+                label={'Description'}
+                secureText={false}
+                onChange={handleDescriptionChange}
+                multiline
+                numberOfLines={5}
+              />
+              <View
+                style={{
+                  backgroundColor: '#ddd',
+                  padding: 10,
+                  borderRadius: 10,
+                  marginLeft: 20,
+                  marginRight: 20,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                }}>
+                <TouchableOpacity onPress={onChoosePicture}>
+                  <Text>
+                    {!data.imagePath ? 'Upload picture' : 'Picture path'}
+                  </Text>
+                </TouchableOpacity>
+                <Text>{data.imagePath}</Text>
+              </View>
+            </React.Fragment>
+          )}
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              flex: 1,
+              flexWrap: 'wrap',
+              justifyContent: 'space-around',
+              marginVertical: 50,
+            }}>
+            <SMbutton
+              name="LOGIN"
+              active={true}
+              onClick={() => props.navigation.navigate('loginScreen')}
+            />
+            <SMbutton
+              name="SINGUP"
+              active={0}
+              onClick={() => isDoctor ? handelDoctorSubmit() : handelPatientSubmit()}
+            />
+            
+          </View>
         </View>
-      </View>
-    </ScrollView>
-  );
+      </ScrollView>
+    );
 };
 
 const HeadText = props => {
@@ -361,7 +314,7 @@ const HeadText = props => {
     <View style={HeadTextStyle.container}>
       <Text style={HeadTextStyle.mainmsg}>{props.headmsg}</Text>
       <View
-        style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+        style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
         <Text style={HeadTextStyle.subMsg}>{props.subMsg}</Text>
         <Switch option1="Patient" option2="Doctor" onClick={props.onTougle} />
       </View>
@@ -392,7 +345,7 @@ const HeadTextStyle = StyleSheet.create({
 });
 
 const InputBox = props => {
-  const {multiline = false, numberOfLines = 1} = props;
+  const { multiline = false, numberOfLines = 1 } = props;
   return (
     <View style={InputBoxStyle.container}>
       <View style={InputBoxStyle.inputHolder}>
@@ -402,7 +355,7 @@ const InputBox = props => {
           name={''}
           style={[
             InputBoxStyle.input,
-            multiline && {textAlignVertical: 'top', borderRadius: 15},
+            multiline && { textAlignVertical: 'top', borderRadius: 15 },
           ]}
           secureTextEntry={props.secureText}
           placeholder={`Enter your ${props.label}`}
@@ -451,7 +404,7 @@ const ActionButton = props => {
       <TouchableOpacity
         style={[
           ActionButtonStyle.btn,
-          {backgroundColor: props.backgroundColor, color: props.color},
+          { backgroundColor: props.backgroundColor, color: props.color },
         ]}
         onPress={props.onClick}>
         <View style={ActionButtonStyle.row_Box}>
@@ -463,7 +416,7 @@ const ActionButton = props => {
               size={16}
             />
           ) : null}
-          <Text style={[ActionButtonStyle.btnText, {color: props.color}]}>
+          <Text style={[ActionButtonStyle.btnText, { color: props.color }]}>
             {props.label}
           </Text>
         </View>
@@ -516,7 +469,7 @@ const BottomText = props => {
         <Text
           style={[
             BottomTextStyle.text,
-            {color: props.color, fontWeight: 'bold'},
+            { color: props.color, fontWeight: 'bold' },
           ]}>
           {props.linkText}
         </Text>

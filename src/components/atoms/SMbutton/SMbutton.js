@@ -7,7 +7,7 @@ import {
   PRIMARY_BORDER_COLOR,
 } from '../../../styles/colors';
 
-const SMbutton = ({name, active, id, onClick, style}) => {
+const SMbutton = ({name, active, id = 0, onClick, style}) => {
   return (
     <TouchableOpacity
       style={[Sstyle.button, active === id ? Sstyle.active : null, style]}
