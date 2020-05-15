@@ -78,6 +78,7 @@ import {
   fetchDoctorLite,
   fetchMoreDoctorLite,
   searchDoctors,
+  fetchSuperDoc,
 } from '../../../redux/action/doctoreAction';
 import {FlatList} from 'react-native-gesture-handler';
 import {
@@ -99,10 +100,13 @@ const Home = ({navigation}) => {
     moreDoctorLoading,
     searchDoctorsLoading,
     searchedDoctors,
+    superDocsLoading,
+    superDocs,
   } = useSelector(state => state.DoctorReducer);
   const {isLogedin, isDoctor, data} = useSelector(state => state.AuthReducer);
   const [activeId, setActiveId] = useState('');
   const [page, setPage] = useState(0);
+  const [toggle, setToggle] = useState(0);
   const [disEnd, setDisEnd] = useState(0);
   var __id = '';
 
@@ -149,6 +153,12 @@ const Home = ({navigation}) => {
   const onChangeText = text => {
     setSearchKey(text);
   };
+  const onToggle = () => {
+    setToggle(toggle === 0 ? 1 : 0);
+    if (toggle === 0) {
+      dispatch(fetchSuperDoc(0));
+    }
+  };
   return (
     <>
       <View style={FindDoctorScreenStyles.Container}>
@@ -162,7 +172,12 @@ const Home = ({navigation}) => {
             text={'Find a doctor'}
             style={FindDoctorScreenStyles.HeaderPrimaryText}
           />
-          <ToggleButton text="NOW" />
+          <ToggleButton
+            toggle={toggle}
+            onToggle={onToggle}
+            text0="NOW"
+            text1="SCHEDULE"
+          />
         </FancyHeader>
 
         <Container
@@ -180,7 +195,7 @@ const Home = ({navigation}) => {
           <Section
             style={{Container: {marginBottom: 80}}}
             HeaderText="Available Doctors">
-            {loading || searchDoctorsLoading ? (
+            {loading || searchDoctorsLoading || superDocsLoading ? (
               <ListingWithThumbnailLoader />
             ) : searchedDoctors.length && searchKey !== '' ? (
               <FlatList
@@ -201,7 +216,7 @@ const Home = ({navigation}) => {
                   />
                 )}
               />
-            ) : (
+            ) : !toggle ? (
               <FlatList
                 initialNumToRender={5}
                 onEndReached={fetchMore}
@@ -220,6 +235,37 @@ const Home = ({navigation}) => {
                 ListFooterComponent={moreDoctorLoading && <ActivityIndicator />}
                 // extraData={doctors}
                 data={doctors}
+                renderItem={({item}) => (
+                  <AvailDoctorContainer
+                    data={item}
+                    navigation={navigation}
+                    onPress={() => onPress(item._id)}
+                    id={item._id}
+                    name={(item.basic.first_name + ' ' + item.basic.last_name)
+                      .slice(0, 15)
+                      .concat('...')}
+                    schedule={item.output.filter(
+                      o => o.bookedFor.slice(0, 10) === '2020-05-07',
+                    )}
+                  />
+                )}
+              />
+            ) : (
+              <FlatList
+                initialNumToRender={5}
+                ListEmptyComponent={
+                  <View
+                    style={{
+                      height: '100%',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                    <Text>Empty superDocs</Text>
+                  </View>
+                }
+                // ListFooterComponent={moreDoctorLoading && <ActivityIndicator />}
+                // extraData={doctors}
+                data={superDocs}
                 renderItem={({item}) => (
                   <AvailDoctorContainer
                     data={item}

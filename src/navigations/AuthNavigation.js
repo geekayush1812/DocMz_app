@@ -6,10 +6,10 @@ import Signup from '../screens/authentication/signup/Signup';
 const AuthNavigation = createStackNavigator(
   {
     loginScreen: Login,
-    // signupScreen: Signup
+    signupScreen: Signup,
   },
   {
-    initialRouteName: 'loginScreen',
+    initialRouteName: 'signupScreen',
     headerMode: 'none',
   },
 );

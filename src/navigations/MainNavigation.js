@@ -63,7 +63,7 @@ const MainNavigation = createStackNavigator(
     selectFiles: SelectFiles,
   },
   {
-    initialRouteName: 'pageNavigation',
+    initialRouteName: 'authentication',
     headerMode: 'none',
   },
 );

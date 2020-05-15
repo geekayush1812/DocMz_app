@@ -8,6 +8,7 @@ import {
   ScrollView,
   TextInput,
   AsyncStorage,
+  Button,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icons from 'react-native-vector-icons/Ionicons';
@@ -77,6 +78,7 @@ const SignUp = props => {
   const handelCountryChange = e => {
     setData({...data, country: e});
   };
+  const handleDescriptionChange = e => {};
 
   const _save = async userData => {
     await AsyncStorage.setItem('userData', JSON.stringify(userData), () => {
@@ -226,6 +228,13 @@ const SignUp = props => {
               secureText={false}
               onChange={handelCountryChange}
             />
+            <InputBox
+              label={'Description'}
+              secureText={false}
+              onChange={handleDescriptionChange}
+              multiline
+              numberOfLines={3}
+            />
           </React.Fragment>
         )}
         <View
@@ -299,6 +308,7 @@ const HeadTextStyle = StyleSheet.create({
 });
 
 const InputBox = props => {
+  const {multiline = false, numberOfLines = 1} = props;
   return (
     <View style={InputBoxStyle.container}>
       <View style={InputBoxStyle.inputHolder}>
@@ -310,6 +320,8 @@ const InputBox = props => {
           secureTextEntry={props.secureText}
           placeholder={`Enter your ${props.label}`}
           placeholderTextColor={'#616061'}
+          multiline={multiline}
+          numberOfLines={numberOfLines}
         />
       </View>
     </View>
