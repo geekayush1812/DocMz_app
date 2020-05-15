@@ -1,22 +1,25 @@
 import React from 'react';
-import {View, StyleSheet, Text} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import { View, StyleSheet, Text, ActivityIndicator } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-function DmzButton({text, icon = false, theme, onPress, disabled, style}) {
+function DmzButton({ text, icon = false, theme, onPress, disabled, style, isLoading = false }) {
   return (
     <TouchableOpacity
       style={[Styles.Container, style ? style.Container : null]}
       disabled={disabled}
       onPress={onPress}>
       {icon ? icon : null}
-      <Text
-        style={[
-          Styles.Text,
-          {color: theme === 'dark' ? '#fff' : '#000'},
-          style ? style.Text : null,
-        ]}>
-        {text}
-      </Text>
+      {
+        isLoading ? <ActivityIndicator color="#fff"/> :
+          <Text
+            style={[
+              Styles.Text,
+              { color: theme === 'dark' ? '#fff' : '#000' },
+              style ? style.Text : null,
+            ]}>
+            {text}
+          </Text>
+      }
     </TouchableOpacity>
   );
 }

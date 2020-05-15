@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -12,10 +12,10 @@ import {
 } from 'react-native';
 import GradientTopNavBar from '../../../components/molecules/TopNavBar/GradientTopNavBar';
 import NotFound from '../../../components/organisms/NotFound/NotFound';
-import {useSelector, useDispatch} from 'react-redux';
-import {GetPatientInfo} from '../../../redux/action/patientAccountAction';
+import { useSelector, useDispatch } from 'react-redux';
+import { GetPatientInfo, GetFamilyMember, AddFamilyMember } from '../../../redux/action/patientAccountAction';
 import DmzText from '../../../components/atoms/DmzText/DmzText';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Overlay from '../../../components/atoms/Overlay/Overlay';
 import BasicCard from '../../../components/atoms/BasicCard/BasicCard';
@@ -28,18 +28,31 @@ if (Platform.OS === 'android') {
   }
 }
 
-const FamilyMember = ({navigation}) => {
-  // const { patient, isPatientAccountReducerLoading } = useSelector(
-  //   state => state.PatientAccountReducer,
-  // );
+const FamilyMember = ({ navigation }) => {
+  const { familyMember, isPatientAccountReducerLoading, patient } = useSelector(
+    state => state.PatientAccountReducer,
+  );
   const [showPopup, setShowPopup] = useState(false);
   const dispatch = useDispatch();
+  const [state, setState] = useState({
+    metaId: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    gender: '',
+    birthdate: '',
+    relationship: ''
+  })
+
 
   useEffect(() => {
     // dispatch(GetPatientInfo(patient.id));
+    !isPatientAccountReducerLoading && dispatch(GetFamilyMember(patient._id))
   }, []);
 
   const onOpenPopup = () => {
+    setState({ ...state, metaId: patient._id})
     LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
     setShowPopup(true);
   };
@@ -48,144 +61,32 @@ const FamilyMember = ({navigation}) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
     setShowPopup(false);
   };
+
+
+  const onSubmit = () => {
+
+    console.log(state)
+    dispatch(AddFamilyMember(state, () => onClosePopup()))
+
+  }
+
   return (
-    <View style={{flex: 1}}>
+
+    <ScrollView style={{ flex: 1, backgroundColor:'#fff' }}>
       <GradientTopNavBar
         navigation={navigation}
         isClap={true}
         onLeftButtonPress={() => navigation.goBack(null)}
-        headerText={'My Doctor'}
+        headerText={'Family Member'}
       />
-      {/* <Text>
-        1. list of family member
-        2. add family member then it will show a popup/model
-      </Text> */}
       <View style={Styles.FamilyCardContainer}>
-        <View style={Styles.CardContainer}>
-          <View style={Styles.ImageContainer}>
-            <Image
-              source={require('../../../assets/jpg/person1.jpg')}
-              style={Styles.Image}
-            />
-          </View>
-          <View style={Styles.DetailsContainer}>
-            <DmzText
-              text="Name"
-              type={1}
-              semi_bold
-              style={{lineHeight: 10, color: '#444'}}
-            />
-            <DmzText
-              type={0}
-              text="Relationship"
-              style={{lineHeight: 10, color: '#888'}}
-            />
-          </View>
-        </View>
-        <View style={Styles.CardContainer}>
-          <View style={Styles.ImageContainer}>
-            <Image
-              source={require('../../../assets/jpg/person1.jpg')}
-              style={Styles.Image}
-            />
-          </View>
-          <View style={Styles.DetailsContainer}>
-            <DmzText
-              text="Name"
-              type={1}
-              semi_bold
-              style={{lineHeight: 10, color: '#444'}}
-            />
-            <DmzText
-              type={0}
-              text="Relationship"
-              style={{lineHeight: 10, color: '#888'}}
-            />
-          </View>
-        </View>
-        <View style={Styles.CardContainer}>
-          <View style={Styles.ImageContainer}>
-            <Image
-              source={require('../../../assets/jpg/person1.jpg')}
-              style={Styles.Image}
-            />
-          </View>
-          <View style={Styles.DetailsContainer}>
-            <DmzText
-              text="Name"
-              type={1}
-              semi_bold
-              style={{lineHeight: 10, color: '#444'}}
-            />
-            <DmzText
-              type={0}
-              text="Relationship"
-              style={{lineHeight: 10, color: '#888'}}
-            />
-          </View>
-        </View>
-        <View style={Styles.CardContainer}>
-          <View style={Styles.ImageContainer}>
-            <Image
-              source={require('../../../assets/jpg/person1.jpg')}
-              style={Styles.Image}
-            />
-          </View>
-          <View style={Styles.DetailsContainer}>
-            <DmzText
-              text="Name"
-              type={1}
-              semi_bold
-              style={{lineHeight: 10, color: '#444'}}
-            />
-            <DmzText
-              type={0}
-              text="Relationship"
-              style={{lineHeight: 10, color: '#888'}}
-            />
-          </View>
-        </View>
-        <View style={Styles.CardContainer}>
-          <View style={Styles.ImageContainer}>
-            <Image
-              source={require('../../../assets/jpg/person1.jpg')}
-              style={Styles.Image}
-            />
-          </View>
-          <View style={Styles.DetailsContainer}>
-            <DmzText
-              text="Name"
-              type={1}
-              semi_bold
-              style={{lineHeight: 10, color: '#444'}}
-            />
-            <DmzText
-              type={0}
-              text="Relationship"
-              style={{lineHeight: 10, color: '#888'}}
-            />
-          </View>
-        </View>
-        <View style={Styles.CardContainer}>
-          <View style={Styles.ImageContainer}>
-            <Image
-              source={require('../../../assets/jpg/person1.jpg')}
-              style={Styles.Image}
-            />
-          </View>
-          <View style={Styles.DetailsContainer}>
-            <DmzText
-              text="Name"
-              type={1}
-              semi_bold
-              style={{lineHeight: 10, color: '#444'}}
-            />
-            <DmzText
-              type={0}
-              text="Relationship"
-              style={{lineHeight: 10, color: '#888'}}
-            />
-          </View>
+        <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
+          {
+            isPatientAccountReducerLoading ? <ActivityIndicator size = {20} color ={'#000'} /> : 
+            familyMember.map(({firstName, relationship}) => (
+              <Person name={firstName} relationship={relationship}/>
+            ))
+          }
         </View>
         <View style={Styles.AddButton}>
           <TouchableOpacity
@@ -202,80 +103,98 @@ const FamilyMember = ({navigation}) => {
             style={{
               CardContainer: Styles.BasicCard,
             }}>
-            <DmzText type={4} style={Styles.OverlayHeader} text="Add Member" />
-            <View style={Styles.InputContainer}>
-              <AnimInput
-                withAnim={false}
-                placeholder="First name"
-                style={{Container: Styles.AnimInputContainer}}
-                inputHandler={txt => setData({...state, email: txt})}
-              />
-            </View>
-            <View style={Styles.InputContainer}>
-              <AnimInput
-                withAnim={false}
-                placeholder="Last name"
-                style={{Container: Styles.AnimInputContainer}}
-                inputHandler={txt => setData({...state, email: txt})}
-              />
-            </View>
-            <View style={Styles.InputContainer}>
-              <AnimInput
-                withAnim={false}
-                placeholder="Email"
-                style={{Container: Styles.AnimInputContainer}}
-                inputHandler={txt => setData({...state, email: txt})}
-              />
-            </View>
-            <View style={Styles.InputContainer}>
-              <AnimInput
-                withAnim={false}
-                placeholder="phone"
-                style={{Container: Styles.AnimInputContainer}}
-                inputHandler={txt => setData({...state, email: txt})}
-              />
-            </View>
-            <View style={Styles.InputContainer}>
-              <AnimInput
-                withAnim={false}
-                placeholder="Gender"
-                style={{Container: Styles.AnimInputContainer}}
-                inputHandler={txt => setData({...state, email: txt})}
-              />
-            </View>
-            <View style={Styles.InputContainer}>
-              <AnimInput
-                withAnim={false}
-                placeholder="Birth date"
-                style={{Container: Styles.AnimInputContainer}}
-                inputHandler={txt => setData({...state, email: txt})}
-              />
-            </View>
-            <View style={Styles.InputContainer}>
-              <AnimInput
-                withAnim={false}
-                placeholder="Relationship"
-                style={{Container: Styles.AnimInputContainer}}
-                inputHandler={txt => setData({...state, email: txt})}
-              />
-            </View>
-            <DmzButton
-              onPress={onClosePopup}
-              text="Add"
-              style={{
-                Container: {
-                  alignSelf: 'center',
-                  marginTop: 30,
-                  backgroundColor: '#ff1f75',
-                  borderWidth: 0,
-                },
-                Text: {color: '#fafafa'},
-              }}
-            />
+            <ScrollView>
+              <DmzText type={4} style={Styles.OverlayHeader} text="Add Member" />
+              <View style={Styles.InputContainer}>
+                <AnimInput
+                  withAnim={false}
+                  placeholder="First name"
+                  style={{ Container: Styles.AnimInputContainer }}
+                  inputHandler={txt => setState({ ...state, firstName: txt })}
+                />
+              </View>
+              <View style={Styles.InputContainer}>
+                <AnimInput
+                  withAnim={false}
+                  placeholder="Last name"
+                  style={{ Container: Styles.AnimInputContainer }}
+                  inputHandler={txt => setState({ ...state, lastName: txt })}
+                />
+              </View>
+              <View style={Styles.InputContainer}>
+                <AnimInput
+                  withAnim={false}
+                  placeholder="Email"
+                  style={{ Container: Styles.AnimInputContainer }}
+                  inputHandler={txt => setState({ ...state, email: txt })}
+                />
+              </View>
+              <View style={Styles.InputContainer}>
+                <AnimInput
+                  withAnim={false}
+                  placeholder="phone"
+                  style={{ Container: Styles.AnimInputContainer }}
+                  inputHandler={txt => setState({ ...state, phone: txt })}
+                />
+              </View>
+              <View style={Styles.InputContainer}>
+                <AnimInput
+                  withAnim={false}
+                  placeholder="Gender"
+                  style={{ Container: Styles.AnimInputContainer }}
+                  inputHandler={txt => setState({ ...state, gender: txt })}
+                />
+              </View>
+              <View style={Styles.InputContainer}>
+                <AnimInput
+                  withAnim={false}
+                  placeholder="Birth date"
+                  style={{ Container: Styles.AnimInputContainer }}
+                  inputHandler={txt => setState({ ...state, birthdate: txt })}
+                />
+              </View>
+              <View style={Styles.InputContainer}>
+                <AnimInput
+                  withAnim={false}
+                  placeholder="Relationship"
+                  style={{ Container: Styles.AnimInputContainer }}
+                  inputHandler={txt => setState({ ...state, relationship: txt })}
+                />
+              </View>
+              <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
+                <DmzButton
+                  onPress={onClosePopup}
+                  text="Cancel"
+                  style={{
+                    Container: {
+                      alignSelf: 'center',
+                      marginTop: 30,
+                      borderColor: '#ff1f75',
+                      borderWidth: 1,
+                    },
+                    Text: { color: '#ff1f75' },
+                  }}
+                />
+                <DmzButton
+                  onPress={onSubmit}
+                  text="Add"
+                  isLoading={isPatientAccountReducerLoading}
+                  style={{
+                    Container: {
+                      alignSelf: 'center',
+                      marginTop: 30,
+                      backgroundColor: '#ff1f75',
+                      borderWidth: 0,
+                    },
+                    Text: { color: '#fafafa' },
+                  }}
+                />
+              </View>
+            </ScrollView>
           </BasicCard>
         </Overlay>
       )}
-    </View>
+    </ScrollView>
   );
 };
 
@@ -283,6 +202,7 @@ const Styles = StyleSheet.create({
   FamilyCardContainer: {
     flex: 1,
     backgroundColor: '#fff',
+    display: 'flex',
     flexWrap: 'wrap',
     padding: 10,
     flexDirection: 'row',
@@ -296,7 +216,7 @@ const Styles = StyleSheet.create({
     borderRadius: 10,
     margin: 10,
   },
-  ImageContainer: {height: '80%', width: '100%'},
+  ImageContainer: { height: '80%', width: '100%' },
   Image: {
     height: '100%',
     width: '100%',
@@ -340,7 +260,7 @@ const Styles = StyleSheet.create({
     marginRight: 'auto',
     color: '#ff1f75',
   },
-  Overlay: {justifyContent: 'center', alignItems: 'center'},
+  Overlay: { justifyContent: 'center', alignItems: 'center' },
   InputContainer: {
     backgroundColor: '#f4f4f4',
     borderRadius: 10,
@@ -348,6 +268,33 @@ const Styles = StyleSheet.create({
     marginLeft: 25,
     marginRight: 25,
   },
-  AnimInputContainer: {borderBottomWidth: 0, height: 40},
+  AnimInputContainer: { borderBottomWidth: 0, height: 40 },
 });
+
+
+const Person = ({ name, relationship }) => (
+  <View style={Styles.CardContainer}>
+    <View style={Styles.ImageContainer}>
+      <Image
+        source={require('../../../assets/jpg/person1.jpg')}
+        style={Styles.Image}
+      />
+    </View>
+    <View style={Styles.DetailsContainer}>
+      <DmzText
+        text={name}
+        type={1}
+        semi_bold
+        style={{ lineHeight: 10, color: '#444' }}
+      />
+      <DmzText
+        type={0}
+        text={relationship}
+        style={{ lineHeight: 10, color: '#888' }}
+      />
+    </View>
+  </View>
+)
+
+
 export default FamilyMember;
