@@ -25,6 +25,12 @@ const Navigation = [
   },
   {
     active: true,
+    name: 'Family Member',
+    icon: 'user',
+    navigateTo: 'FamilyMember',
+  },
+  {
+    active: true,
     name: 'Nested',
     icon: 'book',
     // navigateTo: 'Appointments',
@@ -92,12 +98,12 @@ const Navigation = [
     icon: 'help-rhombus-outlin',
     navigateTo: 'Help',
   },
-  {
-    active: true,
-    name: 'Are you doctor ?',
-    icon: 'doctor',
-    navigateTo: '',
-  },
+  // {
+  //   active: true,
+  //   name: 'Are you doctor ?',
+  //   icon: 'doctor',
+  //   navigateTo: '',
+  // },
 ];
 
 const Custom = ({
@@ -240,6 +246,15 @@ const Custom = ({
           goto={() => _logout()}
           activeItemKey={activeItemKey}
           navigateTo={'logout'}
+        />
+        <Option
+          key={'Are you doctor ?'}
+          active={!isLogedin}
+          name={'Are you doctor ?'}
+          icon={'doctor'}
+          goto={() => navigation.navigate('loginScreen', {loginAs : 'doctor'})}
+          activeItemKey={activeItemKey}
+          navigateTo={'loginScreen'}
         />
       </View>
     </ScrollView>

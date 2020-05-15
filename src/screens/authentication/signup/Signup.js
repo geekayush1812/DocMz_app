@@ -10,6 +10,7 @@ import {
   AsyncStorage,
   Button,
   PermissionsAndroid,
+  ActivityIndicator,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icons from 'react-native-vector-icons/Ionicons';
@@ -39,6 +40,8 @@ const SignUp = props => {
   });
   const [loading, setLoading] = useState(true);
   const [isDoctor, setDoctor] = useState(false);
+  const { signupAs } = props.navigation.state.params
+
 
   const onChoosePicture = async () => {
     const options = {
@@ -182,11 +185,11 @@ const SignUp = props => {
 
   const handelDoctorSubmit = () => {
     console.log('DOctor submit.');
-    
+
   };
 
   return loading ? (
-    <Text>Loading..</Text>
+    <ActivityIndicator/>
   ) : (
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -201,7 +204,7 @@ const SignUp = props => {
           />
           <HeadText
             headmsg={'Create Account,'}
-            subMsg={'Sign up as!'}
+            subMsg={'Sign up as ' + signupAs}
             onTougle={handelSignupMode}
           />
           <InputBox
