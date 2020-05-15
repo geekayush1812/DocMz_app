@@ -9,7 +9,7 @@ const AuthNavigation = createStackNavigator(
     signupScreen: Signup,
   },
   {
-    initialRouteName: 'signupScreen',
+    initialRouteName: 'loginScreen',
     headerMode: 'none',
   },
 );

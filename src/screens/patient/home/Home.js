@@ -166,7 +166,7 @@ const Home = ({navigation}) => {
           navigation={navigation}
           style={{
             Container: {height: '35%'},
-            ChildContainer: {alignItems: 'center'},
+            ChildContainer: {alignItems: 'center', marginTop: '-10%'},
           }}>
           <DmzText
             text={'Find a doctor'}
