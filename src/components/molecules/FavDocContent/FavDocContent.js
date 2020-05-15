@@ -1,10 +1,9 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import DmzText from '../../atoms/DmzText/DmzText';
-import DmzButton from '../../atoms/DmzButton/DmzButton';
 import RatingStars from '../../atoms/ratingStars/RatingStarts';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
-function AvailDoctorContent({
+function FavDocContent({
   Profile,
   DoctorName,
   rating,
@@ -17,24 +16,22 @@ function AvailDoctorContent({
   return (
     <>
       <TouchableOpacity
-        style={CardContentStyles.AvailableDoctorsCardContent}
-        onPress={() => navigation.navigate('docPatientStrem', {data: data})}>
+        style={CardContentStyles.FavDocCardContent}
+        // onPress={() => navigation.navigate('docPatientStrem', {data: data})}
+      >
         {Profile}
-        <View style={CardContentStyles.AvailableDoctorsDetails}>
-          <View style={CardContentStyles.AvailableDoctorsNameContainer}>
-            <DmzText
-              text={DoctorName}
-              style={CardContentStyles.AvailableDoctorsName}
-            />
+        <View style={CardContentStyles.FavDocDetails}>
+          <View style={CardContentStyles.FavDocNameContainer}>
+            <DmzText text={DoctorName} style={CardContentStyles.FavDocName} />
             <RatingStars rating={rating} />
           </View>
           <DmzText
             text={Specialization}
-            style={CardContentStyles.AvailableDoctorsSpecialization}
+            style={CardContentStyles.FavDocSpecialization}
           />
 
           {/* can be made as molecule and touchable if needed */}
-          <View style={CardContentStyles.AvailableDoctorsAvailableTimes}>
+          <View style={CardContentStyles.FavDocAvailableTimes}>
             {schedule
               .filter(
                 item =>
@@ -45,13 +42,13 @@ function AvailDoctorContent({
               .map(item => (
                 <DmzText
                   text={item.bookedFor.slice(11, 16)}
-                  style={CardContentStyles.AvailableDoctorsAvailableTime}
+                  style={CardContentStyles.FavDocAvailableTime}
                 />
               ))}
             {/* <DmzText
               text={'11:00'}
               style={{
-                ...CardContentStyles.AvailableDoctorsAvailableTime,
+                ...CardContentStyles.FavDocAvailableTime,
                 backgroundColor: 'rgba(255,255,255,0)',
                 fontWeight: '600',
               }}
@@ -59,7 +56,7 @@ function AvailDoctorContent({
             <DmzText
               text={'16:00'}
               style={{
-                ...CardContentStyles.AvailableDoctorsAvailableTime,
+                ...CardContentStyles.FavDocAvailableTime,
                 backgroundColor: 'rgba(255,255,255,0)',
                 fontWeight: '600',
               }}
@@ -67,41 +64,41 @@ function AvailDoctorContent({
           </View>
         </View>
       </TouchableOpacity>
-      <View style={CardContentStyles.AvailableDoctorsContinueButton}>
+      <View style={CardContentStyles.FavDocRemoveButton}>
         <TouchableOpacity onPress={onPress} style={{zIndex: 2000}}>
-          <FontAwesomeIcon name="arrow-right" size={18} color="#555" />
+          <FontAwesomeIcon name="remove" size={18} color="#555" />
         </TouchableOpacity>
       </View>
     </>
   );
 }
 const CardContentStyles = StyleSheet.create({
-  AvailableDoctorsCardContent: {
+  FavDocCardContent: {
     flexDirection: 'row',
     alignItems: 'center',
   },
-  AvailableDoctorsDetails: {
+  FavDocDetails: {
     marginLeft: 10,
   },
-  AvailableDoctorsNameContainer: {
+  FavDocNameContainer: {
     flexDirection: 'row',
     alignItems: 'center',
   },
-  AvailableDoctorsName: {
+  FavDocName: {
     fontSize: 16,
     fontWeight: 'bold',
     color: '#444',
   },
-  AvailableDoctorsSpecialization: {
+  FavDocSpecialization: {
     color: '#666',
   },
-  AvailableDoctorsAvailableTimes: {
+  FavDocAvailableTimes: {
     flexDirection: 'row',
     flex: 1,
     justifyContent: 'space-between',
     marginTop: 5,
   },
-  AvailableDoctorsAvailableTime: {
+  FavDocAvailableTime: {
     backgroundColor: '#F4C130',
     padding: 1,
     paddingLeft: 10,
@@ -111,7 +108,7 @@ const CardContentStyles = StyleSheet.create({
     color: '#555',
     marginRight: 10,
   },
-  AvailableDoctorsContinueButton: {
+  FavDocRemoveButton: {
     backgroundColor: '#F4C130',
     position: 'absolute',
     bottom: 0,
@@ -125,4 +122,4 @@ const CardContentStyles = StyleSheet.create({
   },
 });
 
-export default AvailDoctorContent;
+export default FavDocContent;
