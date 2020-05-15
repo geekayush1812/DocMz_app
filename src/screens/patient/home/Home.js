@@ -108,6 +108,7 @@ const Home = ({navigation}) => {
   const [page, setPage] = useState(0);
   const [toggle, setToggle] = useState(0);
   const [disEnd, setDisEnd] = useState(0);
+  const [trigger, setTrigger] = useState(true)
   var __id = '';
 
   useEffect(() => {
@@ -136,16 +137,30 @@ const Home = ({navigation}) => {
 
   const fetchMore = e => {
     console.log(`reached end ${e.distanceFromEnd}`);
-    setDisEnd(e.distanceFromEnd);
+    setDisEnd(disEnd + e.distanceFromEnd);
     setPage(page + 1);
   };
-  const onScroll = ({nativeEvent}) => {
-    console.log(`content y offset ${nativeEvent.contentOffset.y}===${disEnd}`);
+
+  const onScroll = () => {
+    // console.log(`content y offset ${nativeEvent.contentOffset.y}===${disEnd}`);
     // console.log(disEnd);
-    if (nativeEvent.contentOffset.y === disEnd) {
+    // if (nativeEvent.contentOffset.y >= disEnd && nativeEvent.contentOffset.y < disEnd + 5) {
+      let val = page + 1
       dispatch(fetchMoreDoctorLite(page, false));
-    }
+      setPage(val)
+    // }
   };
+
+  /**
+   * ok ---
+   */
+
+  const fetch = () => {
+    let val = page + 1
+      dispatch(fetchMoreDoctorLite(page, false));
+      setPage(val)
+  }
+
   const onEndEditing = ({nativeEvent}) => {
     console.log('ended');
     dispatch(searchDoctors(searchKey, 0));
@@ -219,8 +234,14 @@ const Home = ({navigation}) => {
             ) : !toggle ? (
               <FlatList
                 initialNumToRender={5}
-                onEndReached={fetchMore}
-                onScroll={onScroll}
+                onMomentumScrollBegin={() => setTrigger(false)}
+                onEndReached={({ distanceFromEnd }) => {
+                  if(!trigger){
+                      fetch()
+                      setTrigger(true)
+                  }
+              }}
+                // onScroll={onScroll}
                 ListEmptyComponent={
                   <View
                     style={{
