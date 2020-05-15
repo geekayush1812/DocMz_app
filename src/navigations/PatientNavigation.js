@@ -24,7 +24,7 @@ import DocProfileLite from '../screens/patient/docProfileLite/DocProfileLite';
 import AppointmentForm from '../screens/patient/appointmentForm/AppointmentForm';
 import ConfirmAppointment from '../components/molecules/ConfirmAppointment/ConfirmAppointment';
 import BookingDetails from '../screens/patient/questionnaire/BookingDetails';
-import FamilyMember from '../screens/patient/familyMember/FamilyMember'
+import FamilyMember from '../screens/patient/familyMember/FamilyMember';
 
 // const PatientBottomNavigation = createSwitchNavigator(
 //   {
@@ -98,7 +98,6 @@ const PatientNavigation = createDrawerNavigator(
     AppSettings,
     NotFound,
     FamilyMember,
-
   },
   {
     drawerPosition: 'right',
