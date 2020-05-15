@@ -89,10 +89,11 @@ export const resetStore = () => {
 
 export const LoginPatient = (data, success, faild) => {
 
-    return async dispatch => {
+    return dispatch => {
 
         // setup loading screen
         dispatch(startLoading())
+        console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
 
         // setting header 
         const config = {
@@ -101,7 +102,7 @@ export const LoginPatient = (data, success, faild) => {
 
         console.log(data)
 
-        await axios
+        axios
             .post(`${Host}/patient/authenticate`, data, config)
             .then((result) => {
                 console.log(result.data)
@@ -136,17 +137,18 @@ export const LoginPatient = (data, success, faild) => {
 
 export const LoginDoctor = (data, success, faild) => {
 
-    return async dispatch => {
+    return  dispatch => {
 
+        console.log('poooo////////////*****************//////////////')
         // setup loading screen
-        await dispatch(startLoading())
+        dispatch(startLoading())
 
         // setting header 
         const config = {
             'Content-Type': 'application/json',
         };
 
-        await axios
+        axios
             .post(`${Host}/doctors/authenticate`, data, config)
             .then((result) => {
                 if (result.data.status) {

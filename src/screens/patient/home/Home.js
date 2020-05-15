@@ -112,11 +112,11 @@ const Home = ({navigation}) => {
   var __id = '';
 
   useEffect(() => {
-    console.log(
-      '--------------------------------Home----------------------------',
-      data,
-    );
-    console.log(activeId);
+    //console.log(
+    //   '--------------------------------Home----------------------------',
+    //   data,
+    // );
+    //console.log(activeId);
     dispatch(fetchDoctorLite('', 0, false));
     dispatch(GetPatientInfo(data.id));
   }, []);
@@ -136,14 +136,14 @@ const Home = ({navigation}) => {
   };
 
   const fetchMore = e => {
-    console.log(`reached end ${e.distanceFromEnd}`);
+    //console.log(`reached end ${e.distanceFromEnd}`);
     setDisEnd(disEnd + e.distanceFromEnd);
     setPage(page + 1);
   };
 
   const onScroll = () => {
-    // console.log(`content y offset ${nativeEvent.contentOffset.y}===${disEnd}`);
-    // console.log(disEnd);
+    // //console.log(`content y offset ${nativeEvent.contentOffset.y}===${disEnd}`);
+    // //console.log(disEnd);
     // if (nativeEvent.contentOffset.y >= disEnd && nativeEvent.contentOffset.y < disEnd + 5) {
       let val = page + 1
       dispatch(fetchMoreDoctorLite(page, false));
@@ -162,7 +162,7 @@ const Home = ({navigation}) => {
   }
 
   const onEndEditing = ({nativeEvent}) => {
-    console.log('ended');
+    //console.log('ended');
     dispatch(searchDoctors(searchKey, 0));
   };
   const onChangeText = text => {
@@ -385,13 +385,13 @@ export default Home;
 
 //   useEffect(() => {
 //     // (isDoctor && isLogedin) && props.navigation.navigate('Doctor')
-//     // console.log(` isDoctor: ${isDoctor} and isLogedin: ${isLogedin}`)
+//     // //console.log(` isDoctor: ${isDoctor} and isLogedin: ${isLogedin}`)
 
 //     enableSomeButton();
 //   }, []);
 
 //   const handelSearchInput = _text => {
-//     console.log(_text);
+//     //console.log(_text);
 //     setSearch(_text);
 //   };
 
@@ -406,7 +406,7 @@ export default Home;
 //   };
 
 //   const _fetch = () => {
-//     console.log('ennnnnd');
+//     //console.log('ennnnnd');
 //   };
 
 //   function enableSomeButton() {
@@ -590,7 +590,7 @@ export default Home;
 //                 initialNumToRender="3"
 //                 data={doctors.doctors}
 //                 renderItem={(item, index) => {
-//                   console.log(item.index);
+//                   //console.log(item.index);
 //                   return (
 //                     // <DoctorOption
 //                     //       name={item.item.basic.name}

@@ -8,7 +8,7 @@ import {
   ScrollView,
   TextInput,
   ActivityIndicator,
-  Animated, useWindowDimensions, Easing
+  Animated, useWindowDimensions, Easing, SafeAreaView
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import DmzText from '../../../components/atoms/DmzText/DmzText';
@@ -16,6 +16,12 @@ import AnimInput from '../../../components/molecules/AnimInput/AnimInput';
 import GoogleIcon from '../../../assets/svg/google.svg';
 import FacebookIcon from '../../../assets/svg/facebook.svg';
 import ExpandableButton from '../../../components/organisms/ExpandableButton/ExpandableButton';
+
+import { LoginDoctor, LoginPatient } from '../../../redux/action/auth';
+import { _LoginPatient } from '../../../redux/action/authAction';
+import LoadingButton from '../../../components/atoms/LoadingButton/LoadingButton';
+
+
 function DmzLogin(props) {
 
   const { loginAs = 'patient' } = props.navigation.state.params
@@ -31,33 +37,52 @@ function DmzLogin(props) {
   const [heightOffset, setHeightOffset] = useState(0);
   const opacity = useRef(new Animated.Value(0)).current;
 
-
-  const handelEmailInput = e => {
-    console.log(e);
-    setData({ ...data, email: e });
-  };
-
-  const handelPasswordInput = e => {
-    setData({ ...data, password: e });
-  };
-
   const onLayout = props => {
     if (heightOffset !== props.nativeEvent.layout.y)
       setHeightOffset(props.nativeEvent.layout.y);
   };
+
+
+  const successCallback = successResponce => {
+    // console.log(`PatientLoginAction(success):  ${successResponce.message}`);
+    // console.log(authData);
+    // dispatch(GetPatientInfo())
+    isDoctor
+      ? props.navigation.navigate('pageNavigation')
+      : props.navigation.goBack(null);
+    // props.navigation.navigate('pageNavigation', {}, NavigationActions.navigate({routeName: 'patientHomePage'}));
+  };
+
+  const errorCallback = faildResponce => {
+    console.log(`PatientLoginAction(error):  ${faildResponce.message}`);
+  };
+
+  const _handelPatientLogin = () => {
+    console.log(data);
+    dispatch(LoginPatient(data, successCallback, errorCallback));
+  };
+
+  const _handelDoctorLogin = () => {
+    console.log(data);
+    dispatch(LoginDoctor(data, successCallback, errorCallback));
+  };
+
   const onPress = callback => {
-    Animated.timing(opacity, {
-      toValue: 1,
-      duration: 1000,
-      delay: 200,
-      easing: Easing.in(),
-      useNativeDriver: false,
-    }).start(() => {
-      callback();
-    });
+
+    loginAs === 'doctor' ? _handelDoctorLogin() : _handelPatientLogin()
+
+    // Animated.timing(opacity, {
+    //   toValue: 1,
+    //   duration: 1000,
+    //   delay: 200,
+    //   easing: Easing.in(),
+    //   useNativeDriver: false,
+    // }).start(() => {
+    //   callback();
+    // });
   };
   return (
-    <View style={{ flex: 1, backgroundColor: '#fff' }}>
+    <ScrollView style={{ paddingTop: '25%', backgroundColor: '#fff' }}>
       <Animated.View
         style={{
           flex: 3,
@@ -107,7 +132,7 @@ function DmzLogin(props) {
             withAnim={false}
             placeholder="Email"
             style={{ Container: { borderBottomWidth: 0 } }}
-            inputHandler={txt => setData({...state, email: txt})}
+            inputHandler={txt => setData({ ...data, email: txt })}
           />
         </Animated.View>
 
@@ -126,11 +151,11 @@ function DmzLogin(props) {
           <AnimInput
             withAnim={false}
             placeholder="Password"
-            style={{ Container: { borderBottomWidth: 0 }, input: { backgroundColor: 'pink'} }}
-            inputHandler={txt => setData({...state, password: txt})}
+            style={{ Container: { borderBottomWidth: 0 }, input: { backgroundColor: 'pink' } }}
+            inputHandler={txt => setData({ ...data, password: txt })}
           />
         </Animated.View>
-        <ExpandableButton
+        {/* <ExpandableButton
           width={screenWidth * 0.8}
           height={52}
           expandedHeight={screenHeight * 0.8}
@@ -149,7 +174,9 @@ function DmzLogin(props) {
               }}
             />
           }
-        />
+        /> */}
+
+        <LoadingButton isLoading={authData.isLoading} onClick={() => loginAs === 'doctor' ? _handelDoctorLogin() : _handelPatientLogin()} />
 
         <DmzText
           text="Forgot Password?"
@@ -201,7 +228,7 @@ function DmzLogin(props) {
           </TouchableOpacity>
         </View>
       </Animated.View>
-    </View>
+    </ScrollView>
   );
 }
 
