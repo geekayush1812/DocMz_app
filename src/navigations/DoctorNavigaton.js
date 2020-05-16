@@ -15,6 +15,7 @@ import ForgotPassword from '../screens/examples/ForgetPassword/ForgotPassword';
 import VerticalSlider from '../screens/examples/VerticalSlider/VerticalSlider';
 import DmzLogin from '../screens/examples/DmzLogin/DmzLogin';
 import Expandable from '../screens/examples/Expandable/Expandable';
+import Profile from '../screens/examples/Profile/Profile';
 // import Login from '../screens/examples/Login/Login';
 // import FallBg from '../screens/examples/FallBg/FallBg';
 const DoctorNavigation = createStackNavigator(
@@ -33,7 +34,8 @@ const DoctorNavigation = createStackNavigator(
     // testing: Collapsible,
     // testing: Payments,
     // testing: Medication,
-    testing: AtomExample,
+    // testing: AtomExample,
+    testing: Profile,
   },
   {
     initialRouteName: 'testing',
