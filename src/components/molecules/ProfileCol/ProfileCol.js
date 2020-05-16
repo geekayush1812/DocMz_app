@@ -2,10 +2,11 @@ import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import ProfilePic from '../../atoms/ProfilePic/ProfilePic';
 import DmzText from '../../atoms/DmzText/DmzText';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-function Profile({sourceurl, ProfileName, ProfileEmail, style}) {
+function Profile({sourceurl, ProfileName, ProfileEmail, onPress}) {
   return (
-    <View style={[Styles.Container, {marginRight: 20}]}>
+    <TouchableOpacity style={[Styles.Container, {marginRight: 20}]} onPress={() => onPress()} >
       <ProfilePic
         sourceurl={sourceurl}
         style={{Container: Styles.ProfilePic, Image: {borderRadius: 15}}}
@@ -14,7 +15,7 @@ function Profile({sourceurl, ProfileName, ProfileEmail, style}) {
         <DmzText text={ProfileName} style={Styles.ProfileInfoTextPrimary} />
         <DmzText text={ProfileEmail} style={Styles.ProfileInfoTextSecondary} />
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 

@@ -35,7 +35,8 @@ function DocProfileLite({navigation}) {
       console.log('>> authentication.');
       navigation.navigate('authentication', {loginAs: 'patient'});
     } else {
-      navigation.navigate('ConfirmAppointment', {data: data});
+      // navigation.navigate('ConfirmAppointment', {data: data});
+      navigation.navigate('question', {data: data});
     }
   };
 
