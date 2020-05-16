@@ -66,11 +66,11 @@ import {
 // import { OptimizedFlatList } from 'react-native-optimized-flatlist'
 import DmzText from '../../../components/atoms/DmzText/DmzText';
 import ToggleButton from '../../../components/molecules/ToggleButton/ToggleButton';
+import DmzSearchbar from '../../../components/molecules/DmzSeachbar/DmzSearchbar';
+import Section from '../../../components/molecules/Section/Section';
+import AvailDoctorContainer from '../../../components/molecules/AvailDoctorContainer/AvailDoctorContainer';
 import FancyHeader from '../../../components/organisms/FancyHeader/FancyHeader';
 import Container from '../../../components/organisms/Container/Container';
-import DmzSearchbar from '../../../components/molecules/DmzSeachbar/DmzSearchbar';
-import AvailDoctorContainer from '../../../components/molecules/AvailDoctorContainer/AvailDoctorContainer';
-import Section from '../../../components/molecules/Section/Section';
 import ScheduleAppointment from '../../../components/organisms/ScheduleAppointment/ScheduleAppointment';
 import BottomNavigationComponent from '../../../components/old/BottomNavigation/BottomNavigation.component';
 import {useDispatch, useSelector} from 'react-redux';
@@ -108,7 +108,7 @@ const Home = ({navigation}) => {
   const [page, setPage] = useState(0);
   const [toggle, setToggle] = useState(0);
   const [disEnd, setDisEnd] = useState(0);
-  const [trigger, setTrigger] = useState(true)
+  const [trigger, setTrigger] = useState(true);
   var __id = '';
 
   useEffect(() => {
@@ -145,9 +145,9 @@ const Home = ({navigation}) => {
     // //console.log(`content y offset ${nativeEvent.contentOffset.y}===${disEnd}`);
     // //console.log(disEnd);
     // if (nativeEvent.contentOffset.y >= disEnd && nativeEvent.contentOffset.y < disEnd + 5) {
-      let val = page + 1
-      dispatch(fetchMoreDoctorLite(page, false));
-      setPage(val)
+    let val = page + 1;
+    dispatch(fetchMoreDoctorLite(page, false));
+    setPage(val);
     // }
   };
 
@@ -156,10 +156,10 @@ const Home = ({navigation}) => {
    */
 
   const fetch = () => {
-    let val = page + 1
-      dispatch(fetchMoreDoctorLite(page, false));
-      setPage(val)
-  }
+    let val = page + 1;
+    dispatch(fetchMoreDoctorLite(page, false));
+    setPage(val);
+  };
 
   const onEndEditing = ({nativeEvent}) => {
     //console.log('ended');
@@ -235,12 +235,12 @@ const Home = ({navigation}) => {
               <FlatList
                 initialNumToRender={5}
                 onMomentumScrollBegin={() => setTrigger(false)}
-                onEndReached={({ distanceFromEnd }) => {
-                  if(!trigger){
-                      fetch()
-                      setTrigger(true)
+                onEndReached={({distanceFromEnd}) => {
+                  if (!trigger) {
+                    fetch();
+                    setTrigger(true);
                   }
-              }}
+                }}
                 // onScroll={onScroll}
                 ListEmptyComponent={
                   <View

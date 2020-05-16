@@ -11,6 +11,7 @@ import {
   Animated,
   useWindowDimensions,
   Easing,
+  PermissionsAndroid,
   SafeAreaView,
 } from 'react-native';
 import Toast from 'react-native-root-toast';
@@ -21,6 +22,7 @@ import GoogleIcon from '../../../assets/svg/google.svg';
 import FacebookIcon from '../../../assets/svg/facebook.svg';
 // import ExpandableButton from '../../../components/organisms/ExpandableButton/ExpandableButton';
 
+import ImagePicker from 'react-native-image-picker';
 import LoadingButton from '../../../components/atoms/LoadingButton/LoadingButton';
 
 function DmzLogin(props) {
@@ -39,6 +41,7 @@ function DmzLogin(props) {
     appointmentsString: '',
     phone: '',
     referralId: '',
+    imagePath: '',
   });
   const [loading, setLoading] = useState(true);
   const [isDoctor, setDoctor] = useState(false);
@@ -48,6 +51,62 @@ function DmzLogin(props) {
   const screenHeight = Dimen.height;
   const [heightOffset, setHeightOffset] = useState(0);
   const opacity = useRef(new Animated.Value(0)).current;
+
+  const onChoosePicture = async () => {
+    const options = {
+      title: 'Select Avatar',
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    const granted = await PermissionsAndroid.check(
+      PermissionsAndroid.PERMISSIONS.CAMERA,
+    );
+    console.log(granted);
+    if (granted) {
+      PickImage();
+    } else {
+      askPermission();
+    }
+  };
+  const askPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+        {
+          title: 'Camera Permission',
+          message: 'DocMz needs access to your camera ',
+          buttonNeutral: 'Ask Me Later',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK',
+        },
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        PickImage();
+      } else {
+        console.log('Camera permission denied');
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+
+  const PickImage = () => {
+    ImagePicker.showImagePicker(options, response => {
+      // console.log('Response = ', response);
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else {
+        // const source = {uri: response.uri};
+        // console.log(source);
+        const path = response.fileName;
+        setData({...data, imagePath: path});
+      }
+    });
+  };
 
   const onLayout = props => {
     if (heightOffset !== props.nativeEvent.layout.y)
@@ -349,7 +408,22 @@ function DmzLogin(props) {
             inputHandler={txt => setData({...data, referralId: txt})}
           />
         </Animated.View>
-
+        <View
+          style={{
+            backgroundColor: '#f5f5f5',
+            padding: 10,
+            borderRadius: 10,
+            marginLeft: 25,
+            marginRight: 25,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}>
+          <TouchableOpacity onPress={onChoosePicture}>
+            <Text>{!data.imagePath ? 'Upload picture' : 'Picture path'}</Text>
+          </TouchableOpacity>
+          <Text>{data.imagePath}</Text>
+        </View>
         {/* <ExpandableButton
           width={screenWidth * 0.8}
           height={52}
