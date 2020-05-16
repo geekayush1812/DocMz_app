@@ -10,7 +10,7 @@ import ConfirmAppointment from '../components/molecules/ConfirmAppointment/Confi
 import BookingDetails from '../screens/patient/questionnaire/BookingDetails';
 import NewQuestionnaire from '../screens/patient/questionnaire/NewQuestionnaire';
 import SelectFiles from '../screens/patient/questionnaire/SelectFiles';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 
 // check for login status
 const isDoctorLogin = false;

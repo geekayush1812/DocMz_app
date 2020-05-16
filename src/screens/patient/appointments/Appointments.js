@@ -14,6 +14,7 @@ import GradientTopNavBar from '../../../components/molecules/TopNavBar/GradientT
 import { useSelector, useDispatch } from 'react-redux';
 import { GetPatientInfo } from '../../../redux/action/patientAccountAction';
 import TimelineContainer from '../../../components/molecules/TimelineContainer/TimelineContainer';
+import ProfilePic from '../../../components/atoms/ProfilePic/ProfilePic';
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -45,46 +46,42 @@ const Appointments = ({ navigation }) => {
       ) : patient.favourites.length <= 0 ? (
         <NotFound />
       ) : (
-            isPatientAccountReducerLoading ? <ActivityIndicator /> :
-              <FlatList
-                style={{ backgroundColor: '#fff' }}
-                onEndReached={() => console.log('rech end.......')}
-                data={patient.appointments}
-                // data={[1, 2, 3, 4, 5, 6, 7, 8, 9]}
-                renderItem={({ item }) => (
-                  <TimelineContainer
-                    PatientName={item.doctor.basic.first_name}
-                    Timing={item.bookedFor.slice(11, 16)}
-                    onPress={() => {
-                      LayoutAnimation.configureNext(
-                        LayoutAnimation.Presets.easeInEaseOut,
-                      );
-                      setTimeline(item);
-                    }}
-                    Age={'21'}
-                    Disease={'Headache'}
-                    Profile
-                    active={item === timeline}
-                  />
-                )}
-              />
-          )}
+            <FlatList
+              style={{ backgroundColor: '#fff' }}
+              onEndReached={() => console.log('rech end.......')}
+              data={patient.appointments}
+              // data={[1, 2, 3, 4, 5, 6, 7, 8, 9]}
+              renderItem={({ item }) => (
+                <TimelineContainer
+                  PatientName={item.doctor.basic.first_name}
+                  Timing={item.bookedFor.slice(11, 16)}
+                  onPress={() => {
+                    LayoutAnimation.configureNext(
+                      LayoutAnimation.Presets.easeInEaseOut,
+                    );
+                    setTimeline(item);
+                  }}
+                  Age={'21'}
+                  Disease={'Headache'}
+                  Profile={
+                    <ProfilePic
+                      style={{
+                        Container: { borderRadius: 100 },
+                        Image: { borderRadius: 100 },
+                      }}
+                      sourceurl={require('../../../assets/jpg/person3.jpg')}
+                    />
+                  }
+                  active={item === timeline}
+                />
+              )}
+            />)
+      }
     </View>
   );
 };
 
 export default Appointments;
-
-
-
-
-
-
-
-
-
-
-
 
 /**
  *

@@ -33,7 +33,7 @@ function TimelineContent({
       {active === true ? (
         <DmzButton
           onPress={onPressContinue}
-          icon={<FontAwesomeIcon name="arrow-right" size={18} color="#555" />}
+          icon={<FontAwesomeIcon name="remove" size={18} color="#555" />}
           style={{Container: Styles.TimelineContinueButton}}
         />
       ) : null}

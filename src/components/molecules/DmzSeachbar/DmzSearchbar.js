@@ -38,6 +38,7 @@ const Styles = StyleSheet.create({
     padding: 2,
     marginBottom: 20,
     marginTop: 20,
+    position: 'relative',
   },
   ContainerLeftWrapper: {
     flex: 6,

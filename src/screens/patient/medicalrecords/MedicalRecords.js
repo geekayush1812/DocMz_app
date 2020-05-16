@@ -18,7 +18,7 @@
 
 // export default MedicalRecords
 
-import React from 'react';
+import React, {useState} from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 import GradientTopNavBar from '../../../components/molecules/TopNavBar/GradientTopNavBar';
 import ProfilePic from '../../../components/atoms/ProfilePic/ProfilePic';
@@ -38,7 +38,13 @@ import IconsRow from '../../../components/atoms/IconsRow/IconsRow';
 import Dot from '../../../components/atoms/ToggleDot/ToggleDot';
 import VerticleText from '../../../components/atoms/VerticalText/VerticalText';
 import Counter from '../../../components/molecules/Counter/Counter';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 function MedicalRecords() {
+  const [showAddRecord, setShowAddRecord] = useState(false);
+  const [review, setReview] = useState(false);
+  const onPress = () => {
+    setShowAddRecord(true);
+  };
   return (
     <View style={Styles.Container}>
       <GradientTopNavBar
@@ -66,109 +72,119 @@ function MedicalRecords() {
           gap_medium
         />
 
+        {!showAddRecord && <DmzSearchbar placeholder="search medicine" />}
         {/* when list of medication isn't */}
 
-        {/* <View style={Styles.AddNewContainer}>
+        <View style={Styles.AddNewContainer}>
           <DmzText type={2} normal gap_small text="Add a new medication" />
-          <SimpleIcon name="plus" color={'blue'} size={12} />
-        </View> */}
+          <TouchableOpacity onPress={onPress}>
+            <SimpleIcon name="plus" color={'blue'} size={12} />
+          </TouchableOpacity>
+        </View>
 
         {/* review list */}
-        {/* <DmzSearchbar />
-        <LinkedComponent linkColor={'#F4C130'}>
-          <AnimInput placeholder="medical" />
-        </LinkedComponent>
-        <LinkedComponent type={2} linkColor={'#F4C130'}>
-          <AnimInput placeholder="medical" />
-        </LinkedComponent>
-        <LinkedComponent type={2} linkColor={'#F4C130'}>
-          <AnimInput placeholder="medical" />
-        </LinkedComponent>
-        <LinkedComponent type={0} linkColor={'#F4C130'}>
-          <AnimInput placeholder="medical" />
-        </LinkedComponent>
+        {review && (
+          <View>
+            <LinkedComponent linkColor={'#F4C130'}>
+              <AnimInput placeholder="medical" />
+            </LinkedComponent>
+            <LinkedComponent type={2} linkColor={'#F4C130'}>
+              <AnimInput placeholder="medical" />
+            </LinkedComponent>
+            <LinkedComponent type={2} linkColor={'#F4C130'}>
+              <AnimInput placeholder="medical" />
+            </LinkedComponent>
+            <LinkedComponent type={0} linkColor={'#F4C130'}>
+              <AnimInput placeholder="medical" />
+            </LinkedComponent>
 
-        <DmzButton
-          text="Save"
-          style={{
-            Container: {
-              backgroundColor: Colors.header_grad_two,
-              height: 30,
-              borderRadius: 40,
-              alignSelf: 'center',
-              marginTop: 40,
-            },
-            Text: {
-              color: '#f1f1f1',
-            },
-          }}
-        /> */}
+            <DmzButton
+              text="Save"
+              style={{
+                Container: {
+                  backgroundColor: Colors.header_grad_two,
+                  height: 30,
+                  borderRadius: 40,
+                  alignSelf: 'center',
+                  marginTop: 40,
+                },
+                Text: {
+                  color: '#f1f1f1',
+                },
+              }}
+            />
+          </View>
+        )}
       </View>
-      {/* <Overlay
-        style={{
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-        <BasicCard
+      {showAddRecord && (
+        <Overlay
           style={{
-            CardContainer: {
-              width: '80%',
-              marginRight: null,
-              height: '70%',
-              justifyContent: null,
-              alignItems: null,
-              padding: 20,
-            },
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 9999,
           }}>
-          <DmzText
-            lite
-            gap_small
-            text="Dose Appearance"
-            style={{color: '#777'}}
-          />
-          <IconsRow
-            Icon={<FontAwesome name="heart" size={20} color="#ccc" />}
-            number={6}
-          />
-          <View style={Styles.ColorContainer}>
-            <View style={{flex: 1}}>
-              <DmzText lite gap_small text="Colors" style={{color: '#777'}} />
+          <BasicCard
+            style={{
+              CardContainer: {
+                width: '80%',
+                marginRight: null,
+                height: '70%',
+                justifyContent: null,
+                alignItems: null,
+                padding: 20,
+                zIndex: 9999,
+              },
+            }}>
+            <DmzText
+              lite
+              gap_small
+              text="Dose Appearance"
+              style={{color: '#777'}}
+            />
+            <IconsRow
+              Icon={<FontAwesome name="heart" size={20} color="#ccc" />}
+              number={6}
+            />
+            <View style={Styles.ColorContainer}>
+              <View style={{flex: 1}}>
+                <DmzText lite gap_small text="Colors" style={{color: '#777'}} />
+              </View>
+              <View style={Styles.Colors}>
+                <Dot style={{height: 10, width: 10}} />
+                <Dot style={{height: 10, width: 10}} />
+                <Dot style={{height: 10, width: 10}} />
+                <Dot style={{height: 10, width: 10}} />
+                <Dot style={{height: 10, width: 10}} />
+              </View>
             </View>
-            <View style={Styles.Colors}>
-              <Dot style={{height: 10, width: 10}} />
-              <Dot style={{height: 10, width: 10}} />
-              <Dot style={{height: 10, width: 10}} />
-              <Dot style={{height: 10, width: 10}} />
-              <Dot style={{height: 10, width: 10}} />
+            <DmzText
+              lite
+              gap_small
+              text="Take as per needed"
+              style={{color: '#777'}}
+            />
+            <DmzText lite gap_small text="Schedule" style={{color: '#777'}} />
+            <View style={Styles.DayContainer}>
+              <VerticleText text={{Top: 'M', Bottom: '7'}} />
+              <VerticleText text={{Top: 'Tu', Bottom: '8'}} />
+              <VerticleText isActive text={{Top: 'W', Bottom: '9'}} />
+              <VerticleText isActive text={{Top: 'Th', Bottom: '10'}} />
+              <VerticleText text={{Top: 'F', Bottom: '11'}} />
+              <VerticleText isActive text={{Top: 'Sa', Bottom: '12'}} />
+              <VerticleText isActive text={{Top: 'Su', Bottom: '13'}} />
             </View>
-          </View>
-          <DmzText
-            lite
-            gap_small
-            text="Take as per needed"
-            style={{color: '#777'}}
-          />
-          <DmzText lite gap_small text="Schedule" style={{color: '#777'}} />
-          <View style={Styles.DayContainer}>
-            <VerticleText text={{Top: 'M', Bottom: '7'}} />
-            <VerticleText text={{Top: 'Tu', Bottom: '8'}} />
-            <VerticleText isActive text={{Top: 'W', Bottom: '9'}} />
-            <VerticleText isActive text={{Top: 'Th', Bottom: '10'}} />
-            <VerticleText text={{Top: 'F', Bottom: '11'}} />
-            <VerticleText isActive text={{Top: 'Sa', Bottom: '12'}} />
-            <VerticleText isActive text={{Top: 'Su', Bottom: '13'}} />
-          </View>
-          <AnimInput placeholder="Start Date" />
-          <AnimInput placeholder="End Date (optional)" />
-          <DmzText
-            lite
-            gap_small
-            text="Reminders & Dosage"
-            style={{color: '#777'}}
-          />
-          <Counter />
-        </BasicCard>
-      </Overlay> */}
+            <AnimInput placeholder="Start Date" />
+            <AnimInput placeholder="End Date (optional)" />
+            <DmzText
+              lite
+              gap_small
+              text="Reminders & Dosage"
+              style={{color: '#777'}}
+            />
+            <Counter />
+          </BasicCard>
+        </Overlay>
+      )}
     </View>
   );
 }
