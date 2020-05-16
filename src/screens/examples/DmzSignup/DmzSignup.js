@@ -51,6 +51,7 @@ function DmzLogin(props) {
   const screenHeight = Dimen.height;
   const [heightOffset, setHeightOffset] = useState(0);
   const opacity = useRef(new Animated.Value(0)).current;
+  const {signupAs = 'patient'} = props.navigation.state.params;
 
   const onChoosePicture = async () => {
     const options = {
@@ -138,7 +139,7 @@ function DmzLogin(props) {
         }}>
         <View style={{flexDirection: 'row'}}>
           <DmzText
-            text={'Signup as '}
+            text={'Signup as ' + signupAs}
             type={3}
             lite
             style={{color: '#EB4B2B'}}
@@ -491,7 +492,7 @@ function DmzLogin(props) {
           <DmzText text="Already have an account? " lite type={3} />
           <TouchableOpacity
             onPress={() =>
-              props.navigation.navigate('signupScreen', {signupAs: loginAs})
+              props.navigation.goBack(null)
             }>
             <DmzText text=" Sign in" lite type={3} style={{color: '#EB4B2B'}} />
           </TouchableOpacity>
