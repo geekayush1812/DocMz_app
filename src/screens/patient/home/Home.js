@@ -118,7 +118,7 @@ const Home = ({navigation}) => {
     // );
     //console.log(activeId);
     dispatch(fetchDoctorLite('', 0, false));
-    dispatch(GetPatientInfo(data.id));
+    isLogedin && dispatch(GetPatientInfo(data.id));
   }, []);
 
   const onPress = id => {
@@ -306,13 +306,13 @@ const Home = ({navigation}) => {
           </Section>
           {/* </ScrollView> */}
         </Container>
-        {/* {isLogedin ? (
+        {isLogedin ? (
           <BottomNavigationComponent
             PopupTranslateY={PopupTranslateY}
             activeOption={1}
             navigation={navigation}
           />
-        ) : null} */}
+        ) : null}
         {/* <BottomNavigation PopupTranslateY={PopupTranslateY} acti/> */}
         {/* <ScheduleAppointment
           doctors={doctors[0]}

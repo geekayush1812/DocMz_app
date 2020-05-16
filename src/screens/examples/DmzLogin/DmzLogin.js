@@ -10,6 +10,7 @@ import {
   ActivityIndicator,
   Animated, useWindowDimensions, Easing, SafeAreaView
 } from 'react-native';
+import Toast from 'react-native-root-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import DmzText from '../../../components/atoms/DmzText/DmzText';
 import AnimInput from '../../../components/molecules/AnimInput/AnimInput';
@@ -54,6 +55,7 @@ function DmzLogin(props) {
   };
 
   const errorCallback = faildResponce => {
+    showTost(faildResponce.message)
     console.log(`PatientLoginAction(error):  ${faildResponce.message}`);
   };
 
@@ -81,6 +83,53 @@ function DmzLogin(props) {
     //   callback();
     // });
   };
+
+  // const tost = Toast.show('something unknown.', {
+  //   duration: Toast.durations.SHORT,
+  //   position: Toast.positions.BOTTOM,
+  //   shadow: true,
+  //   animation: true,
+  //   hideOnPress: true,
+  //   delay: 0,
+  //   onShow: () => {
+  //     // calls on toast\`s appear animation start
+  //   },
+  //   onShown: () => {
+  //     // calls on toast\`s appear animation end.
+  //   },
+  //   onHide: () => {
+  //     // calls on toast\`s hide animation start.
+  //   },
+  //   onHidden: () => {
+  //     // calls on toast\`s hide animation end.
+  //   }
+  // })
+
+  const showTost = (msg = 'nothing') => {
+    return Toast.show(msg, {
+      duration: Toast.durations.SHORT,
+      position: Toast.positions.BOTTOM,
+      shadow: true,
+      animation: true,
+      hideOnPress: true,
+      delay: 0,
+      onShow: () => {
+        // calls on toast\`s appear animation start
+      },
+      onShown: () => {
+        // calls on toast\`s appear animation end.
+      },
+      onHide: () => {
+        // calls on toast\`s hide animation start.
+      },
+      onHidden: () => {
+        // calls on toast\`s hide animation end.
+      }
+    })
+  }
+
+
+
   return (
     <ScrollView style={{ paddingTop: '25%', backgroundColor: '#fff' }}>
       <Animated.View

@@ -137,7 +137,7 @@ export const LoginPatient = (data, success, faild) => {
 
 export const LoginDoctor = (data, success, faild) => {
 
-    return  dispatch => {
+    return dispatch => {
 
         console.log('poooo////////////*****************//////////////')
         // setup loading screen
@@ -145,7 +145,8 @@ export const LoginDoctor = (data, success, faild) => {
 
         // setting header 
         const config = {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Accept': '*/*'
         };
 
         axios
@@ -174,6 +175,10 @@ export const LoginDoctor = (data, success, faild) => {
                 }
             })
             .catch((err) => {
+                faild({
+                    status: false,
+                    message: err
+                })
                 dispatch(haveingError(err))
             });
     }

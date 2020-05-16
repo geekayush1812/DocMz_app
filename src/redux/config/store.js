@@ -13,8 +13,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 const persistConfig = {
   key: 'primary',
   storage: AsyncStorage,
-  whitelist: ['AuthReducer', 'patientAccountReducer'],
-  blacklist: ['QuestionReducer', 'DoctorReducer', 'MyDoctorReducer'],
+  whitelist: ['AuthReducer'],
+  blacklist: ['QuestionReducer', 'DoctorReducer', 'MyDoctorReducer', 'AuthReducer.isLoading'],
 };
 
 const pReducer = persistReducer(persistConfig, allReducer);
