@@ -48,11 +48,11 @@ const FamilyMember = ({ navigation }) => {
 
   useEffect(() => {
     // dispatch(GetPatientInfo(patient.id));
-    !isPatientAccountReducerLoading && dispatch(GetFamilyMember(patient._id))
+    !isPatientAccountReducerLoading && dispatch(GetFamilyMember(patient.metaId))
   }, []);
 
   const onOpenPopup = () => {
-    setState({ ...state, metaId: patient._id})
+    setState({ ...state, metaId: patient.metaId })
     LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
     setShowPopup(true);
   };
@@ -72,7 +72,7 @@ const FamilyMember = ({ navigation }) => {
 
   return (
 
-    <ScrollView style={{ flex: 1, backgroundColor:'#fff' }}>
+    <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
       <GradientTopNavBar
         navigation={navigation}
         isClap={true}
@@ -80,12 +80,12 @@ const FamilyMember = ({ navigation }) => {
         headerText={'Family Member'}
       />
       <View style={Styles.FamilyCardContainer}>
-        <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
-          {
-            isPatientAccountReducerLoading ? <ActivityIndicator size = {20} color ={'#000'} /> : 
-            familyMember.map(({firstName, relationship}) => (
-              <Person name={firstName} relationship={relationship}/>
-            ))
+        <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+          {familyMember === null ? <Text>No member found</Text> :
+            isPatientAccountReducerLoading ? <ActivityIndicator size={20} color={'#000'} /> :
+              familyMember.map(({ firstName, relationship }) => (
+                <Person name={firstName} relationship={relationship} />
+              ))
           }
         </View>
         <View style={Styles.AddButton}>
