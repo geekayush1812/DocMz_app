@@ -38,9 +38,9 @@ const SignUp = props => {
     fee: '',
     imagePath: '',
   });
-  const [loading, setLoading] = useState(true);
-  const [isDoctor, setDoctor] = useState(false);
   const { signupAs } = props.navigation.state.params
+  const [loading, setLoading] = useState(true);
+  const [isDoctor, setDoctor] = useState(signupAs === 'doctor');
 
 
   const onChoosePicture = async () => {
@@ -319,7 +319,7 @@ const HeadText = props => {
       <View
         style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
         <Text style={HeadTextStyle.subMsg}>{props.subMsg}</Text>
-        <Switch option1="Patient" option2="Doctor" onClick={props.onTougle} />
+        {/* <Switch option1="Patient" option2="Doctor" onClick={props.onTougle} /> */}
       </View>
     </View>
   );

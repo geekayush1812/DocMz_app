@@ -156,7 +156,7 @@ export const GetFamilyMember = (id) => {
         }
 
         const _data = {
-            metaId: "5eb31e07e078c64910b9d29e", 
+            metaId: id//"5eb31e07e078c64910b9d29e", 
         }
 
         axios.post(`${Host}/patient/member/get`, _data, config)
@@ -179,7 +179,7 @@ export const AddFamilyMember = (obj, success, faild) => {
             'Content-Type': 'application/x-www-form-urlencoded'
         }
 
-        obj.metaId = '5eb31e07e078c64910b9d29e'
+        // obj.metaId = '5eb31e07e078c64910b9d29e'
 
         await axios
             .post(`${Host}/patient/member/add`, obj, config)
