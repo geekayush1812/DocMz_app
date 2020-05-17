@@ -5,7 +5,7 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import NavBackButton from '../../../assets/svg/nav_back.svg';
 import NavHamButton from '../../../assets/svg/nav_ham.svg';
 
-import { PRIMARY } from '../../../styles/colors'
+import {PRIMARY} from '../../../styles/colors';
 
 import DmzText from '../../atoms/DmzText/DmzText';
 
@@ -33,7 +33,11 @@ function TopNavBar({
       <TouchableOpacity
         style={Styles.TouchableOpacity}
         onPress={onLeftButtonPress}>
-        {!LeftComp ? <NavBackButton style={Styles.BackButton} /> : LeftComp}
+        {LeftComp !== null ? (
+          <NavBackButton style={Styles.BackButton} />
+        ) : (
+          LeftComp
+        )}
       </TouchableOpacity>
       <DmzText text={headerText} style={{fontSize: 20, color: '#fff'}} />
       <TouchableOpacity

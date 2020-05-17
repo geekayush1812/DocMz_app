@@ -39,7 +39,7 @@ import Dot from '../../../components/atoms/ToggleDot/ToggleDot';
 import VerticleText from '../../../components/atoms/VerticalText/VerticalText';
 import Counter from '../../../components/molecules/Counter/Counter';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-function MedicalRecords() {
+function MedicalRecords({navigation}) {
   const [showAddRecord, setShowAddRecord] = useState(false);
   const [review, setReview] = useState(false);
   const onPress = () => {
@@ -49,6 +49,7 @@ function MedicalRecords() {
     <View style={Styles.Container}>
       <GradientTopNavBar
         headerText=""
+        navigation={navigation}
         LeftComp={
           <ProfilePic
             sourceurl={require('../../../assets/jpg/person1.jpg')}

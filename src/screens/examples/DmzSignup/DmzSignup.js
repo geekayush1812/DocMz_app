@@ -21,12 +21,12 @@ import AnimInput from '../../../components/molecules/AnimInput/AnimInput';
 import GoogleIcon from '../../../assets/svg/google.svg';
 import FacebookIcon from '../../../assets/svg/facebook.svg';
 // import ExpandableButton from '../../../components/organisms/ExpandableButton/ExpandableButton';
+import {signupDoctor, signupPatient} from '../../../redux/action/auth';
 
 import ImagePicker from 'react-native-image-picker';
 import LoadingButton from '../../../components/atoms/LoadingButton/LoadingButton';
 
 function DmzLogin(props) {
-  //   const {signupAs = 'patient'} = props.navigation.state.params;
   const [data, setData] = useState({
     email: '',
     password: '',
@@ -43,24 +43,18 @@ function DmzLogin(props) {
     referralId: '',
     imagePath: '',
   });
-  const [loading, setLoading] = useState(true);
-  const [isDoctor, setDoctor] = useState(false);
-  //   const dispatch = useDispatch();
+  const {signupAs = 'patient'} = props.navigation.state.params;
+  // const [loading, setLoading] = useState(true);
+  const [isDoctor, setDoctor] = useState(signupAs === 'doctor');
+  const {isLoading} = useSelector(state => state.AuthReducer);
+  const dispatch = useDispatch();
   const Dimen = useWindowDimensions();
   const screenWidth = Dimen.width;
   const screenHeight = Dimen.height;
   const [heightOffset, setHeightOffset] = useState(0);
   const opacity = useRef(new Animated.Value(0)).current;
-  const {signupAs = 'patient'} = props.navigation.state.params;
 
   const onChoosePicture = async () => {
-    const options = {
-      title: 'Select Avatar',
-      storageOptions: {
-        skipBackup: true,
-        path: 'images',
-      },
-    };
     const granted = await PermissionsAndroid.check(
       PermissionsAndroid.PERMISSIONS.CAMERA,
     );
@@ -92,8 +86,14 @@ function DmzLogin(props) {
       console.warn(err);
     }
   };
-
   const PickImage = () => {
+    const options = {
+      title: 'Select Avatar',
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
     ImagePicker.showImagePicker(options, response => {
       // console.log('Response = ', response);
       if (response.didCancel) {
@@ -109,6 +109,59 @@ function DmzLogin(props) {
     });
   };
 
+  const handelEmailChange = e => {
+    setData({...data, email: e});
+  };
+
+  const handelPasswordChange = e => {
+    setData({...data, password: e});
+  };
+
+  const handelFirstNameChange = e => {
+    setData({...data, firstName: e});
+  };
+  const handelLastNameChange = e => {
+    setData({...data, lastName: e});
+  };
+  const handleAppointmentsChange = e => {
+    setData({...data, appointmentsString: e});
+  };
+
+  const handelPhoneChange = e => {
+    setData({...data, phone: e});
+  };
+
+  const handleBasicChanges = e => {
+    setData({...data, basic: e});
+  };
+
+  const handelRegistrationNumberChange = e => {
+    setData({...data, registration_number: e});
+  };
+
+  const handelSpecialty = e => {
+    setData({...data, specialty: e});
+  };
+  const handleRefererChange = e => {
+    setData({...data, referralId: e});
+  };
+
+  const handelCityChange = e => {
+    setData({...data, city: e});
+  };
+  const handelStateChange = e => {
+    setData({...data, state: e});
+  };
+
+  const handelCountryChange = e => {
+    setData({...data, country: e});
+  };
+  const handleDescriptionChange = e => {
+    setData({...data, description: e});
+  };
+  const handleFeeChange = e => {
+    setData({...data, fee: e});
+  };
   const onLayout = props => {
     if (heightOffset !== props.nativeEvent.layout.y)
       setHeightOffset(props.nativeEvent.layout.y);
@@ -124,8 +177,47 @@ function DmzLogin(props) {
     // }).start(() => {
     //   callback();
     // });
+    signupAs === 'doctor' ? _handleDoctorSignup() : _handlePatientSignup();
   };
 
+  const _handleDoctorSignup = () => {
+    dispatch(signupDoctor(data, successCallback, errorCallback));
+  };
+  const _handlePatientSignup = () => {
+    dispatch(signupPatient(data, successCallback, errorCallback));
+  };
+
+  const successCallback = () => {
+    showTost('account created successfully');
+    isDoctor
+      ? props.navigation.navigate('pageNavigation')
+      : props.navigation.goBack(null);
+  };
+  const errorCallback = e => {
+    showTost('error occured: ' + e);
+  };
+  const showTost = (msg = 'nothing') => {
+    return Toast.show(msg, {
+      duration: Toast.durations.SHORT,
+      position: Toast.positions.BOTTOM,
+      shadow: true,
+      animation: true,
+      hideOnPress: true,
+      delay: 0,
+      onShow: () => {
+        // calls on toast\`s appear animation start
+      },
+      onShown: () => {
+        // calls on toast\`s appear animation end.
+      },
+      onHide: () => {
+        // calls on toast\`s hide animation start.
+      },
+      onHidden: () => {
+        // calls on toast\`s hide animation end.
+      },
+    });
+  };
   return (
     <ScrollView style={{paddingTop: '5%', backgroundColor: '#fff'}}>
       <Animated.View
@@ -177,7 +269,7 @@ function DmzLogin(props) {
             withAnim={false}
             placeholder="Email"
             style={{Container: {borderBottomWidth: 0, height: 40}}}
-            inputHandler={txt => setData({...data, email: txt})}
+            inputHandler={handelEmailChange}
           />
         </Animated.View>
         <Animated.View
@@ -196,7 +288,7 @@ function DmzLogin(props) {
             withAnim={false}
             placeholder="Password"
             style={{Container: {borderBottomWidth: 0, height: 40}}}
-            inputHandler={txt => setData({...data, password: txt})}
+            inputHandler={handelPasswordChange}
           />
         </Animated.View>
         <Animated.View
@@ -215,7 +307,7 @@ function DmzLogin(props) {
             withAnim={false}
             placeholder="Fist Name"
             style={{Container: {borderBottomWidth: 0, height: 40}}}
-            inputHandler={txt => setData({...data, firstName: txt})}
+            inputHandler={handelFirstNameChange}
           />
         </Animated.View>
         <Animated.View
@@ -234,66 +326,71 @@ function DmzLogin(props) {
             withAnim={false}
             placeholder="Last Name"
             style={{Container: {borderBottomWidth: 0, height: 40}}}
-            inputHandler={txt => setData({...data, lastName: txt})}
+            inputHandler={handelLastNameChange}
           />
         </Animated.View>
-        <Animated.View
-          style={{
-            backgroundColor: '#f5f5f5',
-            borderRadius: 10,
-            marginTop: 20,
-            marginLeft: 25,
-            marginRight: 25,
-            opacity: opacity.interpolate({
-              inputRange: [0, 0.8, 1],
-              outputRange: [1, 0, 0],
-            }),
-          }}>
-          <AnimInput
-            withAnim={false}
-            placeholder="Registration Number"
-            style={{Container: {borderBottomWidth: 0, height: 40}}}
-            inputHandler={txt => setData({...data, registration_number: txt})}
-          />
-        </Animated.View>
-        <Animated.View
-          style={{
-            backgroundColor: '#f5f5f5',
-            borderRadius: 10,
-            marginTop: 20,
-            marginLeft: 25,
-            marginRight: 25,
-            opacity: opacity.interpolate({
-              inputRange: [0, 0.8, 1],
-              outputRange: [1, 0, 0],
-            }),
-          }}>
-          <AnimInput
-            withAnim={false}
-            placeholder="Specialty"
-            style={{Container: {borderBottomWidth: 0, height: 40}}}
-            inputHandler={txt => setData({...data, specialty: txt})}
-          />
-        </Animated.View>
-        <Animated.View
-          style={{
-            backgroundColor: '#f5f5f5',
-            borderRadius: 10,
-            marginTop: 20,
-            marginLeft: 25,
-            marginRight: 25,
-            opacity: opacity.interpolate({
-              inputRange: [0, 0.8, 1],
-              outputRange: [1, 0, 0],
-            }),
-          }}>
-          <AnimInput
-            withAnim={false}
-            placeholder="Basic"
-            style={{Container: {borderBottomWidth: 0, height: 40}}}
-            inputHandler={txt => setData({...data, basic: txt})}
-          />
-        </Animated.View>
+        {isDoctor && (
+          <>
+            <Animated.View
+              style={{
+                backgroundColor: '#f5f5f5',
+                borderRadius: 10,
+                marginTop: 20,
+                marginLeft: 25,
+                marginRight: 25,
+                opacity: opacity.interpolate({
+                  inputRange: [0, 0.8, 1],
+                  outputRange: [1, 0, 0],
+                }),
+              }}>
+              <AnimInput
+                withAnim={false}
+                placeholder="Registration Number"
+                style={{Container: {borderBottomWidth: 0, height: 40}}}
+                inputHandler={handelRegistrationNumberChange}
+              />
+            </Animated.View>
+
+            <Animated.View
+              style={{
+                backgroundColor: '#f5f5f5',
+                borderRadius: 10,
+                marginTop: 20,
+                marginLeft: 25,
+                marginRight: 25,
+                opacity: opacity.interpolate({
+                  inputRange: [0, 0.8, 1],
+                  outputRange: [1, 0, 0],
+                }),
+              }}>
+              <AnimInput
+                withAnim={false}
+                placeholder="Specialty"
+                style={{Container: {borderBottomWidth: 0, height: 40}}}
+                inputHandler={handelSpecialty}
+              />
+            </Animated.View>
+            <Animated.View
+              style={{
+                backgroundColor: '#f5f5f5',
+                borderRadius: 10,
+                marginTop: 20,
+                marginLeft: 25,
+                marginRight: 25,
+                opacity: opacity.interpolate({
+                  inputRange: [0, 0.8, 1],
+                  outputRange: [1, 0, 0],
+                }),
+              }}>
+              <AnimInput
+                withAnim={false}
+                placeholder="Basic"
+                style={{Container: {borderBottomWidth: 0, height: 40}}}
+                inputHandler={handleBasicChanges}
+              />
+            </Animated.View>
+          </>
+        )}
         <Animated.View
           style={{
             backgroundColor: '#f5f5f5',
@@ -310,7 +407,7 @@ function DmzLogin(props) {
             withAnim={false}
             placeholder="City"
             style={{Container: {borderBottomWidth: 0, height: 40}}}
-            inputHandler={txt => setData({...data, city: txt})}
+            inputHandler={handelCityChange}
           />
         </Animated.View>
         <Animated.View
@@ -329,7 +426,7 @@ function DmzLogin(props) {
             withAnim={false}
             placeholder="State"
             style={{Container: {borderBottomWidth: 0, height: 40}}}
-            inputHandler={txt => setData({...data, state: txt})}
+            inputHandler={handelStateChange}
           />
         </Animated.View>
         <Animated.View
@@ -348,28 +445,30 @@ function DmzLogin(props) {
             withAnim={false}
             placeholder="Country"
             style={{Container: {borderBottomWidth: 0, height: 40}}}
-            inputHandler={txt => setData({...data, country: txt})}
+            inputHandler={handelCountryChange}
           />
         </Animated.View>
-        <Animated.View
-          style={{
-            backgroundColor: '#f5f5f5',
-            borderRadius: 10,
-            marginTop: 20,
-            marginLeft: 25,
-            marginRight: 25,
-            opacity: opacity.interpolate({
-              inputRange: [0, 0.8, 1],
-              outputRange: [1, 0, 0],
-            }),
-          }}>
-          <AnimInput
-            withAnim={false}
-            placeholder="Appointments"
-            style={{Container: {borderBottomWidth: 0, height: 40}}}
-            inputHandler={txt => setData({...data, appointmentsString: txt})}
-          />
-        </Animated.View>
+        {isDoctor && (
+          <Animated.View
+            style={{
+              backgroundColor: '#f5f5f5',
+              borderRadius: 10,
+              marginTop: 20,
+              marginLeft: 25,
+              marginRight: 25,
+              opacity: opacity.interpolate({
+                inputRange: [0, 0.8, 1],
+                outputRange: [1, 0, 0],
+              }),
+            }}>
+            <AnimInput
+              withAnim={false}
+              placeholder="Appointments"
+              style={{Container: {borderBottomWidth: 0, height: 40}}}
+              inputHandler={handleAppointmentsChange}
+            />
+          </Animated.View>
+        )}
         <Animated.View
           style={{
             backgroundColor: '#f5f5f5',
@@ -386,7 +485,7 @@ function DmzLogin(props) {
             withAnim={false}
             placeholder="Phone"
             style={{Container: {borderBottomWidth: 0, height: 40}}}
-            inputHandler={txt => setData({...data, phone: txt})}
+            inputHandler={handelPhoneChange}
           />
         </Animated.View>
         <Animated.View
@@ -406,7 +505,7 @@ function DmzLogin(props) {
             withAnim={false}
             placeholder="Referer"
             style={{Container: {borderBottomWidth: 0, height: 40}}}
-            inputHandler={txt => setData({...data, referralId: txt})}
+            inputHandler={handleRefererChange}
           />
         </Animated.View>
         <View
@@ -416,6 +515,7 @@ function DmzLogin(props) {
             borderRadius: 10,
             marginLeft: 25,
             marginRight: 25,
+            marginBottom: 25,
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
@@ -447,9 +547,9 @@ function DmzLogin(props) {
         /> */}
 
         <LoadingButton
-          //   isLoading={authData.isLoading}
+          isLoading={isLoading}
           text={'Signup'}
-          onClick={() => {}}
+          onClick={onPress}
         />
       </View>
       <Animated.View
@@ -490,10 +590,7 @@ function DmzLogin(props) {
         </View>
         <View style={{flexDirection: 'row', marginTop: 40}}>
           <DmzText text="Already have an account? " lite type={3} />
-          <TouchableOpacity
-            onPress={() =>
-              props.navigation.goBack(null)
-            }>
+          <TouchableOpacity onPress={() => props.navigation.goBack(null)}>
             <DmzText text=" Sign in" lite type={3} style={{color: '#EB4B2B'}} />
           </TouchableOpacity>
         </View>

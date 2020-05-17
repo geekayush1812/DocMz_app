@@ -179,6 +179,7 @@ const Home = ({navigation}) => {
       <View style={FindDoctorScreenStyles.Container}>
         <FancyHeader
           navigation={navigation}
+          LeftComp={null}
           style={{
             Container: {height: '35%'},
             ChildContainer: {alignItems: 'center', marginTop: '-10%'},
