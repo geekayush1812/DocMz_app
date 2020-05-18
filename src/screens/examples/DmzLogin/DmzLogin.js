@@ -13,7 +13,7 @@ import AnimInput from '../../../components/molecules/AnimInput/AnimInput';
 import GoogleIcon from '../../../assets/svg/google.svg';
 import FacebookIcon from '../../../assets/svg/facebook.svg';
 
-import { LoginDoctor, LoginPatient } from '../../../redux/action/auth';
+import { LoginDoctor, LoginPatient } from '../../../redux/action/auth'; 
 import { _LoginPatient } from '../../../redux/action/authAction';
 import LoadingButton from '../../../components/atoms/LoadingButton/LoadingButton';
 
