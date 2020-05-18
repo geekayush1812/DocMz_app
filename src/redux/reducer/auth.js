@@ -31,6 +31,11 @@ const AuthReducer = (state = initialState, action) => {
         ...state,
         isLoading: true,
       };
+    case 'STOP_LOADING':
+      return {
+        ...state,
+        isLoading: false
+      }
     case 'REMOVE_USER':
       return {
         ...state,
