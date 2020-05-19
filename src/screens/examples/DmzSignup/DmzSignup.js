@@ -1,5 +1,5 @@
 //#EB4B2B
-import React, { useState, useEffect, useRef } from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
   View,
   Text,
@@ -15,13 +15,17 @@ import {
   SafeAreaView,
 } from 'react-native';
 import Toast from 'react-native-root-toast';
-import { useDispatch, useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import DmzText from '../../../components/atoms/DmzText/DmzText';
 import AnimInput from '../../../components/molecules/AnimInput/AnimInput';
 import GoogleIcon from '../../../assets/svg/google.svg';
 import FacebookIcon from '../../../assets/svg/facebook.svg';
 // import ExpandableButton from '../../../components/organisms/ExpandableButton/ExpandableButton';
-import { signupDoctor, signupPatient, removeUser } from '../../../redux/action/auth';
+import {
+  signupDoctor,
+  signupPatient,
+  removeUser,
+} from '../../../redux/action/auth';
 
 import ImagePicker from 'react-native-image-picker';
 import LoadingButton from '../../../components/atoms/LoadingButton/LoadingButton';
@@ -43,10 +47,10 @@ function DmzLogin(props) {
     referralId: '',
     imagePath: '',
   });
-  const { signupAs = 'patient' } = props.navigation.state.params;
+  const {signupAs = 'patient'} = props.navigation.state.params;
   // const [loading, setLoading] = useState(true);
   const [isDoctor, setDoctor] = useState(signupAs === 'doctor');
-  const { isLoading } = useSelector(state => state.AuthReducer);
+  const {isLoading} = useSelector(state => state.AuthReducer);
   const dispatch = useDispatch();
   const Dimen = useWindowDimensions();
   const screenWidth = Dimen.width;
@@ -54,9 +58,9 @@ function DmzLogin(props) {
   const [heightOffset, setHeightOffset] = useState(0);
   const opacity = useRef(new Animated.Value(0)).current;
 
-  useEffect(() => {
-    return dispatch(removeUser())
-  }, [])
+  // useEffect(() => {
+  //   return dispatch(removeUser());
+  // });
 
   const onChoosePicture = async () => {
     const granted = await PermissionsAndroid.check(
@@ -108,63 +112,63 @@ function DmzLogin(props) {
         // const source = {uri: response.uri};
         // console.log(source);
         const path = response.fileName;
-        setData({ ...data, imagePath: path });
+        setData({...data, imagePath: path});
       }
     });
   };
 
   const handelEmailChange = e => {
-    setData({ ...data, email: e });
+    setData({...data, email: e});
   };
 
   const handelPasswordChange = e => {
-    setData({ ...data, password: e });
+    setData({...data, password: e});
   };
 
   const handelFirstNameChange = e => {
-    setData({ ...data, firstName: e });
+    setData({...data, firstName: e});
   };
   const handelLastNameChange = e => {
-    setData({ ...data, lastName: e });
+    setData({...data, lastName: e});
   };
   const handleAppointmentsChange = e => {
-    setData({ ...data, appointmentsString: e });
+    setData({...data, appointmentsString: e});
   };
 
   const handelPhoneChange = e => {
-    setData({ ...data, phone: e });
+    setData({...data, phone: e});
   };
 
   const handleBasicChanges = e => {
-    setData({ ...data, basic: e });
+    setData({...data, basic: e});
   };
 
   const handelRegistrationNumberChange = e => {
-    setData({ ...data, registration_number: e });
+    setData({...data, registration_number: e});
   };
 
   const handelSpecialty = e => {
-    setData({ ...data, specialty: e });
+    setData({...data, specialty: e});
   };
   const handleRefererChange = e => {
-    setData({ ...data, referralId: e });
+    setData({...data, referralId: e});
   };
 
   const handelCityChange = e => {
-    setData({ ...data, city: e });
+    setData({...data, city: e});
   };
   const handelStateChange = e => {
-    setData({ ...data, state: e });
+    setData({...data, state: e});
   };
 
   const handelCountryChange = e => {
-    setData({ ...data, country: e });
+    setData({...data, country: e});
   };
   const handleDescriptionChange = e => {
-    setData({ ...data, description: e });
+    setData({...data, description: e});
   };
   const handleFeeChange = e => {
-    setData({ ...data, fee: e });
+    setData({...data, fee: e});
   };
   const onLayout = props => {
     if (heightOffset !== props.nativeEvent.layout.y)
@@ -224,7 +228,7 @@ function DmzLogin(props) {
     });
   };
   return (
-    <ScrollView style={{ paddingTop: '5%', backgroundColor: '#fff' }}>
+    <ScrollView style={{paddingTop: '5%', backgroundColor: '#fff'}}>
       <Animated.View
         style={{
           flex: 1,
@@ -234,12 +238,12 @@ function DmzLogin(props) {
             outputRange: [1, 0],
           }),
         }}>
-        <View style={{ flexDirection: 'row' }}>
+        <View style={{flexDirection: 'row'}}>
           <DmzText
             text={'Signup as ' + signupAs}
             type={3}
             lite
-            style={{ color: '#EB4B2B' }}
+            style={{color: '#EB4B2B'}}
           />
           {/* <DmzText text={loginAs} type={3} lite style={{marginLeft: 5}} /> */}
         </View>
@@ -256,7 +260,7 @@ function DmzLogin(props) {
           type={4}
           lite
           gap_small
-          style={{ marginLeft: 'auto', marginRight: 'auto' }}
+          style={{marginLeft: 'auto', marginRight: 'auto'}}
         />
         <Animated.View
           style={{
@@ -273,7 +277,7 @@ function DmzLogin(props) {
           <AnimInput
             withAnim={false}
             placeholder="Email"
-            style={{ Container: { borderBottomWidth: 0, height: 40 } }}
+            style={{Container: {borderBottomWidth: 0, height: 40}}}
             inputHandler={handelEmailChange}
           />
         </Animated.View>
@@ -292,7 +296,7 @@ function DmzLogin(props) {
           <AnimInput
             withAnim={false}
             placeholder="Password"
-            style={{ Container: { borderBottomWidth: 0, height: 40 } }}
+            style={{Container: {borderBottomWidth: 0, height: 40}}}
             inputHandler={handelPasswordChange}
           />
         </Animated.View>
@@ -311,7 +315,7 @@ function DmzLogin(props) {
           <AnimInput
             withAnim={false}
             placeholder="Fist Name"
-            style={{ Container: { borderBottomWidth: 0, height: 40 } }}
+            style={{Container: {borderBottomWidth: 0, height: 40}}}
             inputHandler={handelFirstNameChange}
           />
         </Animated.View>
@@ -330,7 +334,7 @@ function DmzLogin(props) {
           <AnimInput
             withAnim={false}
             placeholder="Last Name"
-            style={{ Container: { borderBottomWidth: 0, height: 40 } }}
+            style={{Container: {borderBottomWidth: 0, height: 40}}}
             inputHandler={handelLastNameChange}
           />
         </Animated.View>
@@ -351,7 +355,7 @@ function DmzLogin(props) {
               <AnimInput
                 withAnim={false}
                 placeholder="Registration Number"
-                style={{ Container: { borderBottomWidth: 0, height: 40 } }}
+                style={{Container: {borderBottomWidth: 0, height: 40}}}
                 inputHandler={handelRegistrationNumberChange}
               />
             </Animated.View>
@@ -371,7 +375,7 @@ function DmzLogin(props) {
               <AnimInput
                 withAnim={false}
                 placeholder="Specialty"
-                style={{ Container: { borderBottomWidth: 0, height: 40 } }}
+                style={{Container: {borderBottomWidth: 0, height: 40}}}
                 inputHandler={handelSpecialty}
               />
             </Animated.View>
@@ -390,7 +394,7 @@ function DmzLogin(props) {
               <AnimInput
                 withAnim={false}
                 placeholder="Basic"
-                style={{ Container: { borderBottomWidth: 0, height: 40 } }}
+                style={{Container: {borderBottomWidth: 0, height: 40}}}
                 inputHandler={handleBasicChanges}
               />
             </Animated.View>
@@ -411,7 +415,7 @@ function DmzLogin(props) {
           <AnimInput
             withAnim={false}
             placeholder="City"
-            style={{ Container: { borderBottomWidth: 0, height: 40 } }}
+            style={{Container: {borderBottomWidth: 0, height: 40}}}
             inputHandler={handelCityChange}
           />
         </Animated.View>
@@ -430,7 +434,7 @@ function DmzLogin(props) {
           <AnimInput
             withAnim={false}
             placeholder="State"
-            style={{ Container: { borderBottomWidth: 0, height: 40 } }}
+            style={{Container: {borderBottomWidth: 0, height: 40}}}
             inputHandler={handelStateChange}
           />
         </Animated.View>
@@ -449,7 +453,7 @@ function DmzLogin(props) {
           <AnimInput
             withAnim={false}
             placeholder="Country"
-            style={{ Container: { borderBottomWidth: 0, height: 40 } }}
+            style={{Container: {borderBottomWidth: 0, height: 40}}}
             inputHandler={handelCountryChange}
           />
         </Animated.View>
@@ -469,7 +473,7 @@ function DmzLogin(props) {
             <AnimInput
               withAnim={false}
               placeholder="Appointments"
-              style={{ Container: { borderBottomWidth: 0, height: 40 } }}
+              style={{Container: {borderBottomWidth: 0, height: 40}}}
               inputHandler={handleAppointmentsChange}
             />
           </Animated.View>
@@ -489,7 +493,7 @@ function DmzLogin(props) {
           <AnimInput
             withAnim={false}
             placeholder="Phone"
-            style={{ Container: { borderBottomWidth: 0, height: 40 } }}
+            style={{Container: {borderBottomWidth: 0, height: 40}}}
             inputHandler={handelPhoneChange}
           />
         </Animated.View>
@@ -509,7 +513,7 @@ function DmzLogin(props) {
           <AnimInput
             withAnim={false}
             placeholder="Referer"
-            style={{ Container: { borderBottomWidth: 0, height: 40 } }}
+            style={{Container: {borderBottomWidth: 0, height: 40}}}
             inputHandler={handleRefererChange}
           />
         </Animated.View>
@@ -580,7 +584,7 @@ function DmzLogin(props) {
               flex: 1,
             }}>
             <FacebookIcon height={18} width={18} />
-            <DmzText text="Sign up" style={{ marginLeft: 20 }} lite />
+            <DmzText text="Sign up" style={{marginLeft: 20}} lite />
           </View>
           <View
             style={{
@@ -590,13 +594,13 @@ function DmzLogin(props) {
               justifyContent: 'flex-end',
             }}>
             <GoogleIcon height={18} width={18} />
-            <DmzText text="Sign up" style={{ marginLeft: 20 }} lite />
+            <DmzText text="Sign up" style={{marginLeft: 20}} lite />
           </View>
         </View>
-        <View style={{ flexDirection: 'row', marginTop: 40 }}>
+        <View style={{flexDirection: 'row', marginTop: 40}}>
           <DmzText text="Already have an account? " lite type={3} />
           <TouchableOpacity onPress={() => props.navigation.goBack(null)}>
-            <DmzText text=" Sign in" lite type={3} style={{ color: '#EB4B2B' }} />
+            <DmzText text=" Sign in" lite type={3} style={{color: '#EB4B2B'}} />
           </TouchableOpacity>
         </View>
       </Animated.View>

@@ -127,7 +127,7 @@ const Custom = ({
 
   return (
     <View style={styles.container}>
-      <ScrollView style={{flex: 1, marginBottom: 10}}>
+      <ScrollView style={{flex: 1}} contentContainerStyle={{height: '100%'}}>
         <FancyHeaderLite
           showOverlayComponent={false}
           // LeftComp={<NavBackCustom />}
@@ -245,15 +245,17 @@ const Custom = ({
             />
           );
         })}
-        <ExpandableOption
-          key={'logout'}
-          active={isLogedin}
-          name={'Logout'}
-          icon={'book'}
-          goto={() => _logout()}
-          activeItemKey={activeItemKey}
-          navigateTo={'logout'}
-        />
+        {isLogedin && (
+          <ExpandableOption
+            key={'logout'}
+            active={isLogedin}
+            name={'Logout'}
+            icon={'book'}
+            goto={() => _logout()}
+            activeItemKey={activeItemKey}
+            navigateTo={'logout'}
+          />
+        )}
         {!isLogedin && (
           <ExpandableOption
             key={'Are you doctor ?'}

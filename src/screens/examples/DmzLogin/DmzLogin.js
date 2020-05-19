@@ -1,25 +1,20 @@
 //#EB4B2B
-import React, { useState, useEffect, useRef } from 'react';
-import {
-  View,
-  TouchableOpacity,
-  ScrollView,
-  Animated,
-} from 'react-native';
+import React, {useState, useEffect, useRef} from 'react';
+import {View, TouchableOpacity, ScrollView, Animated} from 'react-native';
 import Toast from 'react-native-root-toast';
-import { useDispatch, useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import DmzText from '../../../components/atoms/DmzText/DmzText';
 import AnimInput from '../../../components/molecules/AnimInput/AnimInput';
 import GoogleIcon from '../../../assets/svg/google.svg';
 import FacebookIcon from '../../../assets/svg/facebook.svg';
 
-import { LoginDoctor, LoginPatient } from '../../../redux/action/auth'; 
-import { _LoginPatient } from '../../../redux/action/authAction';
+import {LoginDoctor, LoginPatient} from '../../../redux/action/auth';
+import {_LoginPatient} from '../../../redux/action/authAction';
 import LoadingButton from '../../../components/atoms/LoadingButton/LoadingButton';
 
 function DmzLogin(props) {
-  const { loginAs = 'patient' } = props.navigation.state.params;
-  const [data, setData] = useState({ email: '', password: '' });
+  const {loginAs = 'patient'} = props.navigation.state.params;
+  const [data, setData] = useState({email: '', password: ''});
   const [isDoctor, setDoctor] = useState(false);
   const dispatch = useDispatch();
   const authData = useSelector(state => state.AuthReducer);
@@ -42,7 +37,7 @@ function DmzLogin(props) {
   };
 
   const errorCallback = faildResponce => {
-    showTost(faildResponce.message);
+    showTost(faildResponce.message.toString());
     console.log(`PatientLoginAction(error):  ${faildResponce.message}`);
   };
 
@@ -55,7 +50,6 @@ function DmzLogin(props) {
     console.log(data);
     dispatch(LoginDoctor(data, successCallback, errorCallback));
   };
-
 
   const showTost = (msg = 'nothing') => {
     return Toast.show(msg, {
@@ -81,7 +75,7 @@ function DmzLogin(props) {
   };
 
   return (
-    <ScrollView style={{ paddingTop: '25%', backgroundColor: '#fff' }}>
+    <ScrollView style={{paddingTop: '25%', backgroundColor: '#fff'}}>
       <Animated.View
         style={{
           flex: 3,
@@ -92,14 +86,14 @@ function DmzLogin(props) {
             outputRange: [1, 0],
           }),
         }}>
-        <View style={{ flexDirection: 'row' }}>
+        <View style={{flexDirection: 'row'}}>
           <DmzText
             text={'Login as '}
             type={3}
             lite
-            style={{ color: '#EB4B2B' }}
+            style={{color: '#EB4B2B'}}
           />
-          <DmzText text={loginAs} type={3} lite style={{ marginLeft: 5 }} />
+          <DmzText text={loginAs} type={3} lite style={{marginLeft: 5}} />
         </View>
       </Animated.View>
       <View
@@ -114,7 +108,7 @@ function DmzLogin(props) {
           type={4}
           lite
           gap_small
-          style={{ marginLeft: 'auto', marginRight: 'auto' }}
+          style={{marginLeft: 'auto', marginRight: 'auto'}}
         />
         <Animated.View
           style={{
@@ -131,8 +125,8 @@ function DmzLogin(props) {
           <AnimInput
             withAnim={false}
             placeholder="Email"
-            style={{ Container: { borderBottomWidth: 0 } }}
-            inputHandler={txt => setData({ ...data, email: txt })}
+            style={{Container: {borderBottomWidth: 0}}}
+            inputHandler={txt => setData({...data, email: txt})}
           />
         </Animated.View>
 
@@ -153,10 +147,10 @@ function DmzLogin(props) {
             withAnim={false}
             placeholder="Password"
             style={{
-              Container: { borderBottomWidth: 0 },
-              input: { backgroundColor: 'pink' },
+              Container: {borderBottomWidth: 0},
+              input: {backgroundColor: 'pink'},
             }}
-            inputHandler={txt => setData({ ...data, password: txt })}
+            inputHandler={txt => setData({...data, password: txt})}
           />
         </Animated.View>
         {/* <ExpandableButton
@@ -192,7 +186,7 @@ function DmzLogin(props) {
           text="Forgot Password?"
           lite
           gap_small
-          style={{ marginLeft: 'auto', marginRight: 'auto', color: '#EB4B2B' }}
+          style={{marginLeft: 'auto', marginRight: 'auto', color: '#EB4B2B'}}
         />
       </View>
       <Animated.View
@@ -218,7 +212,7 @@ function DmzLogin(props) {
               flex: 1,
             }}>
             <FacebookIcon height={18} width={18} />
-            <DmzText text="Sign in" style={{ marginLeft: 20 }} lite />
+            <DmzText text="Sign in" style={{marginLeft: 20}} lite />
           </View>
           <View
             style={{
@@ -228,16 +222,16 @@ function DmzLogin(props) {
               justifyContent: 'flex-end',
             }}>
             <GoogleIcon height={18} width={18} />
-            <DmzText text="Sign in" style={{ marginLeft: 20 }} lite />
+            <DmzText text="Sign in" style={{marginLeft: 20}} lite />
           </View>
         </View>
-        <View style={{ flexDirection: 'row', marginTop: 40 }}>
+        <View style={{flexDirection: 'row', marginTop: 40}}>
           <DmzText text="Don't have an account? " lite type={3} />
           <TouchableOpacity
             onPress={() =>
-              props.navigation.navigate('signupScreen', { signupAs: loginAs })
+              props.navigation.navigate('signupScreen', {signupAs: loginAs})
             }>
-            <DmzText text=" Sign Up" lite type={3} style={{ color: '#EB4B2B' }} />
+            <DmzText text=" Sign Up" lite type={3} style={{color: '#EB4B2B'}} />
           </TouchableOpacity>
         </View>
       </Animated.View>

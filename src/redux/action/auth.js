@@ -210,10 +210,15 @@ export const signupDoctor = (data, successCallback, errorCallback) => {
           };
           //   _save(__data);
 
-          AsyncStorage.setItem('userData', JSON.stringify(__data)).then(() => {
-            dispatch(saveNewUser(__data, 'doctor'));
-            successCallback();
-          });
+          AsyncStorage.setItem('userData', JSON.stringify(__data))
+            .then(() => {
+              dispatch(saveNewUser(__data, 'doctor'));
+              successCallback();
+            })
+            .catch(err => {
+              dispatch(haveingError(err));
+              errorCallback(err);
+            });
         }
         console.log(result.data.status);
       })
@@ -244,15 +249,15 @@ export const signupPatient = (data, successCallback, errorCallback) => {
           // };
           // dispatch(addUserToRedux(data))
           // AsyncStorage.setItem('userData', JSON.stringify(__data)).then(() => {
-            // dispatch(saveNewUser(__data, 'patient'));
-            dispatch(stoptLoading())
-            successCallback();
+          // dispatch(saveNewUser(__data, 'patient'));
+          dispatch(stoptLoading());
+          successCallback();
           // });
         }
         console.log(result.data.status);
       })
       .catch(err => {
-        console.log(err)
+        console.log(err);
         dispatch(haveingError(err.message));
         errorCallback(err.message);
       });

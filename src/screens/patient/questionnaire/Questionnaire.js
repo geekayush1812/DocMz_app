@@ -17,7 +17,7 @@ import {
   TextInput,
 } from 'react-native';
 // import Button from '../../../../xsrc/components/primitive/Button/Button';
-import {color} from '../../../../xsrc/config/styles/color';
+// import {color} from '../../../../xsrc/config/styles/color';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useSelector, useDispatch} from 'react-redux';
 import {
@@ -114,9 +114,7 @@ const questions = {
             {
               _id: '5e96f18ee06d8c066f009955',
               root: false,
-              option: [
-               
-              ],
+              option: [],
               ansOptionType: 'inputBox',
               superQuestion: false,
               title: 'wht is your name',
@@ -380,7 +378,6 @@ const Questionnaire = props => {
   const placeRef = useRef(null);
   const submitRef = useRef(null);
 
-
   const dispatch = useDispatch();
 
   const [questionNumber, setQuestinNumber] = useState(0);
@@ -401,7 +398,7 @@ const Questionnaire = props => {
     submitRef.current.handelQuestionSubmit();
     if (questions.question.length === questionNumber + 1) {
       console.log('-----------------Done---------------');
-      dispatch(doneQuestion())
+      dispatch(doneQuestion());
       props.navigation.goBack();
     }
   };
@@ -437,7 +434,7 @@ const Questionnaire = props => {
         }}>
         <Icon
           name="ios-arrow-round-back"
-          color={color.brand_color}
+          // color={color.brand_color}
           size={35}
           onPress={() => props.navigation.goBack(null)}
         />
@@ -521,7 +518,7 @@ const styles = StyleSheet.create({
   wrapper: {
     borderRadius: 20,
     padding: 20,
-    backgroundColor: color.background,
+    // backgroundColor: color.background,
   },
   action_controller: {
     display: 'flex',
@@ -538,9 +535,9 @@ const Spiner = props => (
   <View
     style={[
       {height: 6, width: 6, borderRadius: 100, margin: 10},
-      props.activeQuestion >= props.index
-        ? {backgroundColor: color.back_color}
-        : {backgroundColor: color.text_on_bg},
+      // props.activeQuestion >= props.index
+      // ? {backgroundColor: color.back_color}
+      // : {backgroundColor: color.text_on_bg},
     ]}
   />
 );
@@ -598,7 +595,6 @@ const Question = React.forwardRef((props, ref) => {
       setAllQuestion([]);
     };
   }, [question]);
-
 
   useImperativeHandle(ref, () => ({
     handelQuestionSubmit() {
@@ -698,10 +694,11 @@ const SingleSelect = ({options, question, answer}) => {
               marginVertical: 3,
               borderRadius: 3,
             },
-            select.includes(op.text) && {
-              color: color.white_color,
-              backgroundColor: color.brand_color,
-            },
+            select.includes(op.text) &&
+              {
+                // color: color.white_color,
+                // backgroundColor: color.brand_color,
+              },
           ]}
           onPress={() => selectHeldelar(op.text, index)}>
           {op.text}
@@ -758,18 +755,18 @@ const MultipleSelect = React.forwardRef((props, ref) => {
                 height: 18,
                 borderRadius: 100,
                 borderWidth: 1,
-                borderColor: color.brand_color,
+                // borderColor: color.brand_color,
               }}
               onPress={() => selectHeldelar(op.text)}>
               <Icon
                 name="ios-checkmark"
                 size={25}
-                color={color.brand_color}
+                // color={color.brand_color}
                 style={{
                   position: 'absolute',
                   top: -5,
                   left: 3,
-                  color: color.brand_colors,
+                  // color: color.brand_colors,
                   opacity: select.includes(op.text) ? 1 : 0,
                 }}
               />
@@ -829,7 +826,7 @@ const TextBoxStyle = StyleSheet.create({
     paddingLeft: 10,
     alignItems: 'center',
     alignSelf: 'center',
-    borderColor: color.brand_color,
+    // borderColor: color.brand_color,
     borderRadius: 3,
     borderWidth: 1,
     width: '100%',
@@ -898,7 +895,7 @@ const InputBoxStyle = StyleSheet.create({
     paddingLeft: 10,
     alignItems: 'center',
     alignSelf: 'center',
-    borderColor: color.brand_color,
+    // borderColor: color.brand_color,
     borderRadius: 3,
     borderWidth: 1,
     width: '100%',
@@ -981,14 +978,15 @@ const Option = ({
               {
                 padding: 5,
                 borderWidth: 2,
-                borderColor: color.brand_color,
+                // borderColor: color.brand_color,
                 margin: 5,
               },
-              select.includes(op.text) && {backgroundColor: color.brand_color},
+              // select.includes(op.text) && {backgroundColor: color.brand_color},
             ]}
             onPress={() => setTheAnswer(op.text, index)}>
             <Text
-              style={[select.includes(op.text) && {color: color.white_color}]}>
+            // style={[select.includes(op.text) && {color: color.white_color}]}
+            >
               {' '}
               {op.text}
             </Text>
