@@ -9,6 +9,7 @@ import ConfirmAppointment from '../components/molecules/ConfirmAppointment/Confi
 import Questionnaire from '../screens/patient/questionnaire/Questionnaire';
 import BookingDetails from '../screens/patient/questionnaire/BookingDetails';
 import NewQuestionnaire from '../screens/patient/questionnaire/NewQuestionnaire';
+import AllAnswer from '../screens/patient/questionnaire/AllAnswer';
 import SelectFiles from '../screens/patient/questionnaire/SelectFiles';
 import {useSelector} from 'react-redux';
 
@@ -47,6 +48,7 @@ const docMainStream = createStackNavigator(
 
 const questionnaire = createStackNavigator(
   {
+    AllAnswer,
     BookingDetails,
     NewQuestionnaire,
     Questionnaire
@@ -66,7 +68,7 @@ const MainNavigation = createStackNavigator(
     selectFiles: SelectFiles,
   },
   {
-    initialRouteName: 'pageNavigation',
+    initialRouteName: 'question',
     headerMode: 'none',
   },
 );

@@ -80,6 +80,7 @@ const BookingDetails = ({ navigation }) => {
               }}>
               {isPatientAccountReducerLoading ? <ActivityIndicator /> : familyMember.map((item, index) => (
                 <SMbutton
+                  style={{ width: 'auto', height: 25, marginHorizontal: 5}}
                   key={index}
                   name={item.relationship}
                   id={index}
