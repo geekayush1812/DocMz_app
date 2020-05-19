@@ -16,7 +16,7 @@ import {
   TouchableOpacity,
   TextInput,
 } from 'react-native';
-import Button from '../../../../xsrc/components/primitive/Button/Button';
+// import Button from '../../../../xsrc/components/primitive/Button/Button';
 import {color} from '../../../../xsrc/config/styles/color';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useSelector, useDispatch} from 'react-redux';
@@ -26,6 +26,7 @@ import {
   resetQuestion,
   doneQuestion,
 } from '../../../redux/action/questionAction';
+import SMbutton from '../../../components/atoms/SMbutton/SMbutton';
 
 const questions = {
   question: [
@@ -466,6 +467,21 @@ const Questionnaire = props => {
         </ScrollView>
         <View>
           <View style={styles.action_controller}>
+            <SMbutton
+              name={'SKIP'}
+              active={1}
+              onClick={() => decrementQuestionNumber()}
+            />
+            <SMbutton
+              name={'NEXT'}
+              active={0}
+              onClick={() => incrementQuestionNumber()}
+            />
+            {/* <TouchableOpacity>
+              <Text>
+                NEXT
+              </Text>
+            </TouchableOpacity>
             <Button
               style={{paddingTop: 20}}
               deafult={true}
@@ -473,7 +489,7 @@ const Questionnaire = props => {
               t_text={true}
               onlyBorder
               onClick={() =>
-                /*incrementQuestionNumber()*/ decrementQuestionNumber()
+                 decrementQuestionNumber() // incrementQuestionNumber()
               }
             />
             <Button
@@ -482,7 +498,7 @@ const Questionnaire = props => {
               normal
               shadow
               onClick={() => incrementQuestionNumber()}
-            />
+            /> */}
           </View>
         </View>
       </View>

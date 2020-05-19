@@ -147,7 +147,7 @@ const BookingDetails = ({navigation}) => {
               alignSelf: 'center',
               marginTop: 20,
             }}
-            onClick={() => navigation.navigate('NewQuestionnaire')}
+            onClick={() => navigation.navigate('Questionnaire')}
           />
         </ScrollView>
       </Container>

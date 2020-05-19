@@ -6,7 +6,7 @@ import DoctorNavigation from './DoctorNavigaton';
 import DocProfileLite from '../screens/patient/docProfileLite/DocProfileLite';
 import AppointmentForm from '../screens/patient/appointmentForm/AppointmentForm';
 import ConfirmAppointment from '../components/molecules/ConfirmAppointment/ConfirmAppointment';
-// import Questionnaire from '../screens/patient/questionnaire/Questionnaire';
+import Questionnaire from '../screens/patient/questionnaire/Questionnaire';
 import BookingDetails from '../screens/patient/questionnaire/BookingDetails';
 import NewQuestionnaire from '../screens/patient/questionnaire/NewQuestionnaire';
 import SelectFiles from '../screens/patient/questionnaire/SelectFiles';
@@ -49,6 +49,7 @@ const questionnaire = createStackNavigator(
   {
     BookingDetails,
     NewQuestionnaire,
+    Questionnaire
   },
   {
     initialRouteName: 'BookingDetails',

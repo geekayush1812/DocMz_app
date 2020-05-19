@@ -26,6 +26,7 @@ const LOADING = 'LOADING';
 const REMOVE_USER = 'REMOVE_USER';
 const SAVE_APPOINTMENT = 'SAVE_APPOINTMENT';
 const REMOVE_APPOINTMENT = 'REMOVE_APPOINTMENT';
+const STOP_LOADING = 'STOP_LOADING';
 
 const saveNewUser = (data, type) => {
   return {
@@ -47,7 +48,13 @@ const startLoading = () => {
   };
 };
 
-const removeUser = () => {
+const stoptLoading = () => {
+  return {
+    type: STOP_LOADING,
+  };
+};
+
+export const removeUser = () => {
   return {
     type: REMOVE_USER,
   };
@@ -228,26 +235,26 @@ export const signupPatient = (data, successCallback, errorCallback) => {
       .then(result => {
         console.log('result');
         if (result.data.status) {
-          const __data = {
-            mode: isDoctor ? 'doctor' : 'patient',
-            email: result.data.data.email,
-            name: result.data.data.name,
-            phone: result.data.data.phone,
-            id: result.data.data._id,
-          };
-          // _save(__data);
-
+          // const __data = {
+          //   mode: 'patient',
+          //   email: result.data.data.email,
+          //   name: result.data.data.name,
+          //   phone: result.data.data.phone,
+          //   id: result.data.data._id,
+          // };
           // dispatch(addUserToRedux(data))
-          AsyncStorage.setItem('userData', JSON.stringify(__data)).then(() => {
-            dispatch(saveNewUser(__data, 'patient'));
+          // AsyncStorage.setItem('userData', JSON.stringify(__data)).then(() => {
+            // dispatch(saveNewUser(__data, 'patient'));
+            dispatch(stoptLoading())
             successCallback();
-          });
+          // });
         }
         console.log(result.data.status);
       })
       .catch(err => {
-        dispatch(haveingError(err));
-        errorCallback(err);
+        console.log(err)
+        dispatch(haveingError(err.message));
+        errorCallback(err.message);
       });
   };
 };
