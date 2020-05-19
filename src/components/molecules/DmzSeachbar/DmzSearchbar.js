@@ -4,9 +4,9 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {TextInput} from 'react-native-gesture-handler';
 import FilterIcon from '../../../assets/svg/filter_icon.svg';
 
-function DmzSearchbar({placeholder, onEndEditing, onChangeText}) {
+function DmzSearchbar({placeholder, onEndEditing, onChangeText, style}) {
   return (
-    <View style={Styles.Container}>
+    <View style={[Styles.Container, style ? style : null]}>
       <View style={Styles.ContainerLeftWrapper}>
         <Icon name="search" size={20} />
         <TextInput

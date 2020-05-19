@@ -44,28 +44,15 @@ import { GetFamilyMember } from '../../../redux/action/patientAccountAction';
 
 
 const AllAnswer = ({ navigation }) => {
-      const [details, setDetails] = useState({
-            visitFor: ['me', 'child', 'Father', 'Mother'],
-            contactNum: '',
-            guest: '',
-            reasonForVisit: '',
-            name: ''
-      });
-      const [activeId, setActiveId] = useState(0);
-      const { familyMember, isPatientAccountReducerLoading } = useSelector(state => state.PatientAccountReducer)
       const dispatch = useDispatch()
+      const { data } = navigation.state.params
+      console.log(data)
 
-      useEffect(() => {
-            dispatch(GetFamilyMember('5eb31e07e078c64910b9d29e'))
-            // familyMember.length > 0 && familyMember.map( itm => setDetails({ ...details, visitFor: itm.relationship}))
-            console.log(familyMember)
-      }, [])
-
-      setupRelation = (id) => {
-            setActiveId(id)
-            setDetails({ ...details, contactNum: familyMember[id].phone || '', name: familyMember[id].firstName + ' ' + familyMember[id].lastName || '' })
-            console.log(details)
-      }
+      // useEffect(() => {
+      //       dispatch(GetFamilyMember('5eb31e07e078c64910b9d29e'))
+      //       // familyMember.length > 0 && familyMember.map( itm => setDetails({ ...details, visitFor: itm.relationship}))
+      //       console.log(familyMember)
+      // }, [])
 
       return (
             <View style={styles.Container}>
@@ -96,9 +83,26 @@ const AllAnswer = ({ navigation }) => {
 
                         }}>
                         <ScrollView style={{ width: '90%', paddingTop: 40 }}>
+                              <View>
+                                    {
+                                          data.map((item, index) => (
 
+                                                <View key={index} style={{ marginBottom: 20 }}>
+                                                      <Text>{item.question}</Text>
+                                                      <SMbutton
+                                                            onClick={() => console.log('click! click!')}
+                                                            key={index}
+                                                            name={item.answer}
+                                                            active={1}
+                                                            style={{ height: 25 }}
+                                                      />
+                                                </View>
+                                          ))
+                                    }
+                              </View>
                               <SMbutton
-                                    name="NEXT"
+                                    name="PAY FOR VISIT"
+                                    active={0}
                                     style={{
                                           height: 40,
                                           width: '60%',

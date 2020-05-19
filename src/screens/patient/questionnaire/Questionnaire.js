@@ -474,7 +474,8 @@ const Questionnaire = props => {
             name="ios-arrow-round-back"
             color={color.brand_color}
             size={35}
-            onPress={() => props.navigation.goBack(null)}
+            style={{ opacity: 0 }}
+            onPress={() => console.log('bg bg')/*props.navigation.goBack(null)*/}
           />
           <Text style={{ marginLeft: '32%', fontSize: 20 }}>DocMz</Text>
         </View>
