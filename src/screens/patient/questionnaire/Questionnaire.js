@@ -612,12 +612,18 @@ const Question = React.forwardRef((props, ref) => {
     case 'multiple':
       return <View style={{ marginTop: 10 }}>
         <Text style={{ fontSize: 12, letterSpacing: .5, textTransform: 'uppercase' }}>{question.title}</Text>
-        <MultipleOption options={question.option} />
+        <MultipleOption
+          options={question.option}
+          setAns={setAnswer}
+          question={question.title}
+        />
       </View>
     case 'inputBox':
       return < View style={{ marginTop: 10 }}>
         <Text style={{ fontSize: 12, letterSpacing: .5, textTransform: 'uppercase' }}>{question.title}</Text>
-        <InputOption />
+        <InputOption
+          setAns={setAnswer}
+          question={question.title} />
       </ View>
     default:
       return <Text>default</Text>
@@ -637,7 +643,7 @@ const SingleOption = ({ options, pushOption, setAns, question }) => {
     )
     pushOption(tmp)
     console.log('active option: ', options[activeOption].text, activeOption, index)
-    setAns({ question: question, answer: options[index].text })
+    setAns({ question: question, answer: options[index].text, type: 'single' })
   }
 
   return options.map((op, dex) => (
@@ -651,12 +657,17 @@ const SingleOption = ({ options, pushOption, setAns, question }) => {
 }
 
 
-const MultipleOption = ({ options }) => {
+const MultipleOption = ({ options, question, setAns }) => {
   const [select, setSelect] = useState([]);
+
+  useEffect(() => {
+    return setAns({ question: question, answer: select, type: 'multiple' })
+  })
 
   const selectHeldelar = ans => {
     if (!select.includes(ans)) {
       setSelect([...select, ans]);
+
     } else {
       const s = select.filter(item => item !== ans);
       setSelect(s);
@@ -706,8 +717,12 @@ const MultipleOption = ({ options }) => {
   </View>
 }
 
-const InputOption = () => {
-  const [myans, setAns] = useState('');
+const InputOption = ({ question, setAns }) => {
+  const [myans, setmyAns] = useState('');
+
+  useEffect(() => {
+    return setAns({ question: question, answer: myans, type: 'textbox' })
+  })
 
   return (
     <View style={TextBoxStyle.container} >
@@ -715,7 +730,7 @@ const InputOption = () => {
         <TextInput
           placeholder="answer."
           style={TextBoxStyle.input}
-          onChangeText={e => setAns(e)}
+          onChangeText={e => setmyAns(e)}
         />
       </View>
     </View>

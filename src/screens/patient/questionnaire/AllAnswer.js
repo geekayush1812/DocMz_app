@@ -89,13 +89,26 @@ const AllAnswer = ({ navigation }) => {
 
                                                 <View key={index} style={{ marginBottom: 20 }}>
                                                       <Text>{item.question}</Text>
-                                                      <SMbutton
-                                                            onClick={() => console.log('click! click!')}
-                                                            key={index}
-                                                            name={item.answer}
-                                                            active={1}
-                                                            style={{ height: 25 }}
-                                                      />
+                                                      <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+                                                            {
+                                                                  item.type === 'multiple' ?
+                                                                        item.answer.map(item => <SMbutton
+                                                                              onClick={() => console.log('click! click!')}
+                                                                              key={index}
+                                                                              name={item}
+                                                                              active={1}
+                                                                              style={{ height: 25, width: 'auto' }}
+                                                                        />) : <SMbutton
+                                                                              onClick={() => console.log('click! click!')}
+                                                                              key={index}
+                                                                              name={item.answer}
+                                                                              active={1}
+                                                                              style={{ height: 25, width: 'auto' }}
+                                                                        />
+
+                                                            }
+                                                      </View>
+
                                                 </View>
                                           ))
                                     }

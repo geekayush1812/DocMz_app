@@ -68,8 +68,8 @@ const MainNavigation = createStackNavigator(
     selectFiles: SelectFiles,
   },
   {
-    initialRouteName: 'pageNavigation',
-    // initialRouteName: 'question',
+    // initialRouteName: 'pageNavigation',
+    initialRouteName: 'question',
     headerMode: 'none',
   },
 );
