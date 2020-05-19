@@ -1,9 +1,13 @@
-import {createStackNavigator} from 'react-navigation';
+import React from 'react';
+import {createStackNavigator, createBottomTabNavigator} from 'react-navigation';
 
 import Home from '../screens/doctor/home/Home';
 import FindDoctor from '../screens/doctor/FindDoctor/FindDoctor';
 import DoctorDetailsScreen from '../screens/doctor/DoctorDetail/DoctorDetail';
 import Chats from '../screens/doctor/Chats/Chats';
+
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AtomExample from '../../example/atomExample';
 import Medication from '../screens/examples/medication/Medication';
 import Payments from '../screens/examples/payments/Payments';
@@ -17,32 +21,111 @@ import DmzLogin from '../screens/examples/DmzLogin/DmzLogin';
 import Expandable from '../screens/examples/Expandable/Expandable';
 import Profile from '../screens/examples/Profile/Profile';
 import Splash from '../screens/examples/Splash/Splash';
+import {View, Text} from 'react-native';
 // import Login from '../screens/examples/Login/Login';
 // import FallBg from '../screens/examples/FallBg/FallBg';
-const DoctorNavigation = createStackNavigator(
+
+// const DoctorNavigation = createStackNavigator(
+//   {
+//     homeScreen: Home,
+//     findDoctorScreen: FindDoctor,
+//     doctorDetail: DoctorDetailsScreen,
+//     chats: Chats,
+//     // testing: Expandable,
+//     // testing: DmzLogin,
+//     // testing: VerticalSlider,
+//     // testing: ForgotPassword,
+//     // testing: Otp,
+//     // testing: Signup,
+//     // testing: Login,
+//     // testing: Collapsible,
+//     // testing: Payments,
+//     // testing: Medication,
+//     // testing: AtomExample,
+//     // testing: Profile,
+//     // testing: Splash,
+//   },
+//   {
+//     initialRouteName: 'homeScreen',
+//     headerMode: 'none',
+//   },
+// );
+
+// export default DoctorNavigation;
+
+export default createBottomTabNavigator(
   {
-    homeScreen: Home,
-    findDoctorScreen: FindDoctor,
-    doctorDetail: DoctorDetailsScreen,
-    chats: Chats,
-    // testing: Expandable,
-    // testing: DmzLogin,
-    // testing: VerticalSlider,
-    // testing: ForgotPassword,
-    // testing: Otp,
-    // testing: Signup,
-    // testing: Login,
-    // testing: Collapsible,
-    // testing: Payments,
-    // testing: Medication,
-    // testing: AtomExample,
-    // testing: Profile,
-    testing: Splash,
+    homeScreen: {
+      screen: Home,
+      navigationOptions: {
+        tabBarIcon: ({focused, tintColor}) => {
+          return (
+            <FontAwesome
+              name="home"
+              color={focused ? tintColor : '#555'}
+              size={24}
+            />
+          );
+        },
+      },
+    },
+    findDoctorScreen: {
+      screen: FindDoctor,
+      navigationOptions: {
+        tabBarIcon: ({focused, tintColor}) => {
+          return (
+            <MaterialCommunityIcons
+              name="doctor"
+              color={focused ? tintColor : '#555'}
+              size={24}
+            />
+          );
+        },
+      },
+    },
+    doctorDetail: {
+      screen: DoctorDetailsScreen,
+      navigationOptions: {
+        tabBarIcon: ({focused, tintColor}) => {
+          return (
+            <MaterialCommunityIcons
+              name="details"
+              color={focused ? tintColor : '#555'}
+              size={24}
+            />
+          );
+        },
+      },
+    },
+    chats: {
+      screen: Chats,
+      navigationOptions: {
+        tabBarIcon: ({focused, tintColor}) => {
+          return (
+            <MaterialCommunityIcons
+              name="chat"
+              color={focused ? tintColor : '#555'}
+              size={24}
+            />
+          );
+        },
+      },
+    },
   },
   {
-    initialRouteName: 'testing',
-    headerMode: 'none',
+    // tabBarComponent: props => <BottomTabs {...props} />,
+    tabBarOptions: {
+      showLabel: false,
+    },
   },
 );
 
-export default DoctorNavigation;
+// const BottomTabs = props => {
+//   console.log('#######------------#########--------#####');
+//   console.log(props.navigation.state);
+//   return (
+//     <View style={{backgroundColor: 'red'}}>
+//       <Text>he</Text>
+//     </View>
+//   );
+// };

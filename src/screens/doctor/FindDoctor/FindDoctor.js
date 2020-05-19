@@ -48,15 +48,16 @@ function FindDoctor() {
           <ScrollView style={{marginTop: 8}}>
             <DmzSearchbar placeholder={'seach your patient'} />
             <Section HeaderText="Available Doctors">
-              <AvailDoctorContainer onPress={onPress} />
+              <AvailDoctorContainer schedule={[]} onPress={onPress} />
             </Section>
           </ScrollView>
         </Container>
-        <BottomNavigation PopupTranslateY={PopupTranslateY} />
+        {/* <BottomNavigation PopupTranslateY={PopupTranslateY} /> */}
         <ScheduleAppointment
           PopupTranslateY={PopupTranslateY}
           onPress={onPress}
           showPopup={showPopup}
+          doctors={[]}
         />
       </View>
     </>

@@ -24,8 +24,8 @@ const PageNavigation = createSwitchNavigator(
     doctorHomePage: DoctorNavigation,
   },
   {
-    initialRouteName: isDoctorLogin ? 'doctorHomePage' : 'patientHomePage',
-    // initialRouteName: 'doctorHomePage',
+    // initialRouteName: isDoctorLogin ? 'doctorHomePage' : 'patientHomePage',
+    initialRouteName: 'doctorHomePage',
     headerMode: 'none',
   },
 );
@@ -68,11 +68,10 @@ const MainNavigation = createStackNavigator(
     question: questionnaire,
     selectFiles: SelectFiles,
     WaitingRoom: WaitingRoom
-
   },
   {
-    // initialRouteName: 'pageNavigation',
-    initialRouteName: 'question',
+    initialRouteName: 'pageNavigation',
+    // initialRouteName: 'question',
     headerMode: 'none',
   },
 );
