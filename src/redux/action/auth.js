@@ -1,10 +1,10 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
-import {Host} from '../../utils/connection';
+import { Host } from '../../utils/connection';
 
-import {resetDataStore} from './dataStore';
-import {resetDoctor} from './doctoreAction';
-import {resetQuestion} from './questionAction';
+import { resetDataStore } from './dataStore';
+import { resetDoctor } from './doctoreAction';
+import { resetQuestion } from './questionAction';
 
 export const addUserToRedux = data => {
   return {
@@ -128,17 +128,41 @@ export const LoginPatient = (data, success, faild) => {
   };
 };
 
-export const LoginDoctor = (data, success, faild) => {
-  return dispatch => {
-    console.log('poooo////////////*****************//////////////');
-    // setup loading screen
-    dispatch(startLoading());
 
+function ValidateEmail(mail) {
+  if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
+    return (true)
+  }
+  return (false)
+}
+
+
+
+export const LoginDoctor = (data, success, faild) => {
+
+  return dispatch => {
+    dispatch(startLoading());
     // setting header
     const config = {
       'Content-Type': 'application/x-www-form-urlencoded',
       Accept: '*/*',
     };
+    
+
+    // if (!ValidateEmail(data.email)) {
+    //   faild({ message: 'Invalide mail address' })
+    //   return;
+    // }
+
+    // if (data.email.length < 3) {
+    //   faild({ message: 'Please check your email address.' })
+    //   return;
+    // }
+    // if (data.password.length < 3) {
+    //   faild({ message: 'Invalid password' })
+    //   return;
+    // }
+
 
     axios
       .post(`${Host}/doctors/authenticate`, data, config)
@@ -156,7 +180,7 @@ export const LoginDoctor = (data, success, faild) => {
           dispatch(saveNewUser(_data, 'doctor'));
           success({
             status: true,
-            message: 'Doctor add successfully.',
+            message: 'Doctor Login successfully.',
           });
         } else {
           faild({
@@ -166,9 +190,10 @@ export const LoginDoctor = (data, success, faild) => {
         }
       })
       .catch(err => {
+        // console.log('****************** in err *****************', err)
         faild({
-          status: false,
-          message: err,
+          // message: 'Incorrect Email and/or password'
+          message: err.resopnse.message
         });
         dispatch(haveingError(err));
       });

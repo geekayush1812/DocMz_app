@@ -71,8 +71,8 @@ const MainNavigation = createStackNavigator(
 
   },
   {
-    // initialRouteName: 'pageNavigation',
-    initialRouteName: 'question',
+    initialRouteName: 'pageNavigation',
+    // initialRouteName: 'question',
     headerMode: 'none',
   },
 );

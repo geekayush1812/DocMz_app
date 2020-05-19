@@ -127,7 +127,6 @@ const Custom = ({
 
   return (
     <View style={styles.container}>
-      <ScrollView style={{flex: 1, marginBottom: 0}}>
         <FancyHeaderLite
           showOverlayComponent={false}
           // LeftComp={<NavBackCustom />}
@@ -212,6 +211,8 @@ const Custom = ({
             </View>
           </View>
         </FancyHeaderLite>
+      <ScrollView style={{flex: 1, marginBottom: 0}}>
+        
         {Navigation.map((row, index) => {
           if (row.isNested) {
             return (

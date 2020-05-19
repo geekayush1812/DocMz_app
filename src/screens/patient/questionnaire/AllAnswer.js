@@ -21,15 +21,11 @@ const AllAnswer = ({ navigation }) => {
       const { data } = navigation.state.params
       console.log(data)
 
-      // useEffect(() => {
-      //       dispatch(GetFamilyMember('5eb31e07e078c64910b9d29e'))
-      //       // familyMember.length > 0 && familyMember.map( itm => setDetails({ ...details, visitFor: itm.relationship}))
-      //       console.log(familyMember)
-      // }, [])
 
       return (
             <View style={styles.Container}>
                   <FancyHeader
+                        navigation={navigation}
                         showOverlayComponent={false}
                         LeftComp={<NavBackCustom />}
                         headerText="DocMz"

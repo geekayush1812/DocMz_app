@@ -34,6 +34,7 @@ const WaitingRoom = ({ navigation }) => {
       return (
             <View style={styles.Container}>
                   <FancyHeader
+                        navigation={navigation}
                         showOverlayComponent={false}
                         LeftComp={<NavBackCustom />}
                         headerText="DocMz"
