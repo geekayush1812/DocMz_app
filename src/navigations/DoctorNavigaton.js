@@ -17,6 +17,7 @@ import DmzLogin from '../screens/examples/DmzLogin/DmzLogin';
 import Expandable from '../screens/examples/Expandable/Expandable';
 import Profile from '../screens/examples/Profile/Profile';
 import Splash from '../screens/examples/Splash/Splash';
+// import Home1 from '../../xsrc/Doctors/Home/Home1';
 // import Login from '../screens/examples/Login/Login';
 // import FallBg from '../screens/examples/FallBg/FallBg';
 const DoctorNavigation = createStackNavigator(
@@ -37,10 +38,10 @@ const DoctorNavigation = createStackNavigator(
     // testing: Medication,
     // testing: AtomExample,
     // testing: Profile,
-    testing: Splash,
+    // testing: Splash,
   },
   {
-    initialRouteName: 'testing',
+    initialRouteName: 'homeScreen',
     headerMode: 'none',
   },
 );

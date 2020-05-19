@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   View,
   Animated,
@@ -16,8 +16,10 @@ import Container from '../../../components/organisms/Container/Container';
 import DmzSwitch from '../../../components/molecules/DmzSwitch/DmzSwitch';
 import ProfilePic from '../../../components/atoms/ProfilePic/ProfilePic';
 import TimelineContainer from '../../../components/molecules/TimelineContainer/TimelineContainer';
-import {months} from '../../../utils/Months';
+import { months } from '../../../utils/Months';
 import CalenderMonth from '../../../components/molecules/CalenderMonth/CalenderMonth';
+import { useDispatch, useSelector } from 'react-redux';
+import { GettingDocterLatestInfo } from '../../../redux/action/doctor/myDoctorAction';
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -26,10 +28,25 @@ if (Platform.OS === 'android') {
 }
 
 const Home = () => {
+  const dispatch = useDispatch()
+  const {
+    isMyDoctorReducerLoading,
+    doctorProfile,
+    haveingMyDoctorReducerError
+  } = useSelector(state => state.MyDoctorReducer)
+
   const [tabIndex, settabIndex] = useState(0);
   const tabIndexPos = useRef(new Animated.Value(0)).current;
   const [timeline, setTimeline] = useState(1);
-  const onTabPress = function(tab) {
+
+  // getting recent appointments
+  useEffect(() => {
+    dispatch(GettingDocterLatestInfo())
+  }, [])
+
+
+
+  const onTabPress = function (tab) {
     if (tabIndex === 0 && tab === 2) {
       InteractionManager.runAfterInteractions(() => {
         Animated.timing(tabIndexPos, {
@@ -142,18 +159,18 @@ const Home = () => {
     <View style={Styles.Container}>
       <FancyHeader
         headerText="Appointment"
-        style={{Container: {height: '35%'}}}>
+        style={{ Container: { height: '35%' } }}>
         <ToggleButton text="online" />
       </FancyHeader>
       <Container
         style={{
           height: '75%',
-          transform: [{translateY: -50}],
+          transform: [{ translateY: -50 }],
           zIndex: 999,
         }}>
         <DmzSwitch
-          tabOne={{title: 'Appointments', onPress: () => onTabPress(1)}}
-          tabTwo={{title: 'Calender', onPress: () => onTabPress(2)}}
+          tabOne={{ title: 'Appointments', onPress: () => onTabPress(1) }}
+          tabTwo={{ title: 'Calender', onPress: () => onTabPress(2) }}
           style={{
             Container: {
               marginTop: 0,
@@ -161,13 +178,13 @@ const Home = () => {
               elevation: 5,
               backgroundColor: '#fff',
             },
-            Button: {height: 60},
+            Button: { height: 60 },
             Slider: {
               borderWidth: null,
               backgroundColor: '#6231CB',
               zIndex: -10,
             },
-            activeStyle: {color: '#fff'},
+            activeStyle: { color: '#fff' },
           }}
         />
 
@@ -187,7 +204,7 @@ const Home = () => {
             }}
             data={Data}
             keyExtractor={item => item._id.toString()}
-            renderItem={({item}) => (
+            renderItem={({ item }) => (
               <TimelineContainer
                 PatientName={item.PatientName}
                 Timing={item.Timing}
@@ -225,7 +242,7 @@ const Home = () => {
             }
             data={months}
             keyExtractor={item => item.month.toString()}
-            renderItem={({item}) => (
+            renderItem={({ item }) => (
               <CalenderMonth month={item.month - 1} item={item} />
             )}
           />
@@ -236,7 +253,7 @@ const Home = () => {
 };
 
 const Styles = StyleSheet.create({
-  Container: {flex: 1, backgroundColor: '#fff'},
+  Container: { flex: 1, backgroundColor: '#fff' },
   ProfilePic: {
     height: 60,
     width: 60,

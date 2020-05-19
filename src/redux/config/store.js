@@ -8,6 +8,7 @@ import MainNavigation from '../../navigations/MainNavigation';
 import {persistStore, persistReducer} from 'redux-persist';
 import {PersistGate} from 'redux-persist/integration/react';
 import AsyncStorage from '@react-native-community/async-storage';
+import Splash from '../../screens/examples/Splash/Splash';
 // import Loading from '../../screens/loading/Loading'
 
 const persistConfig = {

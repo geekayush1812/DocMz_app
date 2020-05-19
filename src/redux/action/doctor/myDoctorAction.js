@@ -1,6 +1,5 @@
 import axios from 'axios';
-import { Host } from '../../../config/settings/Connection';
-import { useSelector } from 'react-redux';
+import {Host} from '../../../utils/connection'
 
 const save = 'SAVE_MY_DOCTOR';
 const loading = 'START_MY_DOCTOR_REDUCER_LOADING';
