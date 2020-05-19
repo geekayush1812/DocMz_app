@@ -93,7 +93,7 @@ const Home = ({navigation}) => {
   const [showPopup, setShowPopup] = useState(false);
   const [searchKey, setSearchKey] = useState('');
   const PopupTranslateY = useRef(new Animated.Value(0)).current;
-  const dispatch = useDispatch();
+  const dispatch = useDispatch(); 
   const {
     doctors,
     loading,
@@ -110,6 +110,8 @@ const Home = ({navigation}) => {
   const [disEnd, setDisEnd] = useState(0);
   const [trigger, setTrigger] = useState(true);
   var __id = '';
+
+  if(isDoctor && isLogedin) navigation.navigate('doctorHomePage')
 
   useEffect(() => {
     //console.log(

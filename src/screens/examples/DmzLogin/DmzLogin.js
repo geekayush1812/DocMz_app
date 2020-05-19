@@ -8,7 +8,7 @@ import AnimInput from '../../../components/molecules/AnimInput/AnimInput';
 import GoogleIcon from '../../../assets/svg/google.svg';
 import FacebookIcon from '../../../assets/svg/facebook.svg';
 
-import {LoginDoctor, LoginPatient} from '../../../redux/action/auth';
+import {LoginDoctor, LoginPatient, removeUser} from '../../../redux/action/auth';
 import {_LoginPatient} from '../../../redux/action/authAction';
 import LoadingButton from '../../../components/atoms/LoadingButton/LoadingButton';
 
@@ -27,7 +27,8 @@ function DmzLogin(props) {
   };
 
   const successCallback = successResponce => {
-    // console.log(`PatientLoginAction(success):  ${successResponce.message}`);
+    showTost(successResponce.message.toString());
+    console.log(`PatientLoginAction(success):  ${successResponce.message}`);
     // console.log(authData);
     // dispatch(GetPatientInfo())
     isDoctor
@@ -44,11 +45,17 @@ function DmzLogin(props) {
   const _handelPatientLogin = () => {
     console.log(data);
     dispatch(LoginPatient(data, successCallback, errorCallback));
+    setTimeout(() => {
+      dispatch(removeUser())
+    }, 30000);
   };
 
   const _handelDoctorLogin = () => {
     console.log(data);
     dispatch(LoginDoctor(data, successCallback, errorCallback));
+    setTimeout(() => {
+      dispatch(removeUser())
+    }, 10000);
   };
 
   const showTost = (msg = 'nothing') => {

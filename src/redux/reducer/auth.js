@@ -23,7 +23,7 @@ const AuthReducer = (state = initialState, action) => {
     case 'HAVEING_ERROR':
       return {
         ...state,
-        error: action.error,
+        error: action.error, 
         isLoading: false,
       };
     case 'LOADING':

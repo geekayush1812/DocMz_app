@@ -60,7 +60,7 @@ function DmzLogin(props) {
 
   // useEffect(() => {
   //   return dispatch(removeUser());
-  // });
+  // }, []);
 
   const onChoosePicture = async () => {
     const granted = await PermissionsAndroid.check(

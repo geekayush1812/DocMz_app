@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {
   View,
   Animated,
@@ -18,6 +18,8 @@ import ProfilePic from '../../../components/atoms/ProfilePic/ProfilePic';
 import TimelineContainer from '../../../components/molecules/TimelineContainer/TimelineContainer';
 import {months} from '../../../utils/Months';
 import CalenderMonth from '../../../components/molecules/CalenderMonth/CalenderMonth';
+import {useDispatch, useSelector} from 'react-redux';
+import {GettingDocterLatestInfo} from '../../../redux/action/doctor/myDoctorAction';
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -26,9 +28,22 @@ if (Platform.OS === 'android') {
 }
 
 const Home = () => {
+  const dispatch = useDispatch();
+  const {
+    isMyDoctorReducerLoading,
+    doctorProfile,
+    haveingMyDoctorReducerError,
+  } = useSelector(state => state.MyDoctorReducer);
+
   const [tabIndex, settabIndex] = useState(0);
   const tabIndexPos = useRef(new Animated.Value(0)).current;
   const [timeline, setTimeline] = useState(1);
+
+  // getting recent appointments
+  useEffect(() => {
+    dispatch(GettingDocterLatestInfo());
+  }, []);
+
   const onTabPress = function(tab) {
     if (tabIndex === 0 && tab === 2) {
       InteractionManager.runAfterInteractions(() => {
@@ -143,7 +158,7 @@ const Home = () => {
       <FancyHeader
         headerText="Appointment"
         style={{Container: {height: '35%'}}}>
-        <ToggleButton text="online" />
+        <ToggleButton text0="online" text1="offline" onToggle={() => {}} />
       </FancyHeader>
       <Container
         style={{
