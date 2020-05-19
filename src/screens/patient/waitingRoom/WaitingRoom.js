@@ -3,7 +3,7 @@
 
 
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Image } from 'react-native';
 import { TouchableOpacity, TextInput } from 'react-native-gesture-handler';
 import FancyHeader from '../../../components/organisms/FancyHeader/FancyHeader';
 import Container from '../../../components/organisms/Container/Container';
@@ -14,18 +14,22 @@ import NavBackCustom from '../../../assets/svg/nav_back_custom.svg';
 import { PRIMARY_BORDER_COLOR } from '../../../styles/colors'
 import { useSelector, useDispatch } from 'react-redux';
 import { GetFamilyMember } from '../../../redux/action/patientAccountAction';
+import { StackActions, NavigationActions } from 'react-navigation'
 
 
-const AllAnswer = ({ navigation }) => {
+const WaitingRoom = ({ navigation }) => {
       const dispatch = useDispatch()
-      const { data } = navigation.state.params
-      console.log(data)
 
       // useEffect(() => {
       //       dispatch(GetFamilyMember('5eb31e07e078c64910b9d29e'))
       //       // familyMember.length > 0 && familyMember.map( itm => setDetails({ ...details, visitFor: itm.relationship}))
       //       console.log(familyMember)
       // }, [])
+
+      const resetAction = StackActions.reset({
+            index: 0,
+            actions: [NavigationActions.navigate({ routeName: 'pageNavigation' })],
+      });
 
       return (
             <View style={styles.Container}>
@@ -56,38 +60,13 @@ const AllAnswer = ({ navigation }) => {
 
                         }}>
                         <ScrollView style={{ width: '90%', paddingTop: 40 }}>
-                              <View>
-                                    {
-                                          data.map((item, index) => (
-
-                                                <View key={index} style={{ marginBottom: 20 }}>
-                                                      <Text>{item.question}</Text>
-                                                      <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
-                                                            {
-                                                                  item.type === 'multiple' ?
-                                                                        item.answer.map(item => <SMbutton
-                                                                              onClick={() => console.log('click! click!')}
-                                                                              key={index}
-                                                                              name={item}
-                                                                              active={1}
-                                                                              style={{ height: 25, width: 'auto' }}
-                                                                        />) : <SMbutton
-                                                                              onClick={() => console.log('click! click!')}
-                                                                              key={index}
-                                                                              name={item.answer}
-                                                                              active={1}
-                                                                              style={{ height: 25, width: 'auto' }}
-                                                                        />
-
-                                                            }
-                                                      </View>
-
-                                                </View>
-                                          ))
-                                    }
+                              <View style={{ display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center', marginVertical: 30 }}>
+                                    <Image source={require('../../../assets/png/Frame.png')} style={{ height: 300, width: 200 }} />
+                                    <Text>First available medical doctor</Text>
+                                    <Text>Estimated waiting time: 22 minutes</Text>
                               </View>
                               <SMbutton
-                                    name="PAY FOR VISIT"
+                                    name="GO TO HOME"
                                     active={0}
                                     style={{
                                           height: 40,
@@ -95,7 +74,7 @@ const AllAnswer = ({ navigation }) => {
                                           alignSelf: 'center',
                                           marginTop: 20,
                                     }}
-                                    onClick={() => navigation.navigate('WaitingRoom')}
+                                    onClick={() => navigation.dispatch(resetAction)}
                               />
                         </ScrollView>
                   </Container>
@@ -115,4 +94,4 @@ const styles = StyleSheet.create({
       },
 });
 
-export default AllAnswer;
+export default WaitingRoom;
