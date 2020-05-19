@@ -16,7 +16,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {resetStore} from '../../../../redux/action/auth';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import ExpandableOption from '../../../molecules/ExpandableOption/ExpandableOption';
-import FancyHeaderLite from '../../FancyHeaderLite/FancyHeaderLite';
+import FancyHeaderLite from '../../../organisms/FancyHeaderLite/FancyHeaderLite';
 
 const Navigation = [
   {
@@ -127,7 +127,7 @@ const Custom = ({
 
   return (
     <View style={styles.container}>
-      <ScrollView style={{flex: 1}} contentContainerStyle={{height: '100%'}}>
+      <ScrollView style={{flex: 1, marginBottom: 0}}>
         <FancyHeaderLite
           showOverlayComponent={false}
           // LeftComp={<NavBackCustom />}
