@@ -12,6 +12,7 @@ import NewQuestionnaire from '../screens/patient/questionnaire/NewQuestionnaire'
 import AllAnswer from '../screens/patient/questionnaire/AllAnswer';
 import SelectFiles from '../screens/patient/questionnaire/SelectFiles';
 import {useSelector} from 'react-redux';
+import WaitingRoom from '../screens/patient/waitingRoom/WaitingRoom';
 
 // check for login status
 const isDoctorLogin = false;
@@ -51,7 +52,7 @@ const questionnaire = createStackNavigator(
     AllAnswer,
     BookingDetails,
     NewQuestionnaire,
-    Questionnaire
+    Questionnaire,
   },
   {
     initialRouteName: 'BookingDetails',
@@ -66,6 +67,8 @@ const MainNavigation = createStackNavigator(
     docPatientStrem: docMainStream,
     question: questionnaire,
     selectFiles: SelectFiles,
+    WaitingRoom: WaitingRoom
+
   },
   {
     // initialRouteName: 'pageNavigation',
