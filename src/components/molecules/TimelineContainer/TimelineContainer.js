@@ -22,7 +22,7 @@ function TimelineContainer({
             CardContainer: [
               Styles.CardContainer,
               active
-                ? {backgroundColor: '#F4C130'}
+                ? {backgroundColor: '#F4C130', elevation: 10}
                 : {backgroundColor: '#fff', elevation: 0},
             ],
           }}>

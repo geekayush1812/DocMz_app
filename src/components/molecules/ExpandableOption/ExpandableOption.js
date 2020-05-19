@@ -22,6 +22,7 @@ import {
   TouchableOpacity,
   TouchableNativeFeedback,
 } from 'react-native-gesture-handler';
+import {Colors} from '../../../styles/index';
 
 /**
  *
@@ -76,13 +77,17 @@ const ExpandableOption = props => {
           type={fontSize}
           normal
           gap_small
-          style={{color: showContent && isNested ? '#ff1f75' : '#222'}}
+          style={{
+            color: showContent && isNested ? Colors.header_grad_two : '#222',
+          }}
         />
         <MaterialIcon
           name={icon}
           size={MEDIUM_ICON_SIZE}
           style={styles.icon}
-          color={showContent && isNested ? '#ff1f75' : SECONDARY_ICON}
+          color={
+            showContent && isNested ? Colors.header_grad_two : SECONDARY_ICON
+          }
         />
       </TouchableOpacity>
       {showContent && (

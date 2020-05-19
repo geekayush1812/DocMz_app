@@ -25,6 +25,8 @@ import Overlay from '../../../components/atoms/Overlay/Overlay';
 import BasicCard from '../../../components/atoms/BasicCard/BasicCard';
 import AnimInput from '../../../components/molecules/AnimInput/AnimInput';
 import DmzButton from '../../../components/atoms/DmzButton/DmzButton';
+import FancyHeaderLite from '../../../components/organisms/FancyHeaderLite/FancyHeaderLite';
+import Container from '../../../components/organisms/Container/Container';
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -72,36 +74,48 @@ const FamilyMember = ({navigation}) => {
   };
 
   return (
-    <>
-      <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
-        <GradientTopNavBar
-          navigation={navigation}
-          isClap={true}
-          onLeftButtonPress={() => navigation.goBack(null)}
-          headerText={'Family Member'}
-        />
-        <View style={Styles.FamilyCardContainer}>
-          <View
-            style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
-            {familyMember === null ? (
-              <Text>No member found</Text>
-            ) : isPatientAccountReducerLoading ? (
-              <ActivityIndicator size={20} color={'#000'} />
-            ) : (
-              familyMember.map(({firstName, relationship}) => (
-                <Person name={firstName} relationship={relationship} />
-              ))
-            )}
+    <View style={{flex: 1, backgroundColor: '#fff'}}>
+      <FancyHeaderLite
+        navigation={navigation}
+        isClap={true}
+        onLeftButtonPress={() => navigation.goBack(null)}
+        headerText={'Family Member'}
+        style={{
+          Section: {overflow: 'hidden', height: '20%', marginBottom: 0},
+        }}
+      />
+      <Container
+        style={{
+          height: '75%',
+          transform: [{translateY: -30}],
+          zIndex: 999,
+          backgroundColor: '#fff',
+          paddingTop: 15,
+        }}>
+        <ScrollView style={{flex: 1}}>
+          <View style={Styles.FamilyCardContainer}>
+            <View
+              style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
+              {familyMember === null ? (
+                <Text>No member found</Text>
+              ) : isPatientAccountReducerLoading ? (
+                <ActivityIndicator size={20} color={'#000'} />
+              ) : (
+                familyMember.map(({firstName, relationship}) => (
+                  <Person name={firstName} relationship={relationship} />
+                ))
+              )}
+            </View>
+            <View style={Styles.AddButton}>
+              <TouchableOpacity
+                onPress={onOpenPopup}
+                style={Styles.AddButtonTouchable}>
+                <FontAwesome name="plus" size={20} color="#ff1f75" />
+              </TouchableOpacity>
+            </View>
           </View>
-          <View style={Styles.AddButton}>
-            <TouchableOpacity
-              onPress={onOpenPopup}
-              style={Styles.AddButtonTouchable}>
-              <FontAwesome name="plus" size={20} color="#ff1f75" />
-            </TouchableOpacity>
-          </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </Container>
       {showPopup && (
         <Overlay style={Styles.Overlay}>
           <BasicCard
@@ -208,14 +222,13 @@ const FamilyMember = ({navigation}) => {
           </BasicCard>
         </Overlay>
       )}
-    </>
+    </View>
   );
 };
 
 const Styles = StyleSheet.create({
   FamilyCardContainer: {
     flex: 1,
-    backgroundColor: '#fff',
     display: 'flex',
     flexWrap: 'wrap',
     padding: 10,

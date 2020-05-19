@@ -13,13 +13,18 @@ import {View, Text, Image, StyleSheet} from 'react-native';
 const Avater = ({
   src = require('../../../assets/jpg/person1.jpg'),
   type = 0,
+  style,
 }) => {
-  const size = [25, 30, 35,45,55,65];
+  const size = [25, 30, 35, 45, 55, 65, 70];
   return (
     <View>
       <Image
         source={src}
-        style={[styles.container, {width: size[type], height: size[type]}]}
+        style={[
+          styles.container,
+          {width: size[type], height: size[type]},
+          style ? style : null,
+        ]}
       />
     </View>
   );

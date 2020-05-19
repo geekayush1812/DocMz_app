@@ -39,6 +39,8 @@ import Dot from '../../../components/atoms/ToggleDot/ToggleDot';
 import VerticleText from '../../../components/atoms/VerticalText/VerticalText';
 import Counter from '../../../components/molecules/Counter/Counter';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import FancyHeaderLite from '../../../components/organisms/FancyHeaderLite/FancyHeaderLite';
+import Container from '../../../components/organisms/Container/Container';
 function MedicalRecords({navigation}) {
   const [showAddRecord, setShowAddRecord] = useState(false);
   const [review, setReview] = useState(false);
@@ -47,18 +49,25 @@ function MedicalRecords({navigation}) {
   };
   return (
     <View style={Styles.Container}>
-      <GradientTopNavBar
+      <FancyHeaderLite
         headerText=""
         navigation={navigation}
         LeftComp={
           <ProfilePic
             sourceurl={require('../../../assets/jpg/person1.jpg')}
-            style={{Container: {height: 28, width: 28}}}
+            style={{Container: {height: 32, width: 32}}}
           />
         }
-        RightComp={<Ham height={28} width={28} />}
+        style={{Section: {overflow: 'hidden', height: '15%', marginBottom: 0}}}
       />
-      <View style={Styles.HeaderTextContainer}>
+      <Container
+        style={{
+          height: '75%',
+          transform: [{translateY: -30}],
+          zIndex: 999,
+          backgroundColor: '#fff',
+          padding: 20,
+        }}>
         <DmzText
           text="Hello Ayush"
           lite
@@ -73,13 +82,12 @@ function MedicalRecords({navigation}) {
           gap_medium
         />
 
-        {!showAddRecord && <DmzSearchbar placeholder="search medicine" />}
         {/* when list of medication isn't */}
 
         <View style={Styles.AddNewContainer}>
-          <DmzText type={2} normal gap_small text="Add a new medication" />
+          <DmzText type={3} lite gap_small text="Add a new medication" />
           <TouchableOpacity onPress={onPress}>
-            <SimpleIcon name="plus" color={'blue'} size={12} />
+            <SimpleIcon name="plus" color={Colors.header_grad_two} size={38} />
           </TouchableOpacity>
         </View>
 
@@ -116,7 +124,7 @@ function MedicalRecords({navigation}) {
             />
           </View>
         )}
-      </View>
+      </Container>
       {showAddRecord && (
         <Overlay
           style={{
@@ -127,20 +135,26 @@ function MedicalRecords({navigation}) {
           <BasicCard
             style={{
               CardContainer: {
-                width: '80%',
+                width: '85%',
                 marginRight: null,
-                height: '70%',
+                height: '85%',
                 justifyContent: null,
                 alignItems: null,
                 padding: 20,
+                borderRadius: 20,
                 zIndex: 9999,
               },
             }}>
+            <DmzSearchbar
+              style={{marginBottom: 10, marginTop: null, width: '95%'}}
+              placeholder="search medicine"
+            />
             <DmzText
               lite
+              type={3}
               gap_small
               text="Dose Appearance"
-              style={{color: '#777'}}
+              style={{color: '#555'}}
             />
             <IconsRow
               Icon={<FontAwesome name="heart" size={20} color="#ccc" />}
@@ -160,11 +174,18 @@ function MedicalRecords({navigation}) {
             </View>
             <DmzText
               lite
+              type={3}
+              style={{color: '#555'}}
               gap_small
               text="Take as per needed"
-              style={{color: '#777'}}
             />
-            <DmzText lite gap_small text="Schedule" style={{color: '#777'}} />
+            <DmzText
+              lite
+              gap_small
+              text="Schedule"
+              type={3}
+              style={{color: '#555'}}
+            />
             <View style={Styles.DayContainer}>
               <VerticleText text={{Top: 'M', Bottom: '7'}} />
               <VerticleText text={{Top: 'Tu', Bottom: '8'}} />
@@ -180,9 +201,19 @@ function MedicalRecords({navigation}) {
               lite
               gap_small
               text="Reminders & Dosage"
-              style={{color: '#777'}}
+              type={3}
+              style={{color: '#555'}}
             />
-            <Counter />
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                marginTop: 20,
+              }}>
+              <Counter />
+              <Counter />
+              <Counter />
+            </View>
           </BasicCard>
         </Overlay>
       )}
@@ -199,9 +230,9 @@ const Styles = StyleSheet.create({
     padding: 20,
   },
   AddNewContainer: {
-    flexDirection: 'row',
+    flex: 1,
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
   },
   ColorContainer: {
     flexDirection: 'row',

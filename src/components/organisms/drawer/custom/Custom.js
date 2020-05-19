@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   Text,
@@ -10,12 +10,14 @@ import {
 import Avater from '../../../atoms/Avater/Avater';
 import DmzText from '../../../atoms/DmzText/DmzText';
 import Option from '../../../molecules/Option/Option';
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
-import { useSelector, useDispatch } from 'react-redux';
-import { resetStore } from '../../../../redux/action/auth';
-import LinearGradient from 'react-native-linear-gradient';
+import {Colors} from '../../../../styles/index';
+import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
+import {useSelector, useDispatch} from 'react-redux';
+import {resetStore} from '../../../../redux/action/auth';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import ExpandableOption from '../../../molecules/ExpandableOption/ExpandableOption';
+import FancyHeaderLite from '../../FancyHeaderLite/FancyHeaderLite';
+
 const Navigation = [
   {
     active: true,
@@ -112,7 +114,7 @@ const Custom = ({
   phone_num = '8001981993',
   activeItemKey,
 }) => {
-  const { isLogedin, isDoctor, data } = useSelector(state => state.AuthReducer);
+  const {isLogedin, isDoctor, data} = useSelector(state => state.AuthReducer);
   const dispatch = useDispatch();
   console.log(navigation);
   const _logout = () => {
@@ -124,87 +126,92 @@ const Custom = ({
   };
 
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <View style={[styles.section, styles.sectionTop]}>
-          <LinearGradient
-            style={{ width: '100%' }}
-            colors={['rgba(15, 12, 9,0.7)', 'rgba(15, 12, 9,1)']}
-            useAngle={true}
-            angle={-90}>
-            <View style={styles.backButtonContainer}>
-              <TouchableOpacity
-                style={styles.touchableButton}
-                onPress={closeDrawer}>
-                <FontAwesome size={28} color={'#ff1f75'} name="angle-left" />
+    <View style={styles.container}>
+      <ScrollView style={{flex: 1, marginBottom: 10}}>
+        <FancyHeaderLite
+          showOverlayComponent={false}
+          // LeftComp={<NavBackCustom />}
+          // headerText="DocMz"
+          hideRightComp
+          RightComp={null}
+          style={{Section: {height: '29%'}}}
+          navigation={navigation}>
+          <View style={styles.profile}>
+            <Avater
+              type={6}
+              // style={{marginLeft: 'auto', marginRight: 'auto'}}
+            />
+            <DmzText
+              text={!data ? 'no name' : data.name}
+              type={2}
+              bold
+              gap_medium
+              style={{
+                color: '#f1f1f1',
+                lineHeight: 18,
+                marginTop: 5,
+              }}
+            />
+            <DmzText
+              text={!data ? '0000000000' : data.phone}
+              center
+              gap_big
+              lite
+              style={{
+                color: '#f1f1f1',
+                lineHeight: 18,
+              }}
+            />
+          </View>
+          <View style={styles.floatingCard}>
+            <View style={[styles.floatingCardSection, styles.thinBorderRight]}>
+              <View>
+                <DmzText
+                  text="Weight"
+                  type={0}
+                  lite
+                  style={styles.floatingCardSectionHeading}
+                />
+                <DmzText
+                  text="61"
+                  type={4}
+                  lite
+                  style={{textTransform: 'uppercase', color: '#555'}}
+                />
+              </View>
+              <TouchableOpacity style={styles.touchableButton}>
+                <FontAwesome
+                  size={28}
+                  color={Colors.header_grad_two}
+                  name="angle-right"
+                />
               </TouchableOpacity>
             </View>
-
-            <View style={styles.profile}>
-              <Avater type={3} />
-              <View
-                style={{
-                  marginLeft: 10,
-                }}>
+            <View style={styles.floatingCardSection}>
+              <View>
                 <DmzText
-                  text={!data ? 'no name' : data.name}
-                  type={4}
-                  bold
-                  gap_medium
-                  style={{ color: '#f1f1f1', lineHeight: 18 }}
-                />
-                <DmzText
-                  text={!data ? '0000000000' : data.phone}
-                  center
-                  gap_big
+                  text="BMI"
+                  type={0}
                   lite
-                  style={{ color: '#f1f1f1', lineHeight: 18 }}
+                  style={styles.floatingCardSectionHeading}
+                />
+                <DmzText
+                  text="21.38"
+                  type={4}
+                  lite
+                  style={{textTransform: 'uppercase', color: '#555'}}
                 />
               </View>
+              <TouchableOpacity style={styles.touchableButton}>
+                <FontAwesome
+                  size={28}
+                  color={Colors.header_grad_two}
+                  name="angle-right"
+                />
+              </TouchableOpacity>
             </View>
-            <View style={styles.floatingCard}>
-              <View
-                style={[styles.floatingCardSection, styles.thinBorderRight]}>
-                <View>
-                  <DmzText
-                    text="Weight"
-                    type={0}
-                    lite
-                    style={styles.floatingCardSectionHeading}
-                  />
-                  <DmzText
-                    text="61"
-                    type={4}
-                    lite
-                    style={{ textTransform: 'uppercase', color: '#555' }}
-                  />
-                </View>
-                <TouchableOpacity style={styles.touchableButton}>
-                  <FontAwesome size={28} color={'#ff1f75'} name="angle-right" />
-                </TouchableOpacity>
-              </View>
-              <View style={styles.floatingCardSection}>
-                <View>
-                  <DmzText
-                    text="BMI"
-                    type={0}
-                    lite
-                    style={styles.floatingCardSectionHeading}
-                  />
-                  <DmzText
-                    text="21.38"
-                    type={4}
-                    lite
-                    style={{ textTransform: 'uppercase', color: '#555' }}
-                  />
-                </View>
-                <TouchableOpacity style={styles.touchableButton}>
-                  <FontAwesome size={28} color={'#ff1f75'} name="angle-right" />
-                </TouchableOpacity>
-              </View>
-            </View>
-          </LinearGradient>
-        </View>
+          </View>
+        </FancyHeaderLite>
         {Navigation.map((row, index) => {
           if (row.isNested) {
             return (
@@ -238,7 +245,7 @@ const Custom = ({
             />
           );
         })}
-        <Option
+        <ExpandableOption
           key={'logout'}
           active={isLogedin}
           name={'Logout'}
@@ -247,20 +254,19 @@ const Custom = ({
           activeItemKey={activeItemKey}
           navigateTo={'logout'}
         />
-        {
-          !isLogedin && <Option
+        {!isLogedin && (
+          <ExpandableOption
             key={'Are you doctor ?'}
             active={!isLogedin}
             name={'Are you doctor ?'}
             icon={'doctor'}
-            goto={() => navigation.navigate('loginScreen', { loginAs: 'doctor' })}
+            goto={() => navigation.navigate('loginScreen', {loginAs: 'doctor'})}
             activeItemKey={activeItemKey}
             navigateTo={'loginScreen'}
           />
-        }
-
-      </View>
-    </ScrollView>
+        )}
+      </ScrollView>
+    </View>
   );
 };
 
@@ -273,13 +279,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#fafafa',
     marginBottom: 8,
   },
-  sectionTop: { marginBottom: 50, position: 'relative' },
+  sectionTop: {marginBottom: 50, position: 'relative'},
   profile: {
     display: 'flex',
-    flexDirection: 'row',
-    paddingLeft: 20,
-    height: 80,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   backButtonContainer: {
     height: 28,
@@ -299,16 +303,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#fafafa',
     borderRadius: 10,
     elevation: 4,
-    transform: [
-      {
-        translateY: 30,
-      },
-    ],
-    marginLeft: 'auto',
-    marginRight: 'auto',
     paddingTop: 10,
     paddingBottom: 10,
     flexDirection: 'row',
+    position: 'absolute',
+    bottom: -30,
+    left: '10%',
   },
   floatingCardSection: {
     flex: 1,

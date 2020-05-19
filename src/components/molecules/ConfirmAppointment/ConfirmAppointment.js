@@ -212,7 +212,6 @@ const ConfirmAppointment = ({navigation}) => {
 const ConfirmAppointmentStyles = StyleSheet.create({
   Container: {
     flex: 1,
-    padding: 25,
     backgroundColor: '#fff',
     height: '100%',
   },

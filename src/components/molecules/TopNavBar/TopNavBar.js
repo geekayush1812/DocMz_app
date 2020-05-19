@@ -18,6 +18,7 @@ function TopNavBar({
   isClap = false,
   navigation,
   style,
+  hideRightComp,
 }) {
   return (
     <Animated.View
@@ -33,23 +34,21 @@ function TopNavBar({
       <TouchableOpacity
         style={Styles.TouchableOpacity}
         onPress={onLeftButtonPress}>
-        {LeftComp !== null ? (
-          <NavBackButton style={Styles.BackButton} />
-        ) : (
-          LeftComp
-        )}
+        {!LeftComp ? <NavBackButton style={Styles.BackButton} /> : LeftComp}
       </TouchableOpacity>
       <DmzText text={headerText} style={{fontSize: 20, color: '#fff'}} />
-      <TouchableOpacity
-        style={Styles.TouchableOpacity}
-        // onPress={() => onRightButtonPress()}>
-        onPress={() => onRightButtonPress()}>
-        {!RightComp ? (
-          <NavHamButton style={Styles.HamburgerButton} />
-        ) : (
-          RightComp
-        )}
-      </TouchableOpacity>
+      {!hideRightComp && (
+        <TouchableOpacity
+          style={Styles.TouchableOpacity}
+          // onPress={() => onRightButtonPress()}>
+          onPress={() => onRightButtonPress()}>
+          {!RightComp ? (
+            <NavHamButton style={Styles.HamburgerButton} />
+          ) : (
+            RightComp
+          )}
+        </TouchableOpacity>
+      )}
     </Animated.View>
   );
 }

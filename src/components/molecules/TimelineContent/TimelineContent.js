@@ -18,13 +18,21 @@ function TimelineContent({
       <View style={Styles.TimelineContent}>
         {active ? Profile : null}
         <View style={Styles.TimelineDetails}>
-          <View style={Styles.TimelineNameContainer}>
-            <DmzText text={PatientName} style={Styles.TimelineName} />
-            <View style={[Styles.TimelineTime, {marginLeft: active ? 10 : 90}]}>
+          <View
+            style={[
+              Styles.TimelineNameContainer,
+              {width: active ? '60%' : '100%'},
+            ]}>
+            <DmzText
+              type={active ? 4 : 3}
+              text={PatientName}
+              style={Styles.TimelineName}
+            />
+            <View style={[Styles.TimelineTime]}>
               <Text>{Timing}</Text>
             </View>
           </View>
-          <Text style={Styles.TimelineAge}>{Age}</Text>
+          <Text style={Styles.TimelineAge}>{`${Age} yrs`}</Text>
           <View style={Styles.TimelineDisease}>
             <Text style={Styles.TimelineDiseaseText}>{Disease}</Text>
           </View>
@@ -48,14 +56,14 @@ const Styles = StyleSheet.create({
   },
   TimelineDetails: {
     marginLeft: 10,
+    width: '100%',
   },
   TimelineNameContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
   },
   TimelineName: {
-    fontSize: 16,
     color: '#444',
   },
   TimelineTime: {
@@ -63,7 +71,7 @@ const Styles = StyleSheet.create({
     marginLeft: 10,
   },
   TimelineAge: {
-    color: '#666',
+    color: '#444',
   },
   TimelineDisease: {
     flexDirection: 'row',
@@ -72,9 +80,8 @@ const Styles = StyleSheet.create({
     marginTop: 5,
   },
   TimelineDiseaseText: {
-    padding: 2,
     borderRadius: 10,
-    color: '#555',
+    color: '#444',
     fontSize: 14,
   },
   TimelineContinueButton: {

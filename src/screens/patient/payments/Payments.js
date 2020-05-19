@@ -37,6 +37,7 @@ import {Colors} from '../../../styles/index';
 import DmzHeaderAtom from '../../../components/atoms/DmzHeader/DmzHeaderAtom';
 import AnimInput from '../../../components/molecules/AnimInput/AnimInput';
 import DmzButton from '../../../components/atoms/DmzButton/DmzButton';
+import FancyHeaderLite from '../../../components/organisms/FancyHeaderLite/FancyHeaderLite';
 function Payments({navigation}) {
   const [myCardInput, setMyCardInput] = useState({
     number: '',
@@ -56,22 +57,22 @@ function Payments({navigation}) {
     Animated.sequence([
       Animated.timing(height, {
         toValue: 1,
-        duration: 500,
-        delay: 200,
+        duration: 400,
+        delay: 100,
         easing: Easing.elastic(),
         useNativeDriver: false,
       }),
       Animated.parallel([
         Animated.timing(scale, {
           toValue: 1,
-          duration: 1500,
+          duration: 1200,
           delay: 200,
           easing: Easing.elastic(),
           useNativeDriver: true,
         }),
         Animated.timing(rotateY, {
           toValue: 1,
-          duration: 1500,
+          duration: 1200,
           delay: 200,
           easing: Easing.elastic(),
           useNativeDriver: true,
@@ -79,7 +80,6 @@ function Payments({navigation}) {
       ]),
       Animated.timing(translateY, {
         toValue: 1,
-        delay: 100,
         duration: 500,
         easing: Easing.elastic(),
         useNativeDriver: false,
@@ -98,23 +98,24 @@ function Payments({navigation}) {
 
   return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
-      <DmzHeaderAtom style={{height: 'auto'}}>
-        <TopNavBar
-          navigation={navigation}
-          headerText=""
-          LeftComp={
-            <PropfilePic
-              style={{
-                Container: {
-                  height: 30,
-                  width: 30,
-                  borderRadius: 30,
-                },
-              }}
-              sourceurl={require('../../../assets/jpg/person1.jpg')}
-            />
-          }
-        />
+      <FancyHeaderLite
+        navigation={navigation}
+        LeftComp={
+          <PropfilePic
+            style={{
+              Container: {
+                height: 30,
+                width: 30,
+                borderRadius: 30,
+              },
+            }}
+            sourceurl={require('../../../assets/jpg/person1.jpg')}
+          />
+        }
+        style={{
+          Section: {overflow: 'hidden', marginBottom: 0},
+          Container: {height: 'auto'},
+        }}>
         <Animated.View
           style={[
             Styles.AnimContainer,
@@ -147,7 +148,7 @@ function Payments({navigation}) {
             ]}
           />
         </Animated.View>
-      </DmzHeaderAtom>
+      </FancyHeaderLite>
       <Animated.View
         style={{
           height: '70%',
@@ -190,7 +191,10 @@ function Payments({navigation}) {
                   }}>
                   <Antdesign name="plus" size={18} />
                 </View>
-                <View style={{flex: 5}}>
+                <View
+                  style={{
+                    flex: 5,
+                  }}>
                   <DmzText text="Add a credit card" normal gap_small type={3} />
                 </View>
               </TouchableOpacity>
@@ -284,11 +288,14 @@ function Payments({navigation}) {
                 style={{
                   Container: {
                     alignSelf: 'center',
-                    width: '90%',
+                    width: '50%',
                     marginTop: 40,
-                    backgroundColor: 'rgba(100,100,221, 0.8)',
-                    elevation: 0,
+                    borderColor: Colors.header_grad_two,
+                    borderWidth: 1,
+                    elevation: 4,
+                    borderRadius: 100,
                   },
+                  Text: {color: Colors.header_grad_two, fontSize: 16},
                 }}
               />
             </Animated.View>
