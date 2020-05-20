@@ -124,95 +124,100 @@ const Custom = ({
   const closeDrawer = () => {
     navigation.closeDrawer();
   };
+  const onProfileClick = () => {
+    console.log('tapped user rofile');
+    navigation.navigate('Profile');
+  };
 
   return (
     <View style={styles.container}>
-        <FancyHeaderLite
-          showOverlayComponent={false}
-          // LeftComp={<NavBackCustom />}
-          // headerText="DocMz"
-          hideRightComp
-          RightComp={null}
-          style={{Section: {height: '29%'}}}
-          navigation={navigation}>
-          <View style={styles.profile}>
+      <FancyHeaderLite
+        showOverlayComponent={false}
+        // LeftComp={<NavBackCustom />}
+        // headerText="DocMz"
+        hideRightComp
+        RightComp={null}
+        style={{Section: {height: '29%'}}}
+        navigation={navigation}>
+        <View style={styles.profile}>
+          <TouchableOpacity onPress={onProfileClick}>
             <Avater
               type={6}
               // style={{marginLeft: 'auto', marginRight: 'auto'}}
             />
-            <DmzText
-              text={!data ? 'no name' : data.name}
-              type={2}
-              bold
-              gap_medium
-              style={{
-                color: '#f1f1f1',
-                lineHeight: 18,
-                marginTop: 5,
-              }}
-            />
-            <DmzText
-              text={!data ? '0000000000' : data.phone}
-              center
-              gap_big
-              lite
-              style={{
-                color: '#f1f1f1',
-                lineHeight: 18,
-              }}
-            />
-          </View>
-          <View style={styles.floatingCard}>
-            <View style={[styles.floatingCardSection, styles.thinBorderRight]}>
-              <View>
-                <DmzText
-                  text="Weight"
-                  type={0}
-                  lite
-                  style={styles.floatingCardSectionHeading}
-                />
-                <DmzText
-                  text="61"
-                  type={4}
-                  lite
-                  style={{textTransform: 'uppercase', color: '#555'}}
-                />
-              </View>
-              <TouchableOpacity style={styles.touchableButton}>
-                <FontAwesome
-                  size={28}
-                  color={Colors.header_grad_two}
-                  name="angle-right"
-                />
-              </TouchableOpacity>
+          </TouchableOpacity>
+          <DmzText
+            text={!data ? 'no name' : data.name}
+            type={2}
+            bold
+            gap_medium
+            style={{
+              color: '#f1f1f1',
+              lineHeight: 18,
+              marginTop: 5,
+            }}
+          />
+          <DmzText
+            text={!data ? '0000000000' : data.phone}
+            center
+            gap_big
+            lite
+            style={{
+              color: '#f1f1f1',
+              lineHeight: 18,
+            }}
+          />
+        </View>
+        <View style={styles.floatingCard}>
+          <View style={[styles.floatingCardSection, styles.thinBorderRight]}>
+            <View>
+              <DmzText
+                text="Weight"
+                type={0}
+                lite
+                style={styles.floatingCardSectionHeading}
+              />
+              <DmzText
+                text="61"
+                type={4}
+                lite
+                style={{textTransform: 'uppercase', color: '#555'}}
+              />
             </View>
-            <View style={styles.floatingCardSection}>
-              <View>
-                <DmzText
-                  text="BMI"
-                  type={0}
-                  lite
-                  style={styles.floatingCardSectionHeading}
-                />
-                <DmzText
-                  text="21.38"
-                  type={4}
-                  lite
-                  style={{textTransform: 'uppercase', color: '#555'}}
-                />
-              </View>
-              <TouchableOpacity style={styles.touchableButton}>
-                <FontAwesome
-                  size={28}
-                  color={Colors.header_grad_two}
-                  name="angle-right"
-                />
-              </TouchableOpacity>
-            </View>
+            <TouchableOpacity style={styles.touchableButton}>
+              <FontAwesome
+                size={28}
+                color={Colors.header_grad_two}
+                name="angle-right"
+              />
+            </TouchableOpacity>
           </View>
-        </FancyHeaderLite>
+          <View style={styles.floatingCardSection}>
+            <View>
+              <DmzText
+                text="BMI"
+                type={0}
+                lite
+                style={styles.floatingCardSectionHeading}
+              />
+              <DmzText
+                text="21.38"
+                type={4}
+                lite
+                style={{textTransform: 'uppercase', color: '#555'}}
+              />
+            </View>
+            <TouchableOpacity style={styles.touchableButton}>
+              <FontAwesome
+                size={28}
+                color={Colors.header_grad_two}
+                name="angle-right"
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
+      </FancyHeaderLite>
       <ScrollView style={{flex: 1, marginBottom: 0}}>
-        
         {Navigation.map((row, index) => {
           if (row.isNested) {
             return (

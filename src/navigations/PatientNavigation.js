@@ -26,7 +26,7 @@ import ConfirmAppointment from '../components/molecules/ConfirmAppointment/Confi
 import BookingDetails from '../screens/patient/questionnaire/BookingDetails';
 import FamilyMember from '../screens/patient/familyMember/FamilyMember';
 import WaitingRoom from '../screens/patient/waitingRoom/WaitingRoom';
-
+import Profile from '../screens/examples/Profile/Profile';
 // const PatientBottomNavigation = createSwitchNavigator(
 //   {
 //     patientHomeScreen: Home,
@@ -99,7 +99,7 @@ const PatientNavigation = createDrawerNavigator(
     AppSettings,
     NotFound,
     FamilyMember,
-
+    Profile,
   },
   {
     drawerPosition: 'right',

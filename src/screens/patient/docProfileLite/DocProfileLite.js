@@ -36,7 +36,11 @@ function DocProfileLite({navigation}) {
       navigation.navigate('authentication', {loginAs: 'patient'});
     } else {
       // navigation.navigate('ConfirmAppointment', {data: data});
-      navigation.navigate('question', {data: data});
+      if (data.toggle === 0) {
+        navigation.navigate('question', {data: data});
+      } else {
+        alert('open schedule popup');
+      }
     }
   };
 
@@ -230,7 +234,9 @@ function DocProfileLite({navigation}) {
                 },
               }}>
               <Text style={{color: '#fff', fontWeight: 'bold'}}>
-                Book Appointment
+                {data.toggle === 0
+                  ? 'Book Appointment'
+                  : 'Schedule Appointment'}
               </Text>
             </BasicCard>
           </TouchableOpacity>

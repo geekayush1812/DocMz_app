@@ -8,6 +8,7 @@ import {
   UIManager,
   Platform,
 } from 'react-native';
+import {RemoveAppointment} from '../../../redux/action/patientAccountAction';
 import NotFound from '../../../components/organisms/NotFound/NotFound';
 import {useSelector, useDispatch} from 'react-redux';
 import {GetPatientInfo} from '../../../redux/action/patientAccountAction';
@@ -29,10 +30,19 @@ const Appointments = ({navigation}) => {
   const [timeline, setTimeline] = useState(-1);
 
   useEffect(() => {
-    console.log('patient ' + patient);
-    !isPatientAccountReducerLoading && dispatch(GetPatientInfo(patient.id));
+    !isPatientAccountReducerLoading && dispatch(GetPatientInfo(patient._id));
+    console.log('###########################');
+    console.log(patient.appointments);
   }, []);
-
+  const onPressRemove = id => {
+    const data = {
+      byPatient: true,
+      byDoctor: false,
+      reason: 'nothing',
+      id: id,
+    };
+    dispatch(RemoveAppointment(data));
+  };
   return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
       <FancyHeaderLite
@@ -69,6 +79,7 @@ const Appointments = ({navigation}) => {
                   );
                   setTimeline(item);
                 }}
+                onPressContinue={() => onPressRemove(item._id)}
                 Age={'21'}
                 Disease={'Headache'}
                 Profile={

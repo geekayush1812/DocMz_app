@@ -19,13 +19,15 @@ const MyDoctors = ({navigation}) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // console.log('mmmmmmmmmmmmmmmmmmmmmmmmmk')
-    // console.log(patient)
-    !isPatientAccountReducerLoading && dispatch(GetPatientInfo(patient.id));
+    console.log('mmmmmmmmmmmmmmmmmmmmmmmmmk');
+    console.log(patient._id);
+    !isPatientAccountReducerLoading && dispatch(GetPatientInfo(patient._id));
   }, []);
 
   const removeFevDoc = id => {
-    dispatch(RemoveFevDoc(id, patient.id));
+    console.log('clicked');
+    console.log(id);
+    dispatch(RemoveFevDoc(id, patient._id));
   };
 
   return (
@@ -58,6 +60,7 @@ const MyDoctors = ({navigation}) => {
           <FlatList
             onEndReached={() => console.log('rech end.......')}
             data={patient.favourites}
+            extraData={patient.favourites}
             renderItem={
               ({item}) =>
                 isPatientAccountReducerLoading ? (

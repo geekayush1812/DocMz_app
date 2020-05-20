@@ -12,11 +12,13 @@ function AvailDoctorContent({
   onPress,
   schedule,
   navigation,
-  data
+  data,
 }) {
   return (
     <>
-      <TouchableOpacity style={CardContentStyles.AvailableDoctorsCardContent} onPress={() => navigation.navigate('docPatientStrem', { data: data })}>
+      <TouchableOpacity
+        style={CardContentStyles.AvailableDoctorsCardContent}
+        onPress={() => navigation.navigate('docPatientStrem', {data: data})}>
         {Profile}
         <View style={CardContentStyles.AvailableDoctorsDetails}>
           <View style={CardContentStyles.AvailableDoctorsNameContainer}>
@@ -33,15 +35,20 @@ function AvailDoctorContent({
 
           {/* can be made as molecule and touchable if needed */}
           <View style={CardContentStyles.AvailableDoctorsAvailableTimes}>
-            {
-              schedule !== null && schedule.filter(item => item.bookedFor.slice(11,16) > new Date().toISOString().slice(11,16)).slice(0,3).map(item => (
-                <DmzText
-                  text={item.bookedFor.slice(11,16)}
-                  style={CardContentStyles.AvailableDoctorsAvailableTime}
-                />
-
-              ))
-            }
+            {schedule !== null &&
+              schedule
+                .filter(
+                  item =>
+                    item.bookedFor.slice(11, 16) >
+                    new Date().toISOString().slice(11, 16),
+                )
+                .slice(0, 3)
+                .map(item => (
+                  <DmzText
+                    text={item.bookedFor.slice(11, 16)}
+                    style={CardContentStyles.AvailableDoctorsAvailableTime}
+                  />
+                ))}
             {/* <DmzText
               text={'11:00'}
               style={{
@@ -62,8 +69,10 @@ function AvailDoctorContent({
         </View>
       </TouchableOpacity>
       <View style={CardContentStyles.AvailableDoctorsContinueButton}>
-        <TouchableOpacity onPress={onPress} style={{ zIndex: 2000}}>
-          <FontAwesomeIcon name="arrow-right" size={18} color="#555" />
+        <TouchableOpacity
+          onPress={onPress}
+          style={{height: '100%', width: '100%', zIndex: 2000}}>
+          <FontAwesomeIcon name="remove" size={18} color="#555" />
         </TouchableOpacity>
       </View>
     </>
@@ -115,7 +124,7 @@ const CardContentStyles = StyleSheet.create({
     paddingLeft: 12,
     borderBottomRightRadius: 15,
     borderTopLeftRadius: 15,
-    zIndex: 1000
+    zIndex: 1000,
   },
 });
 

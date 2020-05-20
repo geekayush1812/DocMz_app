@@ -93,7 +93,7 @@ const Home = ({navigation}) => {
   const [showPopup, setShowPopup] = useState(false);
   const [searchKey, setSearchKey] = useState('');
   const PopupTranslateY = useRef(new Animated.Value(0)).current;
-  const dispatch = useDispatch(); 
+  const dispatch = useDispatch();
   const {
     doctors,
     loading,
@@ -111,7 +111,7 @@ const Home = ({navigation}) => {
   const [trigger, setTrigger] = useState(true);
   var __id = '';
 
-  if(isDoctor && isLogedin) navigation.navigate('doctorHomePage')
+  if (isDoctor && isLogedin) navigation.navigate('doctorHomePage');
 
   useEffect(() => {
     //console.log(
@@ -221,6 +221,7 @@ const Home = ({navigation}) => {
                 data={searchedDoctors}
                 renderItem={({item}) => (
                   <AvailDoctorContainer
+                    toggle={toggle}
                     data={item}
                     navigation={navigation}
                     onPress={() => onPress(item._id)}
@@ -229,7 +230,7 @@ const Home = ({navigation}) => {
                       .slice(0, 15)
                       .concat('...')}
                     schedule={item.output.filter(
-                      o => o.bookedFor.slice(0, 10) === '2020-05-07',
+                      it => it.bookedFor.slice(0, 10) === '2020-05-07',
                     )}
                   />
                 )}
@@ -261,6 +262,7 @@ const Home = ({navigation}) => {
                 data={doctors}
                 renderItem={({item}) => (
                   <AvailDoctorContainer
+                    toggle={toggle}
                     data={item}
                     navigation={navigation}
                     onPress={() => onPress(item._id)}
@@ -292,6 +294,7 @@ const Home = ({navigation}) => {
                 data={superDocs}
                 renderItem={({item}) => (
                   <AvailDoctorContainer
+                    toggle={toggle}
                     data={item}
                     navigation={navigation}
                     onPress={() => onPress(item._id)}

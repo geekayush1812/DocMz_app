@@ -13,6 +13,7 @@ function TimelineContainer({
   Disease,
   Profile,
   active,
+  onPressContinue,
 }) {
   return (
     <View style={Styles.TimelineContainer}>
@@ -29,7 +30,7 @@ function TimelineContainer({
           <TimelineContent
             PatientName={PatientName}
             Timing={Timing}
-            // onPressContinue={onPress}
+            onPressContinue={onPressContinue}
             Age={Age}
             Disease={Disease}
             Profile={Profile}

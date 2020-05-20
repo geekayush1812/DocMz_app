@@ -6,7 +6,15 @@ import ProfilePic from '../../atoms/ProfilePic/ProfilePic';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import NavigationActions from 'react-navigation/src/NavigationActions';
 
-function AvailDoctorContainer({onPress, name, schedule, navigation, id, data}) {
+function AvailDoctorContainer({
+  onPress,
+  name,
+  schedule,
+  navigation,
+  id,
+  data,
+  toggle,
+}) {
   console.log('Navigaton: ', id);
   useEffect(() => {
     console.log('2222222222222222222222222222222222222222222222222');
@@ -22,6 +30,7 @@ function AvailDoctorContainer({onPress, name, schedule, navigation, id, data}) {
           CardContainer: Styles.AvailableDoctorsBasicCard,
         }}>
         <AvailDoctorContent
+          toggle={toggle}
           DoctorName={`Dr.${name}`}
           rating={4}
           onPress={onPress}

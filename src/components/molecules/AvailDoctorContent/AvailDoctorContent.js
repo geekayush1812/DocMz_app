@@ -13,12 +13,15 @@ function AvailDoctorContent({
   schedule,
   navigation,
   data,
+  toggle,
 }) {
   return (
     <>
       <TouchableOpacity
         style={CardContentStyles.AvailableDoctorsCardContent}
-        onPress={() => navigation.navigate('docPatientStrem', {data: data})}>
+        onPress={() =>
+          navigation.navigate('docPatientStrem', {data: {...data, toggle}})
+        }>
         {Profile}
         <View style={CardContentStyles.AvailableDoctorsDetails}>
           <View style={CardContentStyles.AvailableDoctorsNameContainer}>
