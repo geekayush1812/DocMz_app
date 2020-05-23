@@ -147,17 +147,21 @@ export const RemoveFevDoc = (docId, patientId) => {
 };
 
 export const RemoveAppointment = data => {
-  return dispatch => {
+  return async dispatch => {
     const config = {
       Accept: '*/*',
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/x-www-form-urlencoded',
     };
     try {
-      const request = axios.post(`${Host}/appointment/cancel`, data, config);
+      const request = await axios.post(
+        `${Host}/appointment/cancel`,
+        data,
+        config,
+      );
       console.log('#######################');
-      console.log(request);
+      console.log(request.data);
     } catch (e) {
-      console.log('#######################');
+      console.log('******************');
       console.log(e);
     }
   };
@@ -175,12 +179,14 @@ export const GetFamilyMember = id => {
 
     const _data = {
       metaId: id, //"5eb31e07e078c64910b9d29e",
+      // metaId: '5eb31e07e078c64910b9d29e',
     };
 
     axios
       .post(`${Host}/patient/member/get`, _data, config)
       .then(res => {
-        console.log(res.data.data.members);
+        console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^');
+        console.log(res.data);
         dispatch(saveFamilyMember(res.data.data.members));
       })
       .catch(err => {
@@ -197,7 +203,7 @@ export const AddFamilyMember = (obj, success, faild) => {
       'Content-Type': 'application/x-www-form-urlencoded',
     };
 
-    // obj.metaId = '5eb31e07e078c64910b9d29e'
+    // obj.metaId = '5eb31e07e078c64910b9d29e';
 
     await axios
       .post(`${Host}/patient/member/add`, obj, config)
@@ -205,11 +211,11 @@ export const AddFamilyMember = (obj, success, faild) => {
         if (result.status) {
           console.log('Successfully Add your Family member.');
           success();
-          GetFamilyMember();
+          GetFamilyMember(obj.metaId);
         }
       })
       .catch(err => {
-        dispatch(haveingError(err));
+        dispatch(havingError(err));
       });
   };
 };
@@ -259,8 +265,9 @@ export const UploadProfilePic = (id, ImageData) => {
       },
       body: data,
     };
-    fetch(`${Host}/patient/uploadImage`, config)
+    fetch(`${Host}/patient/upload/image`, config)
       .then(responseStatus => {
+        console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^');
         console.log(responseStatus);
         dispatch(profilePicUploaded(Image));
       })

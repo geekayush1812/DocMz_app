@@ -38,7 +38,7 @@ function AvailDoctorContent({
 
           {/* can be made as molecule and touchable if needed */}
           <View style={CardContentStyles.AvailableDoctorsAvailableTimes}>
-            {schedule
+            {/* {schedule
               .filter(
                 item =>
                   item.bookedFor.slice(11, 16) >
@@ -50,7 +50,7 @@ function AvailDoctorContent({
                   text={item.bookedFor.slice(11, 16)}
                   style={CardContentStyles.AvailableDoctorsAvailableTime}
                 />
-              ))}
+              ))} */}
             {/* <DmzText
               text={'11:00'}
               style={{

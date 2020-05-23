@@ -30,7 +30,7 @@ import {
 import ImagePicker from 'react-native-image-picker';
 import LoadingButton from '../../../components/atoms/LoadingButton/LoadingButton';
 
-function DmzLogin(props) {
+function DmzSignup(props) {
   const [data, setData] = useState({
     email: '',
     password: '',
@@ -608,4 +608,4 @@ function DmzLogin(props) {
   );
 }
 
-export default DmzLogin;
+export default DmzSignup;

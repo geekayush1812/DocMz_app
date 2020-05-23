@@ -9,6 +9,7 @@ import {
   UIManager,
   InteractionManager,
   Easing,
+  ActivityIndicator,
 } from 'react-native';
 import FancyHeader from '../../../components/organisms/FancyHeader/FancyHeader';
 import ToggleButton from '../../../components/molecules/ToggleButton/ToggleButton';
@@ -19,7 +20,10 @@ import TimelineContainer from '../../../components/molecules/TimelineContainer/T
 import {months} from '../../../utils/Months';
 import CalenderMonth from '../../../components/molecules/CalenderMonth/CalenderMonth';
 import {useDispatch, useSelector} from 'react-redux';
-import {GettingDocterLatestInfo} from '../../../redux/action/doctor/myDoctorAction';
+import {
+  GettingDocterLatestInfo,
+  FetchAppointments,
+} from '../../../redux/action/doctor/myDoctorAction';
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -29,19 +33,26 @@ if (Platform.OS === 'android') {
 
 const Home = () => {
   const dispatch = useDispatch();
-  const {
-    isMyDoctorReducerLoading,
-    doctorProfile,
-    haveingMyDoctorReducerError,
-  } = useSelector(state => state.MyDoctorReducer);
-
+  const {appointmentLoading, appointments, appointmentFetchError} = useSelector(
+    state => state.MyDoctorReducer,
+  );
+  const {data} = useSelector(state => state.AuthReducer);
   const [tabIndex, settabIndex] = useState(0);
   const tabIndexPos = useRef(new Animated.Value(0)).current;
   const [timeline, setTimeline] = useState(1);
 
   // getting recent appointments
+  // useEffect(() => {
+  //   dispatch(GettingDocterLatestInfo());
+  // }, []);
+
   useEffect(() => {
-    dispatch(GettingDocterLatestInfo());
+    console.log('$$$$$$$$$$$!!!!!!!!!!!!$$$$$$$$$$$$$$$$');
+    // console.log(doctorProfile._id);
+    const date = new Date();
+    // console.log(date);
+    !appointmentLoading && dispatch(FetchAppointments(data.id, date));
+    // !appointmentFetchError && console.log(appointments);
   }, []);
 
   const onTabPress = function(tab) {
@@ -187,42 +198,62 @@ const Home = () => {
         />
 
         {tabIndex === 0 ? (
-          <Animated.FlatList
-            style={{
-              flex: 1,
-              paddingTop: 10,
-              transform: [
-                {
-                  scale: tabIndexPos.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: [1, 0],
-                  }),
-                },
-              ],
-            }}
-            data={Data}
-            keyExtractor={item => item._id.toString()}
-            renderItem={({item}) => (
-              <TimelineContainer
-                PatientName={item.PatientName}
-                Timing={item.Timing}
-                onPress={() => {
-                  LayoutAnimation.configureNext(
-                    LayoutAnimation.create(
-                      500,
-                      LayoutAnimation.Types.easeIn,
-                      LayoutAnimation.Properties.opacity,
-                    ),
-                  );
-                  setTimeline(item._id);
-                }}
-                Age={item.Age}
-                Disease={item.Disease}
-                Profile={item.Profile}
-                active={item._id === timeline}
-              />
-            )}
-          />
+          appointmentLoading ? (
+            <ActivityIndicator />
+          ) : (
+            <Animated.FlatList
+              style={{
+                flex: 1,
+                paddingTop: 10,
+                transform: [
+                  {
+                    scale: tabIndexPos.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [1, 0],
+                    }),
+                  },
+                ],
+              }}
+              data={appointments}
+              keyExtractor={item => item._id.toString()}
+              renderItem={({item, index}) => {
+                console.log(index);
+                console.log(item.bookedFor);
+                const date = new Date(item.bookedFor);
+                const bookingTime = `${date.getHours()}:${date.getMinutes()}`;
+                return (
+                  <TimelineContainer
+                    PatientName={item.PatientName || 'MadeupName'}
+                    Timing={bookingTime}
+                    onPress={() => {
+                      LayoutAnimation.configureNext(
+                        LayoutAnimation.create(
+                          500,
+                          LayoutAnimation.Types.easeIn,
+                          LayoutAnimation.Properties.opacity,
+                        ),
+                      );
+                      setTimeline(item._id);
+                    }}
+                    Age={item.Age || '21'}
+                    Disease={item.Disease || 'Headache'}
+                    Profile={
+                      item.Profile || (
+                        <ProfilePic
+                          sourceurl={require('../../../assets/jpg/person1.jpg')}
+                          style={{
+                            Container: Styles.ProfilePic,
+                            Image: Styles.ProfilePicImage,
+                          }}
+                        />
+                      )
+                    }
+                    active={item._id === timeline}
+                  />
+                );
+              }}
+            />
+          )
         ) : null}
         {tabIndex === 1 ? (
           <Animated.FlatList

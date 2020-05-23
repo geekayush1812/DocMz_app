@@ -159,7 +159,7 @@ function DocProfileLite({navigation}) {
             Container: DoctorDetailsScreenStyles.HeaderContainer,
           }}>
           <Text style={DoctorDetailsScreenStyles.HeaderTextDoctorName}>
-            Dr. {data.basic.first_name}
+            Dr. {data.basic.name}
           </Text>
           <Text
             style={DoctorDetailsScreenStyles.HeaderTextDoctorSpecialization}>

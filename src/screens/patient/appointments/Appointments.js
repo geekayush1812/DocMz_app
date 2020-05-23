@@ -36,10 +36,11 @@ const Appointments = ({navigation}) => {
   }, []);
   const onPressRemove = id => {
     const data = {
-      byPatient: true,
+      byPatient: false,
       byDoctor: false,
       reason: 'nothing',
       id: id,
+      patientId: patient._id,
     };
     dispatch(RemoveAppointment(data));
   };

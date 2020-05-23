@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Image,
@@ -17,8 +17,51 @@ import {UploadProfilePic} from '../../../redux/action/patientAccountAction';
 function Profile() {
   const dispatch = useDispatch();
   const {data} = useSelector(state => state.AuthReducer);
+  const {patient} = useSelector(state => state.PatientAccountReducer);
   const dimen = useWindowDimensions();
   const screenWidth = dimen.width;
+  const [inputFields, setInputFields] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    sex: '',
+    dob: '',
+    bloodGroup: '',
+    height: '',
+    weight: '',
+  });
+  useEffect(() => {
+    console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^');
+    const {
+      firstName,
+      lastName,
+      phone,
+      email,
+      sex,
+      dob,
+      bloodGroup,
+      height,
+      weight,
+    } = patient;
+    // console.log(patient.name);
+    // console.log(patient.phone);
+    // console.log(patient.email);
+    // console.log(patient.sex);
+    // console.log(patient.dob);
+    // console.log(patient.bloodGroup);
+    // console.log(patient.height);
+    // console.log(patient.weight);
+    setInputFields({
+      name: `${firstName} ${lastName}`,
+      phone,
+      email,
+      sex,
+      dob,
+      bloodGroup,
+      height,
+      weight,
+    });
+  }, []);
   const onChoosePicture = async () => {
     const granted = await PermissionsAndroid.check(
       PermissionsAndroid.PERMISSIONS.CAMERA,
@@ -154,34 +197,42 @@ function Profile() {
           }}>
           <AnimInput
             placeholder="Name"
+            value={inputFields.name}
             style={{Container: {marginBottom: 5, borderBottomWidth: 0.5}}}
           />
           <AnimInput
             placeholder="Contact Number"
+            value={inputFields.phone}
             style={{Container: {marginBottom: 5, borderBottomWidth: 0.5}}}
           />
           <AnimInput
             placeholder="Email Id"
+            value={inputFields.email}
             style={{Container: {marginBottom: 5, borderBottomWidth: 0.5}}}
           />
           <AnimInput
             placeholder="Gender"
+            value={inputFields.sex}
             style={{Container: {marginBottom: 5, borderBottomWidth: 0.5}}}
           />
           <AnimInput
             placeholder="Date of Birth"
+            value={inputFields.dob}
             style={{Container: {marginBottom: 5, borderBottomWidth: 0.5}}}
           />
           <AnimInput
             placeholder="Blood Group"
+            value={inputFields.bloodGroup}
             style={{Container: {marginBottom: 5, borderBottomWidth: 0.5}}}
           />
           <AnimInput
             placeholder="Height"
+            value={inputFields.height}
             style={{Container: {marginBottom: 5, borderBottomWidth: 0.5}}}
           />
           <AnimInput
             placeholder="Weight"
+            value={inputFields.weight}
             style={{Container: {marginBottom: 5, borderBottomWidth: 0.5}}}
           />
 

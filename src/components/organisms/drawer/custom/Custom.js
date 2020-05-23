@@ -117,6 +117,8 @@ const Custom = ({
   const {isLogedin, isDoctor, data} = useSelector(state => state.AuthReducer);
   const dispatch = useDispatch();
   console.log(navigation);
+  console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&');
+  console.log(data);
   const _logout = () => {
     dispatch(resetStore());
     navigation.navigate('Home');

@@ -100,22 +100,25 @@ export const fetchDoctors = () => {
 //ex: search: '', page: 1, mode: false
 export const fetchDoctorLite = (search, _page, mode) => {
   console.log(`Search: ${search} and page: ${_page} and mode: ${mode}`);
-  return async dispatch => {
+  return dispatch => {
     const params = {
       match: JSON.stringify({
         is_superDoc: mode,
       }),
       pageNo: _page.toString(),
       size: '5',
-      name: search.toString().split(' ')[0],
+      // name: search.toString().split(' ')[0],
     };
-
+    const config = {
+      Accept: '*/*',
+      'Content-Type': 'application/x-www-form-urlencoded',
+    };
     dispatch(startDoctorLoading());
     let searchable = search.length !== 0;
     console.log(searchable);
 
-    await axios
-      .post(`${Host}/doctors/searchlite`, params)
+    axios
+      .post(`${Host}/doctors/searchlite`, params, config)
       .then(result => {
         if (result.status) {
           console.log(result.data.data);
@@ -129,7 +132,7 @@ export const fetchDoctorLite = (search, _page, mode) => {
 };
 
 export const fetchMoreDoctorLite = (_page, mode) => {
-  return async dispatch => {
+  return dispatch => {
     const params = {
       match: JSON.stringify({
         is_superDoc: mode,
@@ -137,11 +140,15 @@ export const fetchMoreDoctorLite = (_page, mode) => {
       pageNo: _page.toString(),
       size: '5',
     };
+    const config = {
+      Accept: '*/*',
+      'Content-Type': 'application/x-www-form-urlencoded',
+    };
 
     dispatch(startMoreDoctorLoading());
 
-    await axios
-      .post(`${Host}/doctors/searchlite`, params)
+    axios
+      .post(`${Host}/doctors/searchlite`, params, config)
       .then(result => {
         console.log(result);
         if (result.status) {
@@ -171,16 +178,20 @@ export const GettingDoctorProfiles = id => {
 };
 
 export const searchDoctors = (search, page) => {
-  return async dispatch => {
+  return dispatch => {
     const params = {
       match: JSON.stringify({}),
       pageNo: page.toString(),
       name: search,
       size: '5',
     };
+    const config = {
+      Accept: '*/*',
+      'Content-Type': 'application/x-www-form-urlencoded',
+    };
     dispatch(searchingDoctors());
-    await axios
-      .post(`${Host}/doctors/searchlite`, params)
+    axios
+      .post(`${Host}/doctors/searchlite`, params, config)
       .then(result => {
         if (result.status) {
           dispatch(setSearchedDoctors(result.data.data));
@@ -193,7 +204,7 @@ export const searchDoctors = (search, page) => {
 };
 
 export const fetchSuperDoc = (page, size) => {
-  return async dispatch => {
+  return dispatch => {
     const params = {
       match: JSON.stringify({
         is_superDoc: true,
@@ -201,10 +212,13 @@ export const fetchSuperDoc = (page, size) => {
       pageNo: page.toString(),
       size: size || '5',
     };
-
+    const config = {
+      Accept: '*/*',
+      'Content-Type': 'application/x-www-form-urlencoded',
+    };
     dispatch(superDocLoading());
-    await axios
-      .post(`${Host}/doctors/searchlite`, params)
+    axios
+      .post(`${Host}/doctors/searchlite`, params, config)
       .then(result => {
         if (result.status) {
           dispatch(setSuperDoc(result.data.data));

@@ -462,7 +462,7 @@ const Questionnaire = props => {
         }}>
         <Icon
           name="ios-arrow-round-back"
-          color={color.brand_color}
+          // color={color.brand_color}
           size={35}
           style={{opacity: 0}}
           onPress={() => console.log('bg bg') /*props.navigation.goBack(null)*/}
@@ -527,6 +527,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 20,
     // backgroundColor: color.background,
+    height: '60%',
   },
   action_controller: {
     display: 'flex',
@@ -543,9 +544,9 @@ const Spiner = props => (
   <View
     style={[
       {height: 6, width: 6, borderRadius: 100, margin: 10},
-      props.activeQuestion >= props.index
-        ? {backgroundColor: color.back_color}
-        : {backgroundColor: color.text_on_bg},
+      // props.activeQuestion >= props.index
+      //   ? {backgroundColor: color.back_color}
+      //   : {backgroundColor: color.text_on_bg},
     ]}
   />
 );

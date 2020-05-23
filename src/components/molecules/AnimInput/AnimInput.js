@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import {View, StyleSheet, Text, Animated, Easing} from 'react-native';
 import DmzText from '../../atoms/DmzText/DmzText';
 import PropType from 'prop-types';
@@ -23,13 +23,20 @@ function AnimInput(props) {
     keyboardType = 'default',
     withAnim = true,
     style,
-    inputHandler
+    inputHandler,
+    value,
   } = props;
+
+  useEffect(() => {
+    onFocus();
+    setInputText(value);
+  });
   const onFocus = () => {
     Animated.timing(placeholderTranslate, {
       toValue: 1,
       easing: Easing.elastic(),
       duration: 500,
+      useNativeDriver: false,
     }).start();
   };
   const onBlur = () => {
@@ -38,6 +45,7 @@ function AnimInput(props) {
         toValue: 0,
         easing: Easing.elastic(),
         duration: 500,
+        useNativeDriver: false,
       }).start();
     }
   };
@@ -62,6 +70,10 @@ function AnimInput(props) {
           }),
         },
       ],
+      color: placeholderTranslate.interpolate({
+        inputRange: [0, 1],
+        outputRange: ['#777', '#000'],
+      }),
     },
     style ? style.Placeholder : null,
   ];
@@ -81,6 +93,7 @@ function AnimInput(props) {
         style={customInputStyle}
         onFocus={onFocus}
         onBlur={onBlur}
+        value={inputText}
         onChangeText={text => inputHandler(text)}
       />
     </View>
@@ -89,19 +102,20 @@ function AnimInput(props) {
 
 const Styles = StyleSheet.create({
   Container: {
-    height: 50,
+    height: 'auto',
     width: '100%',
     justifyContent: 'center',
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
+    // marginTop: 5,
   },
   PlaceholderText: {
     position: 'absolute',
     left: 10,
-    color: '#777',
   },
   Input: {
     left: 10,
+    // marginTop: 5,
   },
 });
 

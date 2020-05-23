@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
-import { ScrollView } from 'react-native-gesture-handler';
-import { View, SafeAreaView, Text } from 'react-native';
+import React, {useEffect} from 'react';
+import {ScrollView} from 'react-native-gesture-handler';
+import {View, SafeAreaView, Text} from 'react-native';
 import _ from 'lodash';
 
 import DmzHeader from '../../../components/organisms/DmzHeader/DmzHeader';
@@ -21,13 +21,13 @@ import {
   RowLoader,
 } from '../../../components/atoms/Loader/Loader';
 
-import { useDispatch, useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {
   GetPatientInfo,
   resetUserAccountReducer,
 } from '../../../redux/action/patientAccountAction';
 
-const Setting = ({ navigation }) => {
+const Setting = ({navigation}) => {
   const dispatch = useDispatch();
   const {
     isPatientAccountReducerLoading,
@@ -35,7 +35,7 @@ const Setting = ({ navigation }) => {
     patientFavDoc,
     errorInPatientAccountReducer,
   } = useSelector(state => state.PatientAccountReducer);
-  const { isLogedin, isDoctor, data } = useSelector(state => state.AuthReducer);
+  const {isLogedin, isDoctor, data} = useSelector(state => state.AuthReducer);
 
   useEffect(() => {
     console.log(
@@ -51,17 +51,17 @@ const Setting = ({ navigation }) => {
         {isPatientAccountReducerLoading ? (
           <RowLoader />
         ) : (
-            <DmzHeader
-              name={patient.name || 'loading...'}
-              age={Math.abs(
-                new Date().getFullYear() - parseInt(patient.dob.slice(6, 10)),
-              )}
-            />
-          )}
+          <DmzHeader
+            name={patient.name || 'loading...'}
+            age={Math.abs(
+              new Date().getFullYear() - parseInt(patient.dob.slice(6, 10)),
+            )}
+          />
+        )}
         <Container
           style={{
             height: '100%',
-            transform: [{ translateY: -40 }],
+            transform: [{translateY: -40}],
             zIndex: 999,
           }}>
           <CardGrid />
@@ -69,30 +69,29 @@ const Setting = ({ navigation }) => {
             {isPatientAccountReducerLoading ? (
               <ListingWithThumbnailLoader />
             ) : (
-                <CardInCol>
-                  {// TODO: now we r shoing the old appointments
-                    patient.appointments
-                      .filter(row => new Date(row.bookedFor) < new Date())
-                      .map(row => {
-                        return <CardBar name={row.doctor.basic.first_name} />;
-                      })}
-                </CardInCol>
-              )}
+              <CardInCol>
+                {// TODO: now we r shoing the old appointments
+                patient.appointments
+                  .filter(row => new Date(row.bookedFor) < new Date())
+                  .map(row => {
+                    return <CardBar name={row.doctor.basic.first_name} />;
+                  })}
+              </CardInCol>
+            )}
           </Section>
           <Section HeaderText="My Favourite Doctors">
-            <CardInRow
-              style={{
-                paddingTop: 15,
-                paddingLeft: 10,
-                paddingRight: 10,
-                paddingBottom: 8,
-                borderTopWidth: 1,
-                BorderBottomWidth: 1,
-                borderColor: '#F2EBEB',
-              }}>
-
-
-              {/* {isPatientAccountReducerLoading ? (
+            <ScrollView horizontal={true}>
+              <CardInRow
+                style={{
+                  paddingTop: 15,
+                  paddingLeft: 10,
+                  paddingRight: 10,
+                  paddingBottom: 8,
+                  borderTopWidth: 1,
+                  BorderBottomWidth: 1,
+                  borderColor: '#F2EBEB',
+                }}>
+                {/* {isPatientAccountReducerLoading ? (
                 <RowLoader />
               ) : patientFavDoc.map(fev => (
                 // <ProfileCol
@@ -107,42 +106,69 @@ const Setting = ({ navigation }) => {
                 />
               ))
               } */}
-              {
-                patient.favourites.map(fev =>
+                {patient.favourites.map(fev => (
                   <ProfileCol
-                    onPress= {() => navigation.navigate('docPatientStrem', { data: fev })}
+                    onPress={() =>
+                      navigation.navigate('docPatientStrem', {data: fev})
+                    }
                     sourceurl={require('../../../assets/jpg/person1.jpg')}
-                    ProfileName={(fev.basic.first_name + ' ' + fev.basic.last_name)}
-                    ProfileEmail={fev.basic.email }
+                    ProfileName={
+                      fev.basic.first_name + ' ' + fev.basic.last_name
+                    }
+                    ProfileEmail={fev.basic.email}
                   />
-                )
-              }
-
-            </CardInRow>
+                ))}
+                <ProfileCol
+                  sourceurl={require('../../../assets/jpg/person1.jpg')}
+                  ProfileName={'just'}
+                  ProfileEmail={'email'}
+                />
+                <ProfileCol
+                  sourceurl={require('../../../assets/jpg/person1.jpg')}
+                  ProfileName={'just'}
+                  ProfileEmail={'email'}
+                />
+                <ProfileCol
+                  sourceurl={require('../../../assets/jpg/person1.jpg')}
+                  ProfileName={'just'}
+                  ProfileEmail={'email'}
+                />
+                <ProfileCol
+                  sourceurl={require('../../../assets/jpg/person1.jpg')}
+                  ProfileName={'just'}
+                  ProfileEmail={'email'}
+                />
+                <ProfileCol
+                  sourceurl={require('../../../assets/jpg/person1.jpg')}
+                  ProfileName={'just'}
+                  ProfileEmail={'email'}
+                />
+              </CardInRow>
+            </ScrollView>
           </Section>
           {isPatientAccountReducerLoading ? (
             <ListingWithThumbnailLoader />
           ) : (
-              <PatientPurchase
-                height={
-                  _.isUndefined(patient.height)
-                    ? parseInt(patient.height.value.split(' ')[0])
-                    : 0
-                }
-                weight={parseInt(patient.weight.value) || 0}
-              />
-            )}
+            <PatientPurchase
+              height={
+                _.isUndefined(patient.height)
+                  ? parseInt(patient.height.value.split(' ')[0])
+                  : 0
+              }
+              weight={parseInt(patient.weight.value) || 0}
+            />
+          )}
           {isPatientAccountReducerLoading ? (
             <ListingWithThumbnailLoader />
           ) : (
-              <PatientHealthInfo
-                bloodPressure={patient.bloodPressure.value || 0}
-                temperature={patient.temperature.value || 0}
-                respiration={patient.respiration.value || 0}
-                oxygen={patient.oxygen.value || 0}
-                heartRate={patient.heartRate.value || 0}
-              />
-            )}
+            <PatientHealthInfo
+              bloodPressure={patient.bloodPressure.value || 0}
+              temperature={patient.temperature.value || 0}
+              respiration={patient.respiration.value || 0}
+              oxygen={patient.oxygen.value || 0}
+              heartRate={patient.heartRate.value || 0}
+            />
+          )}
         </Container>
       </ScrollView>
       <BottomNavigationComponent activeOption={3} navigation={navigation} />

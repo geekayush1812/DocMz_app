@@ -226,12 +226,10 @@ const Home = ({navigation}) => {
                     navigation={navigation}
                     onPress={() => onPress(item._id)}
                     id={item._id}
-                    name={(item.basic.first_name + ' ' + item.basic.last_name)
-                      .slice(0, 15)
-                      .concat('...')}
-                    schedule={item.output.filter(
-                      it => it.bookedFor.slice(0, 10) === '2020-05-07',
-                    )}
+                    name={item.basic.name.slice(0, 15).concat('...')}
+                    // schedule={item.output.filter(
+                    //   it => it.bookedFor.slice(0, 10) === '2020-05-07',
+                    // )}
                   />
                 )}
               />
@@ -267,12 +265,10 @@ const Home = ({navigation}) => {
                     navigation={navigation}
                     onPress={() => onPress(item._id)}
                     id={item._id}
-                    name={(item.basic.first_name + ' ' + item.basic.last_name)
-                      .slice(0, 15)
-                      .concat('...')}
-                    schedule={item.output.filter(
-                      o => o.bookedFor.slice(0, 10) === '2020-05-07',
-                    )}
+                    name={item.basic.name.slice(0, 15).concat('...')}
+                    // schedule={item.output.filter(
+                    //   o => o.bookedFor.slice(0, 10) === '2020-05-07',
+                    // )}
                   />
                 )}
               />
@@ -299,12 +295,10 @@ const Home = ({navigation}) => {
                     navigation={navigation}
                     onPress={() => onPress(item._id)}
                     id={item._id}
-                    name={(item.basic.first_name + ' ' + item.basic.last_name)
-                      .slice(0, 15)
-                      .concat('...')}
-                    schedule={item.output.filter(
-                      o => o.bookedFor.slice(0, 10) === '2020-05-07',
-                    )}
+                    name={item.basic.name.slice(0, 15).concat('...')}
+                    // schedule={item.output.filter(
+                    //   o => o.bookedFor.slice(0, 10) === '2020-05-07',
+                    // )}
                   />
                 )}
               />

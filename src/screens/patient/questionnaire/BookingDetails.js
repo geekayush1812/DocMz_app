@@ -68,7 +68,7 @@ const BookingDetails = ({navigation}) => {
       />
       <Container
         style={{
-          height: '82%',
+          height: '76%',
           transform: [{translateY: -50}],
           zIndex: 999,
           alignItems: 'center',
@@ -77,7 +77,12 @@ const BookingDetails = ({navigation}) => {
           paddingTop: 20,
         }}>
         <ScrollView
-          style={{width: '100%', paddingTop: 40, paddingHorizontal: 25}}>
+          style={{
+            width: '100%',
+            marginTop: 20,
+            height: '80%',
+            paddingHorizontal: 20,
+          }}>
           <View
             style={{
               marginBottom: 40,

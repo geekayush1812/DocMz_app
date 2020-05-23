@@ -1,10 +1,10 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
-import { Host } from '../../utils/connection';
+import {Host} from '../../utils/connection';
 
-import { resetDataStore } from './dataStore';
-import { resetDoctor } from './doctoreAction';
-import { resetQuestion } from './questionAction';
+import {resetDataStore} from './dataStore';
+import {resetDoctor} from './doctoreAction';
+import {resetQuestion} from './questionAction';
 
 export const addUserToRedux = data => {
   return {
@@ -91,7 +91,8 @@ export const LoginPatient = (data, success, faild) => {
 
     // setting header
     const config = {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Accept: '*/*',
     };
 
     console.log(data);
@@ -107,7 +108,7 @@ export const LoginPatient = (data, success, faild) => {
             id: data._id,
             email: data.email,
             phone: data.phone,
-            name: data.name === undefined ? 'No name' : data.name,
+            name: data.firstName === undefined ? 'No name' : data.firstName,
           };
 
           dispatch(saveNewUser(_data, 'patient'));
@@ -128,18 +129,14 @@ export const LoginPatient = (data, success, faild) => {
   };
 };
 
-
 function ValidateEmail(mail) {
   if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
-    return (true)
+    return true;
   }
-  return (false)
+  return false;
 }
 
-
-
 export const LoginDoctor = (data, success, faild) => {
-
   return dispatch => {
     dispatch(startLoading());
     // setting header
@@ -147,22 +144,6 @@ export const LoginDoctor = (data, success, faild) => {
       'Content-Type': 'application/x-www-form-urlencoded',
       Accept: '*/*',
     };
-    
-
-    // if (!ValidateEmail(data.email)) {
-    //   faild({ message: 'Invalide mail address' })
-    //   return;
-    // }
-
-    // if (data.email.length < 3) {
-    //   faild({ message: 'Please check your email address.' })
-    //   return;
-    // }
-    // if (data.password.length < 3) {
-    //   faild({ message: 'Invalid password' })
-    //   return;
-    // }
-
 
     axios
       .post(`${Host}/doctors/authenticate`, data, config)
@@ -172,7 +153,7 @@ export const LoginDoctor = (data, success, faild) => {
 
           const _data = {
             id: data._id,
-            first_name: data.basic.first_name,
+            name: data.basic.name,
             email: data.email,
             phone: data.phone,
           };
@@ -193,7 +174,7 @@ export const LoginDoctor = (data, success, faild) => {
         // console.log('****************** in err *****************', err)
         faild({
           // message: 'Incorrect Email and/or password'
-          message: err.resopnse.message
+          message: err.resopnse.message,
         });
         dispatch(haveingError(err));
       });
@@ -203,7 +184,8 @@ export const LoginDoctor = (data, success, faild) => {
 export const signupDoctor = (data, successCallback, errorCallback) => {
   return dispatch => {
     const config = {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Accept: '*/*',
     };
     const _data = {
       name: data.name,
@@ -216,6 +198,10 @@ export const signupDoctor = (data, successCallback, errorCallback) => {
       state: data.state,
       country: data.country,
       basic: JSON.stringify({}),
+      appointmentsString: data.appointmentsString,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      referralId: data.referralId,
     };
 
     console.log(_data);
@@ -257,7 +243,8 @@ export const signupDoctor = (data, successCallback, errorCallback) => {
 export const signupPatient = (data, successCallback, errorCallback) => {
   return dispatch => {
     const config = {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Accept: '*/*',
     };
     dispatch(startLoading());
     axios
@@ -265,21 +252,10 @@ export const signupPatient = (data, successCallback, errorCallback) => {
       .then(result => {
         console.log('result');
         if (result.data.status) {
-          // const __data = {
-          //   mode: 'patient',
-          //   email: result.data.data.email,
-          //   name: result.data.data.name,
-          //   phone: result.data.data.phone,
-          //   id: result.data.data._id,
-          // };
-          // dispatch(addUserToRedux(data))
-          // AsyncStorage.setItem('userData', JSON.stringify(__data)).then(() => {
-          // dispatch(saveNewUser(__data, 'patient'));
           dispatch(stoptLoading());
           successCallback();
-          // });
+          console.log(result.data.status);
         }
-        console.log(result.data.status);
       })
       .catch(err => {
         console.log(err);

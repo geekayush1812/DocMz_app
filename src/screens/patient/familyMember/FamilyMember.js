@@ -52,13 +52,13 @@ const FamilyMember = ({navigation}) => {
   });
 
   useEffect(() => {
-    // dispatch(GetPatientInfo(patient.id));
-    !isPatientAccountReducerLoading &&
-      dispatch(GetFamilyMember(patient.metaId));
+    // dispatch(GetPatientInfo(patient._id));
+    // console.log(patient.metaId);
+    !isPatientAccountReducerLoading && dispatch(GetFamilyMember(patient.meta));
   }, []);
 
   const onOpenPopup = () => {
-    setState({...state, metaId: patient.metaId});
+    setState({...state, metaId: patient.meta});
     LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
     setShowPopup(true);
   };
