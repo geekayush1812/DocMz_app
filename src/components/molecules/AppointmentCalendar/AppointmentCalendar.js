@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef, useCallback} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   FlatList,
@@ -10,10 +10,8 @@ import {
 import CalenderBlock from '../../atoms/CalenderBlock/CalenderBlock';
 import calculateMonths from '../../../utils/calculateMonths';
 import {months} from '../../../utils/Months';
-import {useDispatch, useSelector} from 'react-redux';
 
-const MountMonth = ({dayNdate}) => {
-  console.log(dayNdate);
+const MountMonth = ({dayNdate, onPressDate}) => {
   return (
     <FlatList
       listKey={JSON.stringify(dayNdate)}
@@ -22,7 +20,7 @@ const MountMonth = ({dayNdate}) => {
       keyExtractor={item => item.date.toString()}
       renderItem={({item}) => (
         <CalenderBlock
-          // onPress={() => alert(`On this date you have ${0} appointments`)}
+          onPress={() => onPressDate(item.date)}
           active={item.active}
           style={{
             Container: {borderColor: 'rgba(0,0,0,0.1)', borderWidth: 0.2},
@@ -34,39 +32,20 @@ const MountMonth = ({dayNdate}) => {
     />
   );
 };
-function CalenderMonth({style}) {
-  console.log('calender month called');
+function AppointmentCalenderMonth({style, callback}) {
   const [dayNdate, setdayNdate] = useState([]);
-  const {
-    allAppointmentLoading,
-    allAppointments,
-    allAppointmentFetchError,
-  } = useSelector(state => state.MyDoctorReducer);
   const date = new Date();
   const calculateMonthsOnMount = () => {
     let arr = calculateMonths(date.getMonth());
-    console.log('calculatemonth called');
     const Timeout = setTimeout(() => {
-      console.log('setTImeout called');
-      if (!allAppointmentLoading) {
-        arr = arr.map(item => {
-          if (allAppointments[item.date]) {
-            return {
-              ...item,
-              active: true,
-            };
-          }
-          return {
-            ...item,
-            active: false,
-          };
-        });
-      }
-      !allAppointmentLoading && setdayNdate(arr);
+      setdayNdate(arr);
     }, 100);
     return () => clearTimeout(Timeout);
   };
   useEffect(calculateMonthsOnMount, []);
+  const onPressDate = date => {
+    callback(date);
+  };
   return (
     <Animated.View
       style={[MonthOfCalendarStyles.Container, style ? style.Container : null]}>
@@ -84,7 +63,7 @@ function CalenderMonth({style}) {
           renderItem={({item}) => <CalenderBlock text={item} />}
         />
         {dayNdate.length ? (
-          <MountMonth dayNdate={dayNdate} />
+          <MountMonth dayNdate={dayNdate} onPressDate={onPressDate} />
         ) : (
           <ActivityIndicator />
         )}
@@ -110,4 +89,4 @@ const MonthOfCalendarStyles = StyleSheet.create({
     borderColor: 'rgba(0,0,0,0.08)',
   },
 });
-export default React.memo(CalenderMonth);
+export default React.memo(AppointmentCalenderMonth);

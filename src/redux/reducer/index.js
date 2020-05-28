@@ -1,13 +1,14 @@
-import { combineReducers } from "redux"; 
+import {combineReducers} from 'redux';
 
-import AuthReducer from '../reducer/auth'
-import DataStoreReducer from '../reducer/dataStore'
-import ScheduleReducer from './schedule'
-import DoctorReducer from './doctorReducer'
-import QuestionReducer from './questionReducer'
-import DoctorScheduleReducer from './doctor/scheduleReducer'
-import MyDoctorReducer from './doctor/myDoctorReducer'
-import PatientAccountReducer from './patientAccountReducer'
+import AuthReducer from '../reducer/auth';
+import DataStoreReducer from '../reducer/dataStore';
+import ScheduleReducer from './schedule';
+import DoctorReducer from './doctorReducer';
+import QuestionReducer from './questionReducer';
+import DoctorScheduleReducer from './doctor/scheduleReducer';
+import MyDoctorReducer from './doctor/myDoctorReducer';
+import questionnaireReducer from './doctor/questionnaireReducer';
+import PatientAccountReducer from './patientAccountReducer';
 
 const allReducer = combineReducers({
   AuthReducer,
@@ -17,7 +18,8 @@ const allReducer = combineReducers({
   QuestionReducer,
   DoctorScheduleReducer,
   MyDoctorReducer,
-  PatientAccountReducer
+  PatientAccountReducer,
+  questionnaireReducer,
 });
 
 export default allReducer;

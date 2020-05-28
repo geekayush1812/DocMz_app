@@ -19,6 +19,7 @@ function TopNavBar({
   navigation,
   style,
   hideRightComp,
+  hideLeftComp,
 }) {
   return (
     <Animated.View
@@ -29,14 +30,24 @@ function TopNavBar({
           height: 80,
           marginTop: 0,
         },
+        hideLeftComp && hideRightComp ? {justifyContent: 'center'} : null,
         style ? style : null,
       ]}>
-      <TouchableOpacity
-        style={Styles.TouchableOpacity}
-        onPress={onLeftButtonPress}>
-        {!LeftComp ? <NavBackButton style={Styles.BackButton} /> : LeftComp}
-      </TouchableOpacity>
-      <DmzText text={headerText} style={{fontSize: 20, color: '#fff'}} />
+      {!hideLeftComp && (
+        <TouchableOpacity
+          style={Styles.TouchableOpacity}
+          onPress={onLeftButtonPress}>
+          {!LeftComp ? <NavBackButton style={Styles.BackButton} /> : LeftComp}
+        </TouchableOpacity>
+      )}
+      <DmzText
+        text={headerText}
+        style={{
+          fontSize: 20,
+          color: '#fff',
+          alignSelf: 'center',
+        }}
+      />
       {!hideRightComp && (
         <TouchableOpacity
           style={Styles.TouchableOpacity}

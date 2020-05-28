@@ -11,6 +11,7 @@ import AvailDoctorContainerFevDoc from '../../../components/molecules/AvailDocto
 import {ListingWithThumbnailLoader} from '../../../components/atoms/Loader/Loader';
 import FancyHeaderLite from '../../../components/organisms/FancyHeaderLite/FancyHeaderLite';
 import Container from '../../../components/organisms/Container/Container';
+import DmzText from '../../../components/atoms/DmzText/DmzText';
 
 const MyDoctors = ({navigation}) => {
   const {patient, isPatientAccountReducerLoading} = useSelector(
@@ -20,8 +21,8 @@ const MyDoctors = ({navigation}) => {
 
   useEffect(() => {
     console.log('mmmmmmmmmmmmmmmmmmmmmmmmmk');
-    console.log(patient._id);
     !isPatientAccountReducerLoading && dispatch(GetPatientInfo(patient._id));
+    console.log(patient.favourites);
   }, []);
 
   const removeFevDoc = id => {
@@ -54,13 +55,23 @@ const MyDoctors = ({navigation}) => {
             color="#000"
             style={{marginTop: '50%'}}
           />
-        ) : patient.favourites.length <= 0 ? (
+        ) : patient.favourites.length ? (
           <NotFound />
         ) : (
           <FlatList
             onEndReached={() => console.log('rech end.......')}
             data={patient.favourites}
             extraData={patient.favourites}
+            ListEmptyComponent={
+              <View
+                style={{
+                  flex: 1,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <DmzText type={3} text="list is empty" />
+              </View>
+            }
             renderItem={
               ({item}) =>
                 isPatientAccountReducerLoading ? (
@@ -71,9 +82,7 @@ const MyDoctors = ({navigation}) => {
                     navigation={navigation}
                     onPress={() => removeFevDoc(item._id)}
                     id={item._id}
-                    name={(item.basic.first_name + ' ' + item.basic.last_name)
-                      .slice(0, 15)
-                      .concat('...')}
+                    name={item.basic.name.slice(0, 15).concat('...')}
                     schedule={null}
                   />
                 )

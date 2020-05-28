@@ -5,6 +5,9 @@ const inititalState = {
   appointmentLoading: false,
   appointments: [],
   appointmentFetchError: '',
+  allAppointmentLoading: false,
+  allAppointments: [],
+  allAppointmentFetchError: '',
 };
 
 const MyDoctorReducer = (state = inititalState, action) => {
@@ -49,6 +52,24 @@ const MyDoctorReducer = (state = inititalState, action) => {
         ...state,
         appointmentFetchError: action.payload,
         appointmentLoading: false,
+      };
+    case 'ALL_APPOINTMENT_LOADING': {
+      return {
+        ...state,
+        allAppointmentLoading: true,
+      };
+    }
+    case 'APPOINTMENT_LOADED_ALL':
+      return {
+        ...state,
+        allAppointmentLoading: false,
+        allAppointments: action.payload,
+      };
+    case 'ERROR_ALL_APPOINTMENT_FETCHING':
+      return {
+        ...state,
+        allAppointmentLoading: false,
+        allAppointmentFetchError: action.payload,
       };
     default:
       return state;

@@ -63,16 +63,16 @@ const Appointments = ({navigation}) => {
         }}>
         {isPatientAccountReducerLoading ? (
           <ActivityIndicator />
-        ) : patient.favourites.length <= 0 ? (
+        ) : patient.favourites.length ? (
           <NotFound />
         ) : (
           <FlatList
             onEndReached={() => console.log('rech end.......')}
-            data={patient.appointments}
+            data={patient.appointments.filter(item => item.booked)}
             // data={[1, 2, 3, 4, 5, 6, 7, 8, 9]}
             renderItem={({item}) => (
               <TimelineContainer
-                PatientName={item.doctor.basic.first_name}
+                PatientName={item.doctor ? item.doctor.basic.name : 'no name'}
                 Timing={item.bookedFor.slice(11, 16)}
                 onPress={() => {
                   LayoutAnimation.configureNext(

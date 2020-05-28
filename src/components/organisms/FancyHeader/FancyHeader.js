@@ -25,6 +25,8 @@ function FancyHeader({
   navigation,
   leftButtonClick,
   rightButtonClick = () => navigation.openDrawer(),
+  hideRightComp,
+  hideLeftComp,
 }) {
   const dimen = useWindowDimensions();
   return (
@@ -54,6 +56,8 @@ function FancyHeader({
           RightComp={RightComp}
           headerText={headerText}
           onRightButtonPress={() => rightButtonClick()}
+          hideRightComp={hideRightComp}
+          hideLeftComp={hideLeftComp}
         />
       )}
       {overlayComponents}

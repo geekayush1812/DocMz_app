@@ -47,12 +47,16 @@ function DmzSwitch({tabOne, tabTwo, style}) {
       });
     }
   };
+  const onTabPressOne = () => {
+    onTabPress(1, tabOne.onPress);
+  };
+  const onTabPressTwo = () => {
+    onTabPress(2, tabTwo.onPress);
+  };
   return (
     <View style={[Styles.Container, style ? style.Container : null]}>
       <DmzButton
-        onPress={() => {
-          onTabPress(1, tabOne.onPress);
-        }}
+        onPress={onTabPressOne}
         text={tabOne.title}
         icon={tabOne.icon}
         style={{
@@ -67,9 +71,7 @@ function DmzSwitch({tabOne, tabTwo, style}) {
           Text: tabIndex === 1 ? (style ? style.activeStyle : null) : null,
         }}
         icon={tabTwo.icon}
-        onPress={() => {
-          onTabPress(2, tabTwo.onPress);
-        }}
+        onPress={onTabPressTwo}
       />
       <Animated.View
         style={[

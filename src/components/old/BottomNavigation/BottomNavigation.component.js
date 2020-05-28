@@ -40,7 +40,6 @@ function BottomNavigation({PopupTranslateY, activeOption, navigation}) {
             },
           ],
         },
-        
       ]}>
       <TouchableOpacity
         style={{padding: 10}}

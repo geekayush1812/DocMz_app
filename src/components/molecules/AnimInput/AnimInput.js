@@ -23,13 +23,13 @@ function AnimInput(props) {
     keyboardType = 'default',
     withAnim = true,
     style,
-    inputHandler,
+    inputHandler = () => {},
     value,
   } = props;
 
   useEffect(() => {
-    onFocus();
-    setInputText(value);
+    value && setInputText(value);
+    value && onFocus();
   });
   const onFocus = () => {
     Animated.timing(placeholderTranslate, {
@@ -48,6 +48,10 @@ function AnimInput(props) {
         useNativeDriver: false,
       }).start();
     }
+  };
+  const handleText = text => {
+    setInputText(text);
+    inputHandler(text);
   };
   const customContainerStyle = [
     Styles.Container,
@@ -94,7 +98,7 @@ function AnimInput(props) {
         onFocus={onFocus}
         onBlur={onBlur}
         value={inputText}
-        onChangeText={text => inputHandler(text)}
+        onChangeText={handleText}
       />
     </View>
   );

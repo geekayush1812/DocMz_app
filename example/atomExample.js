@@ -13,6 +13,7 @@ import SquareBlue from '../src/assets/svg/squareblue.svg';
 import {Picker} from '@react-native-community/picker';
 import LinkedComponent from '../src/components/molecules/LinkedComponent/LinkedComponent';
 import ExpandableOption from '../src/components/molecules/ExpandableOption/ExpandableOption';
+import ExpandableList from '../src/components/molecules/ExpandableList/ExpandableList';
 const AtomExample = () => {
   return (
     <ScrollView style={{backgroundColor: '#f0f0f0'}}>
@@ -37,6 +38,8 @@ const AtomExample = () => {
           marginLeft: 20,
         }}
       />
+      <_break />
+      <ExpandableList name="Expandable" nestedList={['el', 'do', 'rado']} />
       <_break />
       <Card>
         <Text>okk</Text>

@@ -10,6 +10,8 @@ function DmzButton({text, icon = false, theme, onPress, style}) {
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-around',
+          height: '100%',
+          width: '100%',
         }}
         onPress={onPress}>
         {icon ? icon : null}

@@ -52,9 +52,10 @@ const Setting = ({navigation}) => {
           <RowLoader />
         ) : (
           <DmzHeader
-            name={patient.name || 'loading...'}
+            name={patient.firstName || 'loading...'}
             age={Math.abs(
-              new Date().getFullYear() - parseInt(patient.dob.slice(6, 10)),
+              new Date().getFullYear() -
+                parseInt(patient.dob ? patient.dob.slice(6, 10) : 0),
             )}
           />
         )}
@@ -106,18 +107,20 @@ const Setting = ({navigation}) => {
                 />
               ))
               } */}
-                {patient.favourites.map(fev => (
-                  <ProfileCol
-                    onPress={() =>
-                      navigation.navigate('docPatientStrem', {data: fev})
-                    }
-                    sourceurl={require('../../../assets/jpg/person1.jpg')}
-                    ProfileName={
-                      fev.basic.first_name + ' ' + fev.basic.last_name
-                    }
-                    ProfileEmail={fev.basic.email}
-                  />
-                ))}
+                {patient.favourites
+                  ? patient.favourites.map(fev => (
+                      <ProfileCol
+                        onPress={() =>
+                          navigation.navigate('docPatientStrem', {data: fev})
+                        }
+                        sourceurl={require('../../../assets/jpg/person1.jpg')}
+                        ProfileName={
+                          fev.basic.first_name + ' ' + fev.basic.last_name
+                        }
+                        ProfileEmail={fev.basic.email}
+                      />
+                    ))
+                  : null}
                 <ProfileCol
                   sourceurl={require('../../../assets/jpg/person1.jpg')}
                   ProfileName={'just'}

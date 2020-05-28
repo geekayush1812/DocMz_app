@@ -17,12 +17,12 @@ import Container from '../../../components/organisms/Container/Container';
 import DmzSwitch from '../../../components/molecules/DmzSwitch/DmzSwitch';
 import ProfilePic from '../../../components/atoms/ProfilePic/ProfilePic';
 import TimelineContainer from '../../../components/molecules/TimelineContainer/TimelineContainer';
-import {months} from '../../../utils/Months';
 import CalenderMonth from '../../../components/molecules/CalenderMonth/CalenderMonth';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   GettingDocterLatestInfo,
   FetchAppointments,
+  FetchAllAppointments,
 } from '../../../redux/action/doctor/myDoctorAction';
 
 if (Platform.OS === 'android') {
@@ -33,9 +33,14 @@ if (Platform.OS === 'android') {
 
 const Home = () => {
   const dispatch = useDispatch();
-  const {appointmentLoading, appointments, appointmentFetchError} = useSelector(
-    state => state.MyDoctorReducer,
-  );
+  const {
+    appointmentLoading,
+    appointments,
+    appointmentFetchError,
+    allAppointmentLoading,
+    allAppointments,
+    allAppointmentFetchError,
+  } = useSelector(state => state.MyDoctorReducer);
   const {data} = useSelector(state => state.AuthReducer);
   const [tabIndex, settabIndex] = useState(0);
   const tabIndexPos = useRef(new Animated.Value(0)).current;
@@ -50,9 +55,17 @@ const Home = () => {
     console.log('$$$$$$$$$$$!!!!!!!!!!!!$$$$$$$$$$$$$$$$');
     // console.log(doctorProfile._id);
     const date = new Date();
-    // console.log(date);
-    !appointmentLoading && dispatch(FetchAppointments(data.id, date));
+    console.log(appointments);
+    !appointmentLoading &&
+      dispatch(FetchAppointments(data.id, date.toISOString()));
     // !appointmentFetchError && console.log(appointments);
+    !allAppointmentLoading &&
+      dispatch(
+        FetchAllAppointments(
+          data.id,
+          new Date(date.getFullYear(), date.getMonth() + 1, 0).toISOString(),
+        ),
+      );
   }, []);
 
   const onTabPress = function(tab) {
@@ -62,7 +75,7 @@ const Home = () => {
           toValue: 1,
           easing: Easing.elastic(),
           duration: 500,
-          useNativeDriver: false,
+          useNativeDriver: true,
         }).start(() => {
           settabIndex(1);
         });
@@ -74,99 +87,18 @@ const Home = () => {
           toValue: 0,
           easing: Easing.elastic(),
           duration: 500,
-          useNativeDriver: false,
+          useNativeDriver: true,
         }).start(() => {
           settabIndex(0);
         });
       });
     }
   };
-  const Data = [
-    {
-      _id: 1,
-      PatientName: 'Bella Campbell',
-      Timing: '9:00 AM',
-      Age: '26 yrs',
-      Disease: 'Medical Checkup',
-      Profile: (
-        <ProfilePic
-          sourceurl={require('../../../assets/jpg/person1.jpg')}
-          style={{
-            Container: Styles.ProfilePic,
-            Image: Styles.ProfilePicImage,
-          }}
-        />
-      ),
-    },
-    {
-      _id: 2,
-      PatientName: 'Michael Brown',
-      Timing: '10:00 AM',
-      Age: '26 yrs',
-      Disease: 'Stomach upset',
-      Profile: (
-        <ProfilePic
-          sourceurl={require('../../../assets/jpg/person2.jpg')}
-          style={{
-            Container: Styles.ProfilePic,
-            Image: Styles.ProfilePicImage,
-          }}
-        />
-      ),
-    },
-    {
-      _id: 3,
-      PatientName: 'Michael Brown',
-      Timing: '10:00 AM',
-      Age: '26 yrs',
-      Disease: 'Stomach upset',
-      Profile: (
-        <ProfilePic
-          sourceurl={require('../../../assets/jpg/person3.jpg')}
-          style={{
-            Container: Styles.ProfilePic,
-            Image: Styles.ProfilePicImage,
-          }}
-        />
-      ),
-    },
-    {
-      _id: 4,
-      PatientName: 'Michael Brown',
-      Timing: '10:00 AM',
-      Age: '26 yrs',
-      Disease: 'Stomach upset',
-      Profile: (
-        <ProfilePic
-          sourceurl={require('../../../assets/jpg/person3.jpg')}
-          style={{
-            Container: Styles.ProfilePic,
-            Image: Styles.ProfilePicImage,
-          }}
-        />
-      ),
-    },
-    {
-      _id: 5,
-      PatientName: 'Michael Brown',
-      Timing: '10:00 AM',
-      Age: '26 yrs',
-      Disease: 'Stomach upset',
-      Profile: (
-        <ProfilePic
-          sourceurl={require('../../../assets/jpg/person3.jpg')}
-          style={{
-            Container: Styles.ProfilePic,
-            Image: Styles.ProfilePicImage,
-          }}
-        />
-      ),
-    },
-  ];
-
   return (
     <View style={Styles.Container}>
       <FancyHeader
+        hideRightComp
+        hideLeftComp
         headerText="Appointment"
         style={{Container: {height: '35%'}}}>
         <ToggleButton text0="online" text1="offline" onToggle={() => {}} />
@@ -256,26 +188,39 @@ const Home = () => {
           )
         ) : null}
         {tabIndex === 1 ? (
-          <Animated.FlatList
-            style={
-              {
-                // transform: [
-                //   {
-                //     scale: tabIndexPos.interpolate({
-                //       inputRange: [0, 1],
-                //       outputRange: [0, 1],
-                //     }),
-                //   },
-                // ],
-              }
-            }
-            data={months}
-            keyExtractor={item => item.month.toString()}
-            renderItem={({item}) => (
-              <CalenderMonth month={item.month - 1} item={item} />
-            )}
+          // <Animated.FlatList
+          //   style={
+          //     {
+          //       // transform: [
+          //       //   {
+          //       //     scale: tabIndexPos.interpolate({
+          //       //       inputRange: [0, 1],
+          //       //       outputRange: [0, 1],
+          //       //     }),
+          //       //   },
+          //       // ],
+          //     }
+          //   }
+          //   data={months}
+          //   keyExtractor={item => item.month.toString()}
+          // renderItem={({item}) => (
+          <CalenderMonth
+            style={{
+              Container: {
+                transform: [
+                  {
+                    scale: tabIndexPos.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [0, 1],
+                    }),
+                  },
+                ],
+              },
+            }}
           />
-        ) : null}
+        ) : // )}
+        // />
+        null}
       </Container>
     </View>
   );

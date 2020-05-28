@@ -56,11 +56,11 @@ export const resetUserAccountReducer = () => {
 };
 
 export const GetPatientInfo = id => {
-  return async dispatch => {
+  return dispatch => {
     console.log('authAction > GetPatientInfor');
     dispatch(startLoading());
 
-    await axios
+    axios
       .get(`${Host}/patient/getinfo/${id}`)
       .then(result => {
         if (result.status) {

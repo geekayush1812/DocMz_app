@@ -19,9 +19,12 @@ import ForgotPassword from '../screens/examples/ForgetPassword/ForgotPassword';
 import VerticalSlider from '../screens/examples/VerticalSlider/VerticalSlider';
 import DmzLogin from '../screens/examples/DmzLogin/DmzLogin';
 import Expandable from '../screens/examples/Expandable/Expandable';
-import Profile from '../screens/examples/Profile/Profile';
+import Profile from '../screens/doctor/Profile/Profile';
 import Splash from '../screens/examples/Splash/Splash';
 import {View, Text} from 'react-native';
+import {Colors} from '../styles';
+import AddAppointments from '../screens/doctor/AddAppointments/AddAppointments';
+import AddQuestionnaire from '../screens/doctor/AddQuestionnaire/AddQuestionnaire';
 // import Login from '../screens/examples/Login/Login';
 // import FallBg from '../screens/examples/FallBg/FallBg';
 
@@ -69,34 +72,34 @@ export default createBottomTabNavigator(
         },
       },
     },
-    findDoctorScreen: {
-      screen: FindDoctor,
-      navigationOptions: {
-        tabBarIcon: ({focused, tintColor}) => {
-          return (
-            <MaterialCommunityIcons
-              name="doctor"
-              color={focused ? tintColor : '#555'}
-              size={24}
-            />
-          );
-        },
-      },
-    },
-    doctorDetail: {
-      screen: DoctorDetailsScreen,
-      navigationOptions: {
-        tabBarIcon: ({focused, tintColor}) => {
-          return (
-            <MaterialCommunityIcons
-              name="details"
-              color={focused ? tintColor : '#555'}
-              size={24}
-            />
-          );
-        },
-      },
-    },
+    // findDoctorScreen: {
+    //   screen: FindDoctor,
+    //   navigationOptions: {
+    //     tabBarIcon: ({focused, tintColor}) => {
+    //       return (
+    //         <MaterialCommunityIcons
+    //           name="doctor"
+    //           color={focused ? tintColor : '#555'}
+    //           size={24}
+    //         />
+    //       );
+    //     },
+    //   },
+    // },
+    // doctorDetail: {
+    //   screen: DoctorDetailsScreen,
+    //   navigationOptions: {
+    //     tabBarIcon: ({focused, tintColor}) => {
+    //       return (
+    //         <MaterialCommunityIcons
+    //           name="details"
+    //           color={focused ? tintColor : '#555'}
+    //           size={24}
+    //         />
+    //       );
+    //     },
+    //   },
+    // },
     chats: {
       screen: Chats,
       navigationOptions: {
@@ -111,15 +114,41 @@ export default createBottomTabNavigator(
         },
       },
     },
+    doctorProfile: {
+      screen: () => <DoctorProfileNavigator />,
+      navigationOptions: {
+        tabBarIcon: ({focused, tintColor}) => {
+          return (
+            <MaterialCommunityIcons
+              name="face-profile"
+              color={focused ? tintColor : '#555'}
+              size={24}
+            />
+          );
+        },
+      },
+    },
   },
   {
     // tabBarComponent: props => <BottomTabs {...props} />,
+    order: ['homeScreen', 'chats', 'doctorProfile'],
     tabBarOptions: {
       showLabel: false,
     },
   },
 );
 
+const DoctorProfileNavigator = createStackNavigator(
+  {
+    Profile: Profile,
+    AddAppointments: AddAppointments,
+    AddQuestionnaire: AddQuestionnaire,
+  },
+  {
+    initialRouteName: 'Profile',
+    headerMode: 'none',
+  },
+);
 // const BottomTabs = props => {
 //   console.log('#######------------#########--------#####');
 //   console.log(props.navigation.state);

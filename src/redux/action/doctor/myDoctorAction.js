@@ -8,6 +8,9 @@ const reset = 'RESET_MY_DOCTOR_REDUCER';
 const APPOINTMENT_LOADING = 'APPOINTMENT_LOADING';
 const APPOINTMENT_LOADED = 'APPOINTMENT_LOADED';
 const ERROR_APPOINTMENT_FETCHING = 'ERROR_APPOINTMENT_FETCHING';
+const ALL_APPOINTMENT_LOADING = 'ALL_APPOINTMENT_LOADING';
+const APPOINTMENT_LOADED_ALL = 'APPOINTMENT_LOADED_ALL';
+const ERROR_ALL_APPOINTMENT_FETCHING = 'ERROR_ALL_APPOINTMENT_FETCHING';
 
 const saveDoc = data => {
   return {
@@ -48,6 +51,23 @@ const appointmentLoaded = appointments => {
   };
 };
 
+const startAppointmentLoadingAll = () => {
+  return {
+    type: ALL_APPOINTMENT_LOADING,
+  };
+};
+const appointmentLoadedAll = appointments => {
+  return {
+    type: APPOINTMENT_LOADED_ALL,
+    payload: appointments,
+  };
+};
+const errorFetchingAllAppointments = err => {
+  return {
+    type: ERROR_ALL_APPOINTMENT_FETCHING,
+    payload: err,
+  };
+};
 const errorFetchingAppointments = err => {
   return {
     type: ERROR_APPOINTMENT_FETCHING,
@@ -108,6 +128,7 @@ export const FetchAppointments = (docId, date) => {
       let appointments = response.data.appointments;
       appointments = appointments
         .filter(item => {
+          // return true;
           const date = new Date(item.bookedFor);
           const bookedDate = date.getDate();
           const bookedYear = date.getFullYear();
@@ -116,12 +137,16 @@ export const FetchAppointments = (docId, date) => {
           const nowDate = now.getDate();
           const nowYear = now.getFullYear();
           const nowMonth = now.getMonth();
-          return (
+
+          if (
             bookedDate === nowDate &&
             bookedYear === nowYear &&
             bookedMonth === nowMonth
-          );
+          )
+            return true;
+          else return false;
         })
+        .filter(item => item.booked)
         .sort((a, b) => {
           return a.bookedFor - b.bookedFor;
         });
@@ -129,6 +154,44 @@ export const FetchAppointments = (docId, date) => {
     } catch (e) {
       console.log(e);
       dispatch(errorFetchingAppointments(e));
+    }
+  };
+};
+
+export const FetchAllAppointments = (docId, date) => {
+  return async dispatch => {
+    const data = {
+      docId,
+      date,
+    };
+    const config = {
+      Accept: '*/*',
+      'Content-Type': 'application/x-www-form-urlencoded',
+    };
+
+    dispatch(startAppointmentLoadingAll());
+    try {
+      const req = await axios.post(
+        `${Host}/doctors/appointment/next`,
+        data,
+        config,
+      );
+      const response = req.data;
+      console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+      let appointments = response.data.appointments;
+      appointments = appointments.reduce((acc, cur) => {
+        const date = new Date(cur.bookedFor).getDate();
+        if (!acc[date]) {
+          acc[date] = [];
+        }
+        acc[date].push(cur);
+        return acc;
+      }, []);
+
+      dispatch(appointmentLoadedAll(appointments));
+    } catch (e) {
+      console.log(e);
+      dispatch(errorFetchingAllAppointments(e));
     }
   };
 };

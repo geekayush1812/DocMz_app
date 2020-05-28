@@ -86,7 +86,7 @@ const Styles = StyleSheet.create({
   },
   TimelineContinueButton: {
     height: null,
-    width: null,
+    width: 60,
     backgroundColor: '#fff',
     position: 'absolute',
     bottom: 0,
