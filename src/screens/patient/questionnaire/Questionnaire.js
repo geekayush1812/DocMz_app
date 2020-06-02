@@ -402,9 +402,7 @@ const questions = {
 const Questionnaire = props => {
   const placeRef = useRef(null);
   const submitRef = useRef(null);
-
   const dispatch = useDispatch();
-
   const [questionNumber, setQuestinNumber] = useState(0);
   const [qsList, setqsList] = useState([]);
   const [allQuestionAns, setAllQuestionAns] = useState([]);

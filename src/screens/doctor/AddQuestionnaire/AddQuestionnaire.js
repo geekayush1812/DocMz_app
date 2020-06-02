@@ -13,29 +13,42 @@ import {
 } from '../../../redux/action/doctor/questionnaireAction';
 import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import ExpandableList from '../../../components/molecules/ExpandableList/ExpandableList';
+import Overlay from '../../../components/atoms/Overlay/Overlay';
+import BasicCard from '../../../components/atoms/BasicCard/BasicCard';
 
 function AddQuestionnaire() {
   const [options, setOptions] = useState([]);
   const [Question, setQuestion] = useState({
     title: '',
-    superQuestion: false,
+    superQuestion: 'false',
     option: [],
     specialty: '',
     category: '',
-    parent: '',
     optionText: '',
-    root: false,
+    root: 'true',
     id: '',
   });
+  const [showAddLinkedPopup, setShowAddLinkedPopup] = useState(false);
+  const [parentId, setParentId] = useState('');
+  const [optionId, setOptionId] = useState('');
   const dispatch = useDispatch();
   const {data} = useSelector(state => state.AuthReducer);
-  const {gettingQuestionnaire, questions} = useSelector(
-    state => state.questionnaireReducer,
-  );
+  const {
+    gettingQuestionnaire,
+    questions,
+    isLoading,
+    questionDetails,
+  } = useSelector(state => state.questionnaireReducer);
   useEffect(() => {
     console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
     !gettingQuestionnaire && dispatch(GetQuestion(data.id));
   }, []);
+
+  //could be used when API return data of added question till then dispatch an action when submit
+  // useEffect(() => {
+  //   !isLoading && setQuestion(questionDetails);
+  // }, [questionDetails]);
+
   const addOption = () => {
     const schema = {
       _id: new Date().getTime().toString(),
@@ -64,26 +77,50 @@ function AddQuestionnaire() {
       return {
         optionType: item.optionType,
         text: item.text,
-        linkedQuestion: item.linkedQuestion,
       };
     });
     let Fques = {
       ...Question,
       option: JSON.stringify(optionTemp),
-      root: true,
       id: data.id,
-      parent: null,
     };
     dispatch(AddQuestion(Fques));
-    setQuestion(Fques);
+    dispatch(GetQuestion(data.id));
   };
   const onClickQuestion = question => {
     const {option} = question;
+
+    console.log(
+      '&&&&&&&%&&&&&&&&&&%%%%%%%%%%%%%&&&&&&&%%%%%%%%%%%%%%%%75555555555',
+    );
+    console.log(question);
+    console.log(option);
+    setQuestion(question);
+    setOptions(option);
+  };
+  const onPressReset = () => {
     setQuestion({
       ...Question,
-      ...question,
+      title: '',
+      superQuestion: 'false',
+      option: [],
+      specialty: '',
+      category: '',
+      optionText: '',
+      root: 'false',
+      id: '',
     });
-    setOptions(option);
+    setOptions([]);
+  };
+  const onPressLinkedOption = optionId => {
+    setParentId(Question._id);
+    setOptionId(optionId);
+  };
+  const openLinkedPopup = () => {
+    setShowAddLinkedPopup(true);
+  };
+  const closeLinkedPopup = () => {
+    setShowAddLinkedPopup(false);
   };
   return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
@@ -117,11 +154,18 @@ function AddQuestionnaire() {
               <ActivityIndicator />
             ) : questions.length ? (
               questions.map(item => {
+                console.log('new new new nenwenwenwen wenw en');
+                const linked = item.option.reduce((acc, curr) => {
+                  acc.push(...curr.linkedQuestion);
+                  return acc;
+                }, []);
                 return (
                   <ExpandableList
                     key={item._id}
-                    name={item.title}
+                    name={item.title.slice(0, 20).concat('...')}
+                    nestedList={linked}
                     onPressList={() => onClickQuestion(item)}
+                    onClickQuestion={onClickQuestion}
                   />
                 );
               })
@@ -129,93 +173,138 @@ function AddQuestionnaire() {
               <Text>empty questions</Text>
             )}
           </View>
-          <DmzText text="Question " type={4} />
-          <AnimInput
-            value={Question.title}
-            placeholder="Title"
-            style={{Container: {marginTop: 10}}}
-            inputHandler={handleTitleInput}
+          <AddQuestionTemplate
+            Question={Question}
+            handles={{
+              handleTitleInput,
+              handleCategoryInput,
+              handleSpecialityInput,
+              onPressReset,
+            }}
+            optionProp={{options, setOptions, removeOption, addOption}}
+            onSubmit={onSubmit}
           />
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              marginTop: 10,
-            }}>
-            <AnimInput
-              placeholder="Speciality"
-              style={{Container: {width: '40%'}}}
-              inputHandler={handleSpecialityInput}
-              value={Question.specialty}
+          {Question.option.length !== 0 && (
+            <AddLinkedOption
+              options={Question.option}
+              onPressLinkedOption={onPressLinkedOption}
+              openLinkedPopup={openLinkedPopup}
             />
-            <AnimInput
-              placeholder="Category"
-              style={{Container: {width: '40%'}}}
-              inputHandler={handleCategoryInput}
-              value={Question.category}
-            />
-          </View>
-
-          {options.map(item => (
-            <Option
-              key={item._id}
-              item={item}
-              options={options}
-              setOptions={setOptions}
-              onPressRemove={removeOption}
-            />
-          ))}
-
-          <View style={{marginTop: 20}}>
-            <DmzButton
-              onPress={addOption}
-              text="Add Option"
-              style={{
-                Container: {
-                  borderColor: '#999',
-                  borderWidth: 0.7,
-                  borderRadius: 20,
-                },
-              }}
-            />
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              width: '80%',
-              alignSelf: 'center',
-              marginTop: 25,
-            }}>
-            <DmzButton
-              onPress={onSubmit}
-              text="Update"
-              style={{
-                Container: {backgroundColor: '#76b434', borderRadius: 20},
-                Text: {
-                  color: '#fff',
-                },
-              }}
-            />
-            <DmzButton
-              text="Reset"
-              style={{
-                Container: {
-                  borderColor: '#999',
-                  borderWidth: 0.7,
-                  borderRadius: 20,
-                },
-              }}
-            />
-          </View>
-          {Question.option && <AddLinkedOption options={Question.option} />}
+          )}
         </ScrollView>
       </Container>
+      {showAddLinkedPopup && (
+        <LinkedController
+          parentId={parentId}
+          optionId={optionId}
+          closeLinkedPopup={closeLinkedPopup}
+        />
+      )}
     </View>
   );
 }
 
 export default AddQuestionnaire;
+
+const AddQuestionTemplate = ({
+  Question,
+  handles: {
+    handleCategoryInput,
+    handleTitleInput,
+    handleSpecialityInput,
+    onPressReset,
+  },
+  optionProp: {options, setOptions, removeOption, addOption},
+  questionHeader,
+  onSubmit,
+}) => {
+  const {title, specialty, category} = Question;
+  return (
+    <>
+      <DmzText text={questionHeader || 'Question'} type={4} />
+      <AnimInput
+        value={title}
+        placeholder="Title"
+        style={{Container: {marginTop: 10}}}
+        inputHandler={handleTitleInput}
+      />
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          marginTop: 10,
+          width: '100%',
+        }}>
+        <AnimInput
+          placeholder="Speciality"
+          style={{Container: {width: '40%'}}}
+          inputHandler={handleSpecialityInput}
+          value={specialty}
+        />
+        <AnimInput
+          placeholder="Category"
+          style={{Container: {width: '40%'}}}
+          inputHandler={handleCategoryInput}
+          value={category}
+        />
+      </View>
+
+      {options.map(item => (
+        <Option
+          key={item._id}
+          item={item}
+          options={options}
+          setOptions={setOptions}
+          onPressRemove={removeOption}
+        />
+      ))}
+
+      <View style={{marginTop: 20}}>
+        <DmzButton
+          onPress={addOption}
+          text="Add Option"
+          style={{
+            Container: {
+              borderColor: '#999',
+              borderWidth: 0.7,
+              borderRadius: 20,
+            },
+          }}
+        />
+      </View>
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          width: '80%',
+          alignSelf: 'center',
+          marginTop: 25,
+        }}>
+        <DmzButton
+          onPress={onSubmit}
+          text="Update"
+          style={{
+            Container: {backgroundColor: '#76b434', borderRadius: 20},
+            Text: {
+              color: '#fff',
+            },
+          }}
+        />
+        <DmzButton
+          text="Reset"
+          onPress={onPressReset}
+          style={{
+            Container: {
+              borderColor: '#999',
+              borderWidth: 0.7,
+              borderRadius: 20,
+            },
+          }}
+        />
+      </View>
+    </>
+  );
+};
 
 const Option = ({item, onPressRemove, options, setOptions}) => {
   const handleInput = text => {
@@ -247,7 +336,9 @@ const Option = ({item, onPressRemove, options, setOptions}) => {
     ];
     setOptions(optionTemp);
   };
-
+  useEffect(() => {
+    setInputTypeGlobal('radio');
+  }, []);
   return (
     <View
       style={{
@@ -294,8 +385,124 @@ const Option = ({item, onPressRemove, options, setOptions}) => {
   );
 };
 
-const AddLinkedOption = ({options, onClickLinkedOption = () => {}}) => {
-  const [selectedOption, setSelectedOption] = useState('');
+const LinkedController = ({parentId, optionId, closeLinkedPopup}) => {
+  const [options, setOptions] = useState([]);
+  const [Question, setQuestion] = useState({
+    title: '',
+    superQuestion: 'false',
+    option: [],
+    specialty: '',
+    category: '',
+    root: 'false',
+    id: '',
+    parent: '',
+    optionId: '',
+  });
+  const {data} = useSelector(state => state.AuthReducer);
+  const addOption = () => {
+    const schema = {
+      _id: new Date().getTime().toString(),
+      optionType: '',
+      text: '',
+      linkedQuestion: [],
+    };
+    setOptions([...options, schema]);
+  };
+  const dispatch = useDispatch();
+  const removeOption = _id => {
+    let removed = [];
+    removed = options.filter(item => item._id !== _id);
+    setOptions(removed);
+  };
+  const handleTitleInput = text => {
+    setQuestion({...Question, title: text});
+  };
+  const handleSpecialityInput = text => {
+    setQuestion({...Question, specialty: text});
+  };
+  const handleCategoryInput = text => {
+    setQuestion({...Question, category: text});
+  };
+  const onPressReset = () => {
+    setQuestion({
+      title: '',
+      superQuestion: 'false',
+      option: [],
+      specialty: '',
+      category: '',
+      optionText: '',
+      root: 'false',
+      id: '',
+    });
+    setOptions([]);
+  };
+  const onSubmit = () => {
+    let optionTemp = options.map(item => {
+      return {
+        optionType: item.optionType,
+        text: item.text,
+      };
+    });
+    let Fques = {
+      ...Question,
+      option: JSON.stringify(optionTemp),
+      id: data.id,
+      parent: parentId,
+      optionId: optionId,
+    };
+    dispatch(AddQuestion(Fques));
+    dispatch(GetQuestion(data.id));
+  };
+  return (
+    <Overlay
+      onPress={closeLinkedPopup}
+      style={{justifyContent: 'center', alignItems: 'center'}}>
+      <BasicCard
+        style={{
+          CardContainer: {height: '80%', width: '90%', marginRight: null},
+        }}>
+        <AddQuestionTemplate
+          questionHeader="Link a Question"
+          Question={Question}
+          handles={{
+            handleTitleInput,
+            handleCategoryInput,
+            handleSpecialityInput,
+            onPressReset,
+          }}
+          optionProp={{options, setOptions, removeOption, addOption}}
+          onSubmit={onSubmit}
+        />
+        <DmzButton
+          style={{
+            Container: {
+              elevation: 8,
+              backgroundColor: '#ff0f05',
+              marginTop: 5,
+              borderRadius: 10,
+            },
+            Text: {color: '#fff'},
+          }}
+          text="close"
+          onPress={closeLinkedPopup}
+        />
+      </BasicCard>
+    </Overlay>
+  );
+};
+
+const AddLinkedOption = ({
+  options,
+  onPressLinkedOption = () => {},
+  openLinkedPopup,
+}) => {
+  const [selectedOption, setSelectedOption] = useState(options[0] || '');
+  const onPressLinkedOptionLocal = (itemValue, itemIndex) => {
+    const option = options.find(item => item.text === itemValue);
+    console.log(option);
+    onPressLinkedOption(option._id);
+    setSelectedOption(itemValue);
+  };
   return (
     <View
       style={{
@@ -313,8 +520,8 @@ const AddLinkedOption = ({options, onClickLinkedOption = () => {}}) => {
         mode="dropdown"
         style={{flex: 1, height: 25}}
         selectedValue={selectedOption}
-        onValueChange={(itemValue, itemIndex) => setSelectedOption(itemValue)}>
-        {options &&
+        onValueChange={onPressLinkedOptionLocal}>
+        {options.length !== 0 &&
           options.map(item => {
             return (
               <Picker.Item key={item._id} label={item.text} value={item.text} />
@@ -322,7 +529,7 @@ const AddLinkedOption = ({options, onClickLinkedOption = () => {}}) => {
           })}
       </Picker>
       <DmzButton
-        onPress={onClickLinkedOption}
+        onPress={openLinkedPopup}
         text="Add linked Question"
         style={{
           Container: {

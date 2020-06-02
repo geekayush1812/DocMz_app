@@ -14,9 +14,26 @@ import {Picker} from '@react-native-community/picker';
 import LinkedComponent from '../src/components/molecules/LinkedComponent/LinkedComponent';
 import ExpandableOption from '../src/components/molecules/ExpandableOption/ExpandableOption';
 import ExpandableList from '../src/components/molecules/ExpandableList/ExpandableList';
+import RadioBtn from '../src/components/atoms/RadioBtn/RadioBtn';
+import RadioGroup from '../src/components/molecules/RadioGroup/RadioGroup';
 const AtomExample = () => {
   return (
     <ScrollView style={{backgroundColor: '#f0f0f0'}}>
+      <_break />
+      <RadioBtn />
+      <_break />
+      <RadioGroup
+        Item={[
+          {
+            key: 'a',
+            value: 'apple',
+          },
+          {
+            key: 'b',
+            value: 'ball',
+          },
+        ]}
+      />
       <_break />
       <ExpandableOption
         active={true}

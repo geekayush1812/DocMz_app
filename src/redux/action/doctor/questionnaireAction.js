@@ -82,8 +82,8 @@ export const GetQuestion = id => {
       .post(`${Host}/questionnaire/get`, _data, config)
       .then(res => {
         if (res.status) {
-          console.log(res.data.question);
-          dispatch(gotQuestionnaire(res.data.question));
+          const questions = res.data.question.filter(item => item);
+          dispatch(gotQuestionnaire(questions));
         } else {
           console.log(res);
           dispatch(errorGettingQuestionnaire(res.data));

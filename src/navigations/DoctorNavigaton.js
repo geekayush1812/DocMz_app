@@ -25,6 +25,7 @@ import {View, Text} from 'react-native';
 import {Colors} from '../styles';
 import AddAppointments from '../screens/doctor/AddAppointments/AddAppointments';
 import AddQuestionnaire from '../screens/doctor/AddQuestionnaire/AddQuestionnaire';
+import QuestionnairePP from '../screens/patient/questionnaire/QuestionnairePP';
 // import Login from '../screens/examples/Login/Login';
 // import FallBg from '../screens/examples/FallBg/FallBg';
 
@@ -128,10 +129,25 @@ export default createBottomTabNavigator(
         },
       },
     },
+    test: {
+      screen: QuestionnairePP,
+      // screen: AtomExample,
+      navigationOptions: {
+        tabBarIcon: ({focused, tintColor}) => {
+          return (
+            <MaterialCommunityIcons
+              name="face-profile"
+              color={focused ? tintColor : '#555'}
+              size={24}
+            />
+          );
+        },
+      },
+    },
   },
   {
     // tabBarComponent: props => <BottomTabs {...props} />,
-    order: ['homeScreen', 'chats', 'doctorProfile'],
+    order: ['homeScreen', 'chats', 'doctorProfile', 'test'],
     tabBarOptions: {
       showLabel: false,
     },

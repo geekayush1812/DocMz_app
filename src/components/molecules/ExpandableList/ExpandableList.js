@@ -19,7 +19,13 @@ if (Platform.OS === 'android') {
 }
 const ExpandableList = props => {
   const [showContent, setShowContent] = useState(false);
-  const {name = ' ', fontSize = 3, nestedList, onPressList} = props;
+  const {
+    name = ' ',
+    fontSize = 3,
+    nestedList,
+    onPressList,
+    onClickQuestion,
+  } = props;
   const onClick = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setShowContent(!showContent);
@@ -46,12 +52,18 @@ const ExpandableList = props => {
       {showContent && (
         <View style={styles.nestedContainer}>
           {nestedList &&
-            nestedList.map(row => {
+            nestedList.map(item => {
+              const linked = item.option.reduce((acc, curr) => {
+                acc.push(...curr.linkedQuestion);
+                return acc;
+              }, []);
               return (
                 <ExpandableList
-                  name={row}
-                  key={row}
-                  nestedList={row.nestedList ? row.nestedList : []}
+                  name={item.title.slice(0, 20).concat('...')}
+                  key={item._id}
+                  onPressList={() => onClickQuestion(item)}
+                  nestedList={linked ? linked : []}
+                  onClickQuestion={onClickQuestion}
                 />
               );
             })}
