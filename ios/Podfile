@@ -48,6 +48,7 @@ target 'docMz_kb' do
 
   pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
 
+
   target 'docMz_kbTests' do
     inherit! :search_paths
     # Pods for testing
